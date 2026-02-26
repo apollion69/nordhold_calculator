@@ -1,0 +1,60 @@
+{
+  "mode": "expected",
+  "scenario_id": "normal_baseline",
+  "dataset_version": "1.0.0",
+  "seed": 42,
+  "monte_carlo_runs": 1,
+  "wave_results": [
+    {
+      "wave": 1,
+      "potential_damage": 15173.6233101024,
+      "combat_damage": 9840.0,
+      "effective_dps": 689.7101504592,
+      "clear_time_s": 14.2668626719,
+      "leaks": 0.0,
+      "enemy_hp_pool": 9840.0,
+      "breakdown": {
+        "Arrow Tower": 445.40034,
+        "Frost Tower": 244.3098104592
+      }
+    },
+    {
+      "wave": 2,
+      "potential_damage": 25995.611255832,
+      "combat_damage": 14400.0,
+      "effective_dps": 866.5203751944,
+      "clear_time_s": 16.6181897301,
+      "leaks": 0.0,
+      "enemy_hp_pool": 14400.0,
+      "breakdown": {
+        "Arrow Tower": 628.3891152,
+        "Frost Tower": 238.1312599944
+      }
+    }
+  ],
+  "totals": {
+    "potential_damage": 41169.2345659344,
+    "combat_damage": 24240.0,
+    "leaks": 0.0,
+    "economy": {
+      "baseline_gold": 285.0,
+      "baseline_essence": 42.0,
+      "worker_gold_income": 168.0,
+      "worker_essence_income": 18.0,
+      "gross_gold_income": 453.0,
+      "gross_essence_income": 60.0,
+      "build_spend_gold": 74.75,
+      "build_inflation_gold": 9.75,
+      "build_actions": 1,
+      "net_gold": 378.25,
+      "net_essence": 60.0,
+      "policy_id": "harvest",
+      "workers": {
+        "total": 4,
+        "gold": 3,
+        "essence": 1,
+        "unassigned": 0
+      }
+    }
+  }
+}

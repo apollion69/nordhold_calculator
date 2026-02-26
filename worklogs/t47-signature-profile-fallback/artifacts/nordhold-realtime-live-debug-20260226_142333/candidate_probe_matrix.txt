@@ -1,0 +1,10 @@
+﻿
+candidate                  mode     reason                       wave gold essence
+---------                  ----     ------                       ---- ---- -------
+probe_unresolved_wave_only memory   ok                              3 99,0     9,0
+artifact_combo_1           memory   ok                              3 99,0     9,0
+artifact_combo_2           degraded memory_unavailable_no_replay    3  0,0     0,0
+artifact_combo_3           degraded memory_unavailable_no_replay    3  0,0     0,0
+
+
+

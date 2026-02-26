@@ -1,0 +1,54 @@
+{
+  "run_id": "t55-acceptance-20260226_192346",
+  "gates": {
+    "py_compile": {
+      "exit_code": 0,
+      "pass": true,
+      "log": "/mnt/c/Users/lenovo/Documents/cursor/codex/projects/nordhold/worklogs/t55-post-t54-acceptance/t55-acceptance-20260226_192346/01_py_compile.log",
+      "files": "/mnt/c/Users/lenovo/Documents/cursor/codex/projects/nordhold/worklogs/t55-post-t54-acceptance/t55-acceptance-20260226_192346/01_py_compile_files.txt"
+    },
+    "unittest": {
+      "exit_code": 0,
+      "pass": true,
+      "log": "/mnt/c/Users/lenovo/Documents/cursor/codex/projects/nordhold/worklogs/t55-post-t54-acceptance/t55-acceptance-20260226_192346/02_unittest.log",
+      "summary": {
+        "ran": "Ran 40 tests in 0.504s",
+        "result": "OK (skipped=1)"
+      }
+    },
+    "web_build": {
+      "exit_code": 0,
+      "pass": true,
+      "log": "/mnt/c/Users/lenovo/Documents/cursor/codex/projects/nordhold/worklogs/t55-post-t54-acceptance/t55-acceptance-20260226_192346/03_web_build.log",
+      "summary": "\u2713 built in 1.27s"
+    },
+    "exe_smoke": {
+      "exit_code": 0,
+      "pass": true,
+      "runner_log": "/mnt/c/Users/lenovo/Documents/cursor/codex/projects/nordhold/worklogs/t55-post-t54-acceptance/t55-acceptance-20260226_192346/04_exe_smoke.runner.log",
+      "smoke_log": "/mnt/c/Users/lenovo/Documents/cursor/codex/projects/nordhold/worklogs/t55-post-t54-acceptance/t55-acceptance-20260226_192346/04_exe_smoke.log",
+      "endpoints_json": "/mnt/c/Users/lenovo/Documents/cursor/codex/projects/nordhold/worklogs/t55-post-t54-acceptance/t55-acceptance-20260226_192346/04_exe_endpoints.json",
+      "launcher_out_log": "/mnt/c/Users/lenovo/Documents/cursor/codex/projects/nordhold/runtime/logs/t55-acceptance-20260226_192346.launcher.out.log",
+      "launcher_err_log": "/mnt/c/Users/lenovo/Documents/cursor/codex/projects/nordhold/runtime/logs/t55-acceptance-20260226_192346.launcher.err.log",
+      "base_url": "http://127.0.0.1:18013",
+      "endpoints": [
+        {
+          "path": "/health",
+          "status": 200,
+          "ok": true
+        },
+        {
+          "path": "/api/v1/live/status",
+          "status": 200,
+          "ok": true
+        },
+        {
+          "path": "/api/v1/live/snapshot",
+          "status": 200,
+          "ok": true
+        }
+      ]
+    }
+  },
+  "overall_pass": true
+}

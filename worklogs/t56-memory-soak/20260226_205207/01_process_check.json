@@ -1,0 +1,13 @@
+﻿{
+    "checked_at_utc":  "2026-02-26T17:52:07Z",
+    "command":  "Get-CimInstance Win32_Process -Filter \"name=\u0027NordHold.exe\u0027\" | Select-Object ProcessId,Name,ExecutablePath,CommandLine",
+    "process_count":  1,
+    "processes":  [
+                      {
+                          "ProcessId":  9364,
+                          "Name":  "NordHold.exe",
+                          "ExecutablePath":  "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Nordhold\\NordHold.exe",
+                          "CommandLine":  "\"C:\\Program Files (x86)\\Steam\\steamapps\\common\\Nordhold\\NordHold.exe\""
+                      }
+                  ]
+}

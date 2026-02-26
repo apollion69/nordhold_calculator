@@ -1,0 +1,23 @@
+Traceback (most recent call last):
+  File "launcher.py", line 79, in <module>
+  File "launcher.py", line 69, in main
+  File "uvicorn\main.py", line 606, in run
+  File "uvicorn\server.py", line 75, in run
+  File "uvicorn\_compat.py", line 30, in asyncio_run
+  File "asyncio\runners.py", line 118, in run
+  File "asyncio\base_events.py", line 654, in run_until_complete
+  File "uvicorn\server.py", line 79, in serve
+  File "uvicorn\server.py", line 86, in _serve
+  File "uvicorn\config.py", line 441, in load
+  File "uvicorn\importer.py", line 22, in import_from_string
+  File "uvicorn\importer.py", line 19, in import_from_string
+  File "importlib\__init__.py", line 126, in import_module
+  File "<frozen importlib._bootstrap>", line 1204, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1176, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1126, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "<frozen importlib._bootstrap>", line 1204, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1176, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1140, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'nordhold'
+[PYI-6604:ERROR] Failed to execute script 'launcher' due to unhandled exception!

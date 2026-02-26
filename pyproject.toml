@@ -1,0 +1,16 @@
+[project]
+name = "nordhold-realtime"
+version = "0.1.0"
+description = "Realtime wave calculator and local bridge for Nordhold"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "fastapi>=0.110",
+  "uvicorn>=0.30"
+]
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]

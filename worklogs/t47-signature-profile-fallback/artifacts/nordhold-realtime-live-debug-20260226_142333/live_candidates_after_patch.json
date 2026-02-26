@@ -1,0 +1,217 @@
+﻿{
+    "path":  "C:\\Users\\lenovo\\Documents\\cursor\\codex\\projects\\nordhold\\worklogs\\t39-live-memory-hardening\\artifacts\\memory_calibration_candidates_autoload.json",
+    "active_candidate_id":  "artifact_combo_1",
+    "recommended_candidate_id":  "artifact_combo_1",
+    "recommended_candidate_support":  {
+                                          "algorithm":  "preferred_if_valid_else_max_required_resolved_then_active_candidate_id_then_original_order",
+                                          "preferred_candidate_id":  "",
+                                          "active_candidate_id":  "artifact_combo_1",
+                                          "required_combat_fields":  [
+                                                                         "current_wave",
+                                                                         "gold",
+                                                                         "essence"
+                                                                     ],
+                                          "optional_combat_fields":  [
+                                                                         "lives",
+                                                                         "player_hp",
+                                                                         "max_player_hp",
+                                                                         "enemies_alive",
+                                                                         "combat_time_s"
+                                                                     ],
+                                          "recommended_candidate_id":  "artifact_combo_1",
+                                          "reason":  "max_required_resolved_active_candidate_tiebreak",
+                                          "candidate_scores":  [
+                                                                   {
+                                                                       "id":  "probe_unresolved_wave_only",
+                                                                       "valid":  false,
+                                                                       "resolved_required_fields":  1,
+                                                                       "is_active_candidate":  false,
+                                                                       "original_order":  1
+                                                                   },
+                                                                   {
+                                                                       "id":  "artifact_combo_1",
+                                                                       "valid":  true,
+                                                                       "resolved_required_fields":  3,
+                                                                       "is_active_candidate":  true,
+                                                                       "original_order":  2
+                                                                   },
+                                                                   {
+                                                                       "id":  "artifact_combo_2",
+                                                                       "valid":  true,
+                                                                       "resolved_required_fields":  3,
+                                                                       "is_active_candidate":  false,
+                                                                       "original_order":  3
+                                                                   },
+                                                                   {
+                                                                       "id":  "artifact_combo_3",
+                                                                       "valid":  true,
+                                                                       "resolved_required_fields":  3,
+                                                                       "is_active_candidate":  false,
+                                                                       "original_order":  4
+                                                                   }
+                                                               ]
+                                      },
+    "candidate_ids":  [
+                          "probe_unresolved_wave_only",
+                          "artifact_combo_1",
+                          "artifact_combo_2",
+                          "artifact_combo_3"
+                      ],
+    "candidates":  [
+                       {
+                           "id":  "probe_unresolved_wave_only",
+                           "profile_id":  "default_20985960",
+                           "fields":  {
+                                          "current_wave":  "0x56ad0004",
+                                          "gold":  "",
+                                          "essence":  "",
+                                          "lives":  "",
+                                          "player_hp":  "",
+                                          "max_player_hp":  "",
+                                          "enemies_alive":  "",
+                                          "combat_time_s":  ""
+                                      },
+                           "candidate_quality":  {
+                                                     "valid":  false,
+                                                     "required_fields_total":  3,
+                                                     "resolved_required_count":  1,
+                                                     "resolved_required_fields":  1,
+                                                     "required_resolution_ratio":  0.3333333333333333,
+                                                     "missing_required_field_names":  [
+                                                                                          "gold",
+                                                                                          "essence"
+                                                                                      ],
+                                                     "unresolved_required_field_names":  [
+
+                                                                                         ],
+                                                     "resolved_required_field_names":  [
+                                                                                           "current_wave"
+                                                                                       ],
+                                                     "optional_fields_total":  5,
+                                                     "resolved_optional_count":  0,
+                                                     "resolved_optional_fields":  0,
+                                                     "optional_resolution_ratio":  0.0,
+                                                     "resolved_optional_field_names":  [
+
+                                                                                       ]
+                                                 }
+                       },
+                       {
+                           "id":  "artifact_combo_1",
+                           "profile_id":  "default_20985960",
+                           "fields":  {
+                                          "current_wave":  "0x56ad0004",
+                                          "gold":  "0x56ad02d4",
+                                          "essence":  "0x56ae7284",
+                                          "lives":  "",
+                                          "player_hp":  "",
+                                          "max_player_hp":  "",
+                                          "enemies_alive":  "",
+                                          "combat_time_s":  ""
+                                      },
+                           "candidate_quality":  {
+                                                     "valid":  true,
+                                                     "required_fields_total":  3,
+                                                     "resolved_required_count":  3,
+                                                     "resolved_required_fields":  3,
+                                                     "required_resolution_ratio":  1.0,
+                                                     "missing_required_field_names":  [
+
+                                                                                      ],
+                                                     "unresolved_required_field_names":  [
+
+                                                                                         ],
+                                                     "resolved_required_field_names":  [
+                                                                                           "current_wave",
+                                                                                           "gold",
+                                                                                           "essence"
+                                                                                       ],
+                                                     "optional_fields_total":  5,
+                                                     "resolved_optional_count":  0,
+                                                     "resolved_optional_fields":  0,
+                                                     "optional_resolution_ratio":  0.0,
+                                                     "resolved_optional_field_names":  [
+
+                                                                                       ]
+                                                 }
+                       },
+                       {
+                           "id":  "artifact_combo_2",
+                           "profile_id":  "default_20985960",
+                           "fields":  {
+                                          "current_wave":  "0x56ad1754",
+                                          "gold":  "0x45156fe5b0",
+                                          "essence":  "0x45140b9b70",
+                                          "lives":  "",
+                                          "player_hp":  "",
+                                          "max_player_hp":  "",
+                                          "enemies_alive":  "",
+                                          "combat_time_s":  ""
+                                      },
+                           "candidate_quality":  {
+                                                     "valid":  true,
+                                                     "required_fields_total":  3,
+                                                     "resolved_required_count":  3,
+                                                     "resolved_required_fields":  3,
+                                                     "required_resolution_ratio":  1.0,
+                                                     "missing_required_field_names":  [
+
+                                                                                      ],
+                                                     "unresolved_required_field_names":  [
+
+                                                                                         ],
+                                                     "resolved_required_field_names":  [
+                                                                                           "current_wave",
+                                                                                           "gold",
+                                                                                           "essence"
+                                                                                       ],
+                                                     "optional_fields_total":  5,
+                                                     "resolved_optional_count":  0,
+                                                     "resolved_optional_fields":  0,
+                                                     "optional_resolution_ratio":  0.0,
+                                                     "resolved_optional_field_names":  [
+
+                                                                                       ]
+                                                 }
+                       },
+                       {
+                           "id":  "artifact_combo_3",
+                           "profile_id":  "default_20985960",
+                           "fields":  {
+                                          "current_wave":  "0x56b0c7ac",
+                                          "gold":  "0x1a0993c8f40",
+                                          "essence":  "0x56b3c708",
+                                          "lives":  "",
+                                          "player_hp":  "",
+                                          "max_player_hp":  "",
+                                          "enemies_alive":  "",
+                                          "combat_time_s":  ""
+                                      },
+                           "candidate_quality":  {
+                                                     "valid":  true,
+                                                     "required_fields_total":  3,
+                                                     "resolved_required_count":  3,
+                                                     "resolved_required_fields":  3,
+                                                     "required_resolution_ratio":  1.0,
+                                                     "missing_required_field_names":  [
+
+                                                                                      ],
+                                                     "unresolved_required_field_names":  [
+
+                                                                                         ],
+                                                     "resolved_required_field_names":  [
+                                                                                           "current_wave",
+                                                                                           "gold",
+                                                                                           "essence"
+                                                                                       ],
+                                                     "optional_fields_total":  5,
+                                                     "resolved_optional_count":  0,
+                                                     "resolved_optional_fields":  0,
+                                                     "optional_resolution_ratio":  0.0,
+                                                     "resolved_optional_field_names":  [
+
+                                                                                       ]
+                                                 }
+                       }
+                   ]
+}

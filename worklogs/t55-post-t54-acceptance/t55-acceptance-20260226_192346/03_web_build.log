@@ -1,0 +1,17 @@
+run_id=t55-acceptance-20260226_192346
+started_at=2026-02-26T19:25:41+03:00
+command=cd /mnt/c/Users/lenovo/Documents/cursor/codex/projects/nordhold/web && npm run build
+
+> nordhold-realtime-ui@0.1.0 build
+> vite build
+
+vite v5.4.21 building for production...
+transforming...
+✓ 31 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                      0.42 kB │ gzip:  0.28 kB
+dist/assets/simWorker-Ct_EzgBU.js    0.48 kB
+dist/assets/index-DmZgaNWj.css       7.61 kB │ gzip:  2.21 kB
+dist/assets/index-CwW6dRnB.js      176.57 kB │ gzip: 54.65 kB
+✓ built in 1.27s

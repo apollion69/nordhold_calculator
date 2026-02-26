@@ -1,0 +1,2918 @@
+{
+  "schema": "nordhold_memory_calibration_candidates_v2",
+  "schema_compatibility": [
+    "nordhold_memory_calibration_candidates_v1",
+    "nordhold_memory_calibration_candidates_v2"
+  ],
+  "memory_schema_compatibility": [
+    "live_memory_v1",
+    "live_memory_v2"
+  ],
+  "generated_at_utc": "2026-02-26T12:26:40.022173+00:00",
+  "required_fields": [
+    "current_wave",
+    "gold",
+    "essence"
+  ],
+  "optional_fields": [
+    "lives",
+    "player_hp",
+    "max_player_hp",
+    "enemies_alive",
+    "combat_time_s"
+  ],
+  "required_combat_fields": [
+    "current_wave",
+    "gold",
+    "essence"
+  ],
+  "optional_combat_fields": [
+    "lives",
+    "player_hp",
+    "max_player_hp",
+    "enemies_alive",
+    "combat_time_s"
+  ],
+  "combat_field_sets": {
+    "required": [
+      "current_wave",
+      "gold",
+      "essence"
+    ],
+    "optional": [
+      "lives",
+      "player_hp",
+      "max_player_hp",
+      "enemies_alive",
+      "combat_time_s"
+    ],
+    "optional_with_snapshot_meta": [
+      "player_hp",
+      "max_player_hp"
+    ]
+  },
+  "source_snapshot_meta_paths": {
+    "current_wave": "/mnt/c/Users/lenovo/Documents/cursor/codex/projects/nordhold/worklogs/t32-live-memory-calibration/artifacts/20260226_live/wave_guess3_s1.meta.json",
+    "gold": "/mnt/c/Users/lenovo/Documents/cursor/codex/projects/nordhold/worklogs/t32-live-memory-calibration/artifacts/20260226_live/gold_guess99_s2_eq99.meta.json",
+    "essence": "/mnt/c/Users/lenovo/Documents/cursor/codex/projects/nordhold/worklogs/t32-live-memory-calibration/artifacts/20260226_live/essence_guess9_s1.meta.json",
+    "player_hp": "/mnt/c/Users/lenovo/Documents/cursor/codex/projects/nordhold/worklogs/t47-signature-profile-fallback/artifacts/nordhold-realtime-live-debug-20260226_142333/player_hp_guess20_selected.meta.json",
+    "max_player_hp": "/mnt/c/Users/lenovo/Documents/cursor/codex/projects/nordhold/worklogs/t47-signature-profile-fallback/artifacts/nordhold-realtime-live-debug-20260226_142333/max_player_hp_guess20_selected.meta.json"
+  },
+  "source_snapshot_records_paths": {
+    "current_wave": "/mnt/c/Users/lenovo/Documents/cursor/codex/projects/nordhold/worklogs/t32-live-memory-calibration/artifacts/20260226_live/wave_guess3_s1.records.tsv",
+    "gold": "/mnt/c/Users/lenovo/Documents/cursor/codex/projects/nordhold/worklogs/t32-live-memory-calibration/artifacts/20260226_live/gold_guess99_s2_eq99.records.tsv",
+    "essence": "/mnt/c/Users/lenovo/Documents/cursor/codex/projects/nordhold/worklogs/t32-live-memory-calibration/artifacts/20260226_live/essence_guess9_s1.records.tsv",
+    "player_hp": "/mnt/c/Users/lenovo/Documents/cursor/codex/projects/nordhold/worklogs/t47-signature-profile-fallback/artifacts/nordhold-realtime-live-debug-20260226_142333/player_hp_guess20_selected.records.tsv",
+    "max_player_hp": "/mnt/c/Users/lenovo/Documents/cursor/codex/projects/nordhold/worklogs/t47-signature-profile-fallback/artifacts/nordhold-realtime-live-debug-20260226_142333/max_player_hp_guess20_selected.records.tsv"
+  },
+  "selected_addresses_per_field": {
+    "current_wave": 4,
+    "gold": 4,
+    "essence": 4,
+    "player_hp": 1,
+    "max_player_hp": 1
+  },
+  "combination_space": 64,
+  "combination_truncated": false,
+  "active_candidate_id": "artifact_combo_1",
+  "candidates": [
+    {
+      "id": "artifact_combo_1",
+      "required_admin": false,
+      "fields": {
+        "current_wave": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ad0004",
+          "relative_to_module": false
+        },
+        "gold": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ad02d4",
+          "relative_to_module": false
+        },
+        "essence": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ae7284",
+          "relative_to_module": false
+        },
+        "player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ade9f8",
+          "relative_to_module": false
+        },
+        "max_player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56adb610",
+          "relative_to_module": false
+        }
+      },
+      "profile_id": "default_20985960"
+    },
+    {
+      "id": "artifact_combo_2",
+      "required_admin": false,
+      "fields": {
+        "current_wave": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ad0004",
+          "relative_to_module": false
+        },
+        "gold": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ad02d4",
+          "relative_to_module": false
+        },
+        "essence": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56af3c78",
+          "relative_to_module": false
+        },
+        "player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ade9f8",
+          "relative_to_module": false
+        },
+        "max_player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56adb610",
+          "relative_to_module": false
+        }
+      },
+      "profile_id": "default_20985960"
+    },
+    {
+      "id": "artifact_combo_3",
+      "required_admin": false,
+      "fields": {
+        "current_wave": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ad0004",
+          "relative_to_module": false
+        },
+        "gold": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ad02d4",
+          "relative_to_module": false
+        },
+        "essence": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56b0759c",
+          "relative_to_module": false
+        },
+        "player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ade9f8",
+          "relative_to_module": false
+        },
+        "max_player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56adb610",
+          "relative_to_module": false
+        }
+      },
+      "profile_id": "default_20985960"
+    },
+    {
+      "id": "artifact_combo_4",
+      "required_admin": false,
+      "fields": {
+        "current_wave": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ad0004",
+          "relative_to_module": false
+        },
+        "gold": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ad02d4",
+          "relative_to_module": false
+        },
+        "essence": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56b16690",
+          "relative_to_module": false
+        },
+        "player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ade9f8",
+          "relative_to_module": false
+        },
+        "max_player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56adb610",
+          "relative_to_module": false
+        }
+      },
+      "profile_id": "default_20985960"
+    },
+    {
+      "id": "artifact_combo_5",
+      "required_admin": false,
+      "fields": {
+        "current_wave": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ad0004",
+          "relative_to_module": false
+        },
+        "gold": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56b50294",
+          "relative_to_module": false
+        },
+        "essence": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ae7284",
+          "relative_to_module": false
+        },
+        "player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ade9f8",
+          "relative_to_module": false
+        },
+        "max_player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56adb610",
+          "relative_to_module": false
+        }
+      },
+      "profile_id": "default_20985960"
+    },
+    {
+      "id": "artifact_combo_6",
+      "required_admin": false,
+      "fields": {
+        "current_wave": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ad0004",
+          "relative_to_module": false
+        },
+        "gold": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56b50294",
+          "relative_to_module": false
+        },
+        "essence": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56af3c78",
+          "relative_to_module": false
+        },
+        "player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ade9f8",
+          "relative_to_module": false
+        },
+        "max_player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56adb610",
+          "relative_to_module": false
+        }
+      },
+      "profile_id": "default_20985960"
+    },
+    {
+      "id": "artifact_combo_7",
+      "required_admin": false,
+      "fields": {
+        "current_wave": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ad0004",
+          "relative_to_module": false
+        },
+        "gold": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56b50294",
+          "relative_to_module": false
+        },
+        "essence": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56b0759c",
+          "relative_to_module": false
+        },
+        "player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ade9f8",
+          "relative_to_module": false
+        },
+        "max_player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56adb610",
+          "relative_to_module": false
+        }
+      },
+      "profile_id": "default_20985960"
+    },
+    {
+      "id": "artifact_combo_8",
+      "required_admin": false,
+      "fields": {
+        "current_wave": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ad0004",
+          "relative_to_module": false
+        },
+        "gold": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56b50294",
+          "relative_to_module": false
+        },
+        "essence": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56b16690",
+          "relative_to_module": false
+        },
+        "player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ade9f8",
+          "relative_to_module": false
+        },
+        "max_player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56adb610",
+          "relative_to_module": false
+        }
+      },
+      "profile_id": "default_20985960"
+    },
+    {
+      "id": "artifact_combo_9",
+      "required_admin": false,
+      "fields": {
+        "current_wave": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ad0004",
+          "relative_to_module": false
+        },
+        "gold": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56b525c8",
+          "relative_to_module": false
+        },
+        "essence": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ae7284",
+          "relative_to_module": false
+        },
+        "player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ade9f8",
+          "relative_to_module": false
+        },
+        "max_player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56adb610",
+          "relative_to_module": false
+        }
+      },
+      "profile_id": "default_20985960"
+    },
+    {
+      "id": "artifact_combo_10",
+      "required_admin": false,
+      "fields": {
+        "current_wave": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ad0004",
+          "relative_to_module": false
+        },
+        "gold": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56b525c8",
+          "relative_to_module": false
+        },
+        "essence": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56af3c78",
+          "relative_to_module": false
+        },
+        "player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ade9f8",
+          "relative_to_module": false
+        },
+        "max_player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56adb610",
+          "relative_to_module": false
+        }
+      },
+      "profile_id": "default_20985960"
+    },
+    {
+      "id": "artifact_combo_11",
+      "required_admin": false,
+      "fields": {
+        "current_wave": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ad0004",
+          "relative_to_module": false
+        },
+        "gold": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56b525c8",
+          "relative_to_module": false
+        },
+        "essence": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56b0759c",
+          "relative_to_module": false
+        },
+        "player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ade9f8",
+          "relative_to_module": false
+        },
+        "max_player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56adb610",
+          "relative_to_module": false
+        }
+      },
+      "profile_id": "default_20985960"
+    },
+    {
+      "id": "artifact_combo_12",
+      "required_admin": false,
+      "fields": {
+        "current_wave": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ad0004",
+          "relative_to_module": false
+        },
+        "gold": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56b525c8",
+          "relative_to_module": false
+        },
+        "essence": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56b16690",
+          "relative_to_module": false
+        },
+        "player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ade9f8",
+          "relative_to_module": false
+        },
+        "max_player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56adb610",
+          "relative_to_module": false
+        }
+      },
+      "profile_id": "default_20985960"
+    },
+    {
+      "id": "artifact_combo_13",
+      "required_admin": false,
+      "fields": {
+        "current_wave": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ad0004",
+          "relative_to_module": false
+        },
+        "gold": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56b535f0",
+          "relative_to_module": false
+        },
+        "essence": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ae7284",
+          "relative_to_module": false
+        },
+        "player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ade9f8",
+          "relative_to_module": false
+        },
+        "max_player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56adb610",
+          "relative_to_module": false
+        }
+      },
+      "profile_id": "default_20985960"
+    },
+    {
+      "id": "artifact_combo_14",
+      "required_admin": false,
+      "fields": {
+        "current_wave": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ad0004",
+          "relative_to_module": false
+        },
+        "gold": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56b535f0",
+          "relative_to_module": false
+        },
+        "essence": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56af3c78",
+          "relative_to_module": false
+        },
+        "player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ade9f8",
+          "relative_to_module": false
+        },
+        "max_player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56adb610",
+          "relative_to_module": false
+        }
+      },
+      "profile_id": "default_20985960"
+    },
+    {
+      "id": "artifact_combo_15",
+      "required_admin": false,
+      "fields": {
+        "current_wave": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ad0004",
+          "relative_to_module": false
+        },
+        "gold": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56b535f0",
+          "relative_to_module": false
+        },
+        "essence": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56b0759c",
+          "relative_to_module": false
+        },
+        "player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ade9f8",
+          "relative_to_module": false
+        },
+        "max_player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56adb610",
+          "relative_to_module": false
+        }
+      },
+      "profile_id": "default_20985960"
+    },
+    {
+      "id": "artifact_combo_16",
+      "required_admin": false,
+      "fields": {
+        "current_wave": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ad0004",
+          "relative_to_module": false
+        },
+        "gold": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56b535f0",
+          "relative_to_module": false
+        },
+        "essence": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56b16690",
+          "relative_to_module": false
+        },
+        "player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ade9f8",
+          "relative_to_module": false
+        },
+        "max_player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56adb610",
+          "relative_to_module": false
+        }
+      },
+      "profile_id": "default_20985960"
+    },
+    {
+      "id": "artifact_combo_17",
+      "required_admin": false,
+      "fields": {
+        "current_wave": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ad1754",
+          "relative_to_module": false
+        },
+        "gold": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ad02d4",
+          "relative_to_module": false
+        },
+        "essence": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ae7284",
+          "relative_to_module": false
+        },
+        "player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ade9f8",
+          "relative_to_module": false
+        },
+        "max_player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56adb610",
+          "relative_to_module": false
+        }
+      },
+      "profile_id": "default_20985960"
+    },
+    {
+      "id": "artifact_combo_18",
+      "required_admin": false,
+      "fields": {
+        "current_wave": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ad1754",
+          "relative_to_module": false
+        },
+        "gold": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ad02d4",
+          "relative_to_module": false
+        },
+        "essence": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56af3c78",
+          "relative_to_module": false
+        },
+        "player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ade9f8",
+          "relative_to_module": false
+        },
+        "max_player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56adb610",
+          "relative_to_module": false
+        }
+      },
+      "profile_id": "default_20985960"
+    },
+    {
+      "id": "artifact_combo_19",
+      "required_admin": false,
+      "fields": {
+        "current_wave": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ad1754",
+          "relative_to_module": false
+        },
+        "gold": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ad02d4",
+          "relative_to_module": false
+        },
+        "essence": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56b0759c",
+          "relative_to_module": false
+        },
+        "player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ade9f8",
+          "relative_to_module": false
+        },
+        "max_player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56adb610",
+          "relative_to_module": false
+        }
+      },
+      "profile_id": "default_20985960"
+    },
+    {
+      "id": "artifact_combo_20",
+      "required_admin": false,
+      "fields": {
+        "current_wave": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ad1754",
+          "relative_to_module": false
+        },
+        "gold": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ad02d4",
+          "relative_to_module": false
+        },
+        "essence": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56b16690",
+          "relative_to_module": false
+        },
+        "player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ade9f8",
+          "relative_to_module": false
+        },
+        "max_player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56adb610",
+          "relative_to_module": false
+        }
+      },
+      "profile_id": "default_20985960"
+    },
+    {
+      "id": "artifact_combo_21",
+      "required_admin": false,
+      "fields": {
+        "current_wave": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ad1754",
+          "relative_to_module": false
+        },
+        "gold": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56b50294",
+          "relative_to_module": false
+        },
+        "essence": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ae7284",
+          "relative_to_module": false
+        },
+        "player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ade9f8",
+          "relative_to_module": false
+        },
+        "max_player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56adb610",
+          "relative_to_module": false
+        }
+      },
+      "profile_id": "default_20985960"
+    },
+    {
+      "id": "artifact_combo_22",
+      "required_admin": false,
+      "fields": {
+        "current_wave": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ad1754",
+          "relative_to_module": false
+        },
+        "gold": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56b50294",
+          "relative_to_module": false
+        },
+        "essence": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56af3c78",
+          "relative_to_module": false
+        },
+        "player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ade9f8",
+          "relative_to_module": false
+        },
+        "max_player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56adb610",
+          "relative_to_module": false
+        }
+      },
+      "profile_id": "default_20985960"
+    },
+    {
+      "id": "artifact_combo_23",
+      "required_admin": false,
+      "fields": {
+        "current_wave": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ad1754",
+          "relative_to_module": false
+        },
+        "gold": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56b50294",
+          "relative_to_module": false
+        },
+        "essence": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56b0759c",
+          "relative_to_module": false
+        },
+        "player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ade9f8",
+          "relative_to_module": false
+        },
+        "max_player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56adb610",
+          "relative_to_module": false
+        }
+      },
+      "profile_id": "default_20985960"
+    },
+    {
+      "id": "artifact_combo_24",
+      "required_admin": false,
+      "fields": {
+        "current_wave": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ad1754",
+          "relative_to_module": false
+        },
+        "gold": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56b50294",
+          "relative_to_module": false
+        },
+        "essence": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56b16690",
+          "relative_to_module": false
+        },
+        "player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ade9f8",
+          "relative_to_module": false
+        },
+        "max_player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56adb610",
+          "relative_to_module": false
+        }
+      },
+      "profile_id": "default_20985960"
+    },
+    {
+      "id": "artifact_combo_25",
+      "required_admin": false,
+      "fields": {
+        "current_wave": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ad1754",
+          "relative_to_module": false
+        },
+        "gold": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56b525c8",
+          "relative_to_module": false
+        },
+        "essence": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ae7284",
+          "relative_to_module": false
+        },
+        "player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ade9f8",
+          "relative_to_module": false
+        },
+        "max_player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56adb610",
+          "relative_to_module": false
+        }
+      },
+      "profile_id": "default_20985960"
+    },
+    {
+      "id": "artifact_combo_26",
+      "required_admin": false,
+      "fields": {
+        "current_wave": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ad1754",
+          "relative_to_module": false
+        },
+        "gold": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56b525c8",
+          "relative_to_module": false
+        },
+        "essence": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56af3c78",
+          "relative_to_module": false
+        },
+        "player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ade9f8",
+          "relative_to_module": false
+        },
+        "max_player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56adb610",
+          "relative_to_module": false
+        }
+      },
+      "profile_id": "default_20985960"
+    },
+    {
+      "id": "artifact_combo_27",
+      "required_admin": false,
+      "fields": {
+        "current_wave": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ad1754",
+          "relative_to_module": false
+        },
+        "gold": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56b525c8",
+          "relative_to_module": false
+        },
+        "essence": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56b0759c",
+          "relative_to_module": false
+        },
+        "player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ade9f8",
+          "relative_to_module": false
+        },
+        "max_player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56adb610",
+          "relative_to_module": false
+        }
+      },
+      "profile_id": "default_20985960"
+    },
+    {
+      "id": "artifact_combo_28",
+      "required_admin": false,
+      "fields": {
+        "current_wave": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ad1754",
+          "relative_to_module": false
+        },
+        "gold": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56b525c8",
+          "relative_to_module": false
+        },
+        "essence": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56b16690",
+          "relative_to_module": false
+        },
+        "player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ade9f8",
+          "relative_to_module": false
+        },
+        "max_player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56adb610",
+          "relative_to_module": false
+        }
+      },
+      "profile_id": "default_20985960"
+    },
+    {
+      "id": "artifact_combo_29",
+      "required_admin": false,
+      "fields": {
+        "current_wave": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ad1754",
+          "relative_to_module": false
+        },
+        "gold": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56b535f0",
+          "relative_to_module": false
+        },
+        "essence": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ae7284",
+          "relative_to_module": false
+        },
+        "player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ade9f8",
+          "relative_to_module": false
+        },
+        "max_player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56adb610",
+          "relative_to_module": false
+        }
+      },
+      "profile_id": "default_20985960"
+    },
+    {
+      "id": "artifact_combo_30",
+      "required_admin": false,
+      "fields": {
+        "current_wave": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ad1754",
+          "relative_to_module": false
+        },
+        "gold": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56b535f0",
+          "relative_to_module": false
+        },
+        "essence": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56af3c78",
+          "relative_to_module": false
+        },
+        "player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ade9f8",
+          "relative_to_module": false
+        },
+        "max_player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56adb610",
+          "relative_to_module": false
+        }
+      },
+      "profile_id": "default_20985960"
+    },
+    {
+      "id": "artifact_combo_31",
+      "required_admin": false,
+      "fields": {
+        "current_wave": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ad1754",
+          "relative_to_module": false
+        },
+        "gold": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56b535f0",
+          "relative_to_module": false
+        },
+        "essence": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56b0759c",
+          "relative_to_module": false
+        },
+        "player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ade9f8",
+          "relative_to_module": false
+        },
+        "max_player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56adb610",
+          "relative_to_module": false
+        }
+      },
+      "profile_id": "default_20985960"
+    },
+    {
+      "id": "artifact_combo_32",
+      "required_admin": false,
+      "fields": {
+        "current_wave": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ad1754",
+          "relative_to_module": false
+        },
+        "gold": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56b535f0",
+          "relative_to_module": false
+        },
+        "essence": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56b16690",
+          "relative_to_module": false
+        },
+        "player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ade9f8",
+          "relative_to_module": false
+        },
+        "max_player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56adb610",
+          "relative_to_module": false
+        }
+      },
+      "profile_id": "default_20985960"
+    },
+    {
+      "id": "artifact_combo_33",
+      "required_admin": false,
+      "fields": {
+        "current_wave": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ad1d38",
+          "relative_to_module": false
+        },
+        "gold": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ad02d4",
+          "relative_to_module": false
+        },
+        "essence": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ae7284",
+          "relative_to_module": false
+        },
+        "player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ade9f8",
+          "relative_to_module": false
+        },
+        "max_player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56adb610",
+          "relative_to_module": false
+        }
+      },
+      "profile_id": "default_20985960"
+    },
+    {
+      "id": "artifact_combo_34",
+      "required_admin": false,
+      "fields": {
+        "current_wave": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ad1d38",
+          "relative_to_module": false
+        },
+        "gold": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ad02d4",
+          "relative_to_module": false
+        },
+        "essence": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56af3c78",
+          "relative_to_module": false
+        },
+        "player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ade9f8",
+          "relative_to_module": false
+        },
+        "max_player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56adb610",
+          "relative_to_module": false
+        }
+      },
+      "profile_id": "default_20985960"
+    },
+    {
+      "id": "artifact_combo_35",
+      "required_admin": false,
+      "fields": {
+        "current_wave": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ad1d38",
+          "relative_to_module": false
+        },
+        "gold": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ad02d4",
+          "relative_to_module": false
+        },
+        "essence": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56b0759c",
+          "relative_to_module": false
+        },
+        "player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ade9f8",
+          "relative_to_module": false
+        },
+        "max_player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56adb610",
+          "relative_to_module": false
+        }
+      },
+      "profile_id": "default_20985960"
+    },
+    {
+      "id": "artifact_combo_36",
+      "required_admin": false,
+      "fields": {
+        "current_wave": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ad1d38",
+          "relative_to_module": false
+        },
+        "gold": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ad02d4",
+          "relative_to_module": false
+        },
+        "essence": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56b16690",
+          "relative_to_module": false
+        },
+        "player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ade9f8",
+          "relative_to_module": false
+        },
+        "max_player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56adb610",
+          "relative_to_module": false
+        }
+      },
+      "profile_id": "default_20985960"
+    },
+    {
+      "id": "artifact_combo_37",
+      "required_admin": false,
+      "fields": {
+        "current_wave": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ad1d38",
+          "relative_to_module": false
+        },
+        "gold": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56b50294",
+          "relative_to_module": false
+        },
+        "essence": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ae7284",
+          "relative_to_module": false
+        },
+        "player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ade9f8",
+          "relative_to_module": false
+        },
+        "max_player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56adb610",
+          "relative_to_module": false
+        }
+      },
+      "profile_id": "default_20985960"
+    },
+    {
+      "id": "artifact_combo_38",
+      "required_admin": false,
+      "fields": {
+        "current_wave": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ad1d38",
+          "relative_to_module": false
+        },
+        "gold": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56b50294",
+          "relative_to_module": false
+        },
+        "essence": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56af3c78",
+          "relative_to_module": false
+        },
+        "player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ade9f8",
+          "relative_to_module": false
+        },
+        "max_player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56adb610",
+          "relative_to_module": false
+        }
+      },
+      "profile_id": "default_20985960"
+    },
+    {
+      "id": "artifact_combo_39",
+      "required_admin": false,
+      "fields": {
+        "current_wave": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ad1d38",
+          "relative_to_module": false
+        },
+        "gold": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56b50294",
+          "relative_to_module": false
+        },
+        "essence": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56b0759c",
+          "relative_to_module": false
+        },
+        "player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ade9f8",
+          "relative_to_module": false
+        },
+        "max_player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56adb610",
+          "relative_to_module": false
+        }
+      },
+      "profile_id": "default_20985960"
+    },
+    {
+      "id": "artifact_combo_40",
+      "required_admin": false,
+      "fields": {
+        "current_wave": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ad1d38",
+          "relative_to_module": false
+        },
+        "gold": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56b50294",
+          "relative_to_module": false
+        },
+        "essence": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56b16690",
+          "relative_to_module": false
+        },
+        "player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ade9f8",
+          "relative_to_module": false
+        },
+        "max_player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56adb610",
+          "relative_to_module": false
+        }
+      },
+      "profile_id": "default_20985960"
+    },
+    {
+      "id": "artifact_combo_41",
+      "required_admin": false,
+      "fields": {
+        "current_wave": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ad1d38",
+          "relative_to_module": false
+        },
+        "gold": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56b525c8",
+          "relative_to_module": false
+        },
+        "essence": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ae7284",
+          "relative_to_module": false
+        },
+        "player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ade9f8",
+          "relative_to_module": false
+        },
+        "max_player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56adb610",
+          "relative_to_module": false
+        }
+      },
+      "profile_id": "default_20985960"
+    },
+    {
+      "id": "artifact_combo_42",
+      "required_admin": false,
+      "fields": {
+        "current_wave": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ad1d38",
+          "relative_to_module": false
+        },
+        "gold": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56b525c8",
+          "relative_to_module": false
+        },
+        "essence": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56af3c78",
+          "relative_to_module": false
+        },
+        "player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ade9f8",
+          "relative_to_module": false
+        },
+        "max_player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56adb610",
+          "relative_to_module": false
+        }
+      },
+      "profile_id": "default_20985960"
+    },
+    {
+      "id": "artifact_combo_43",
+      "required_admin": false,
+      "fields": {
+        "current_wave": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ad1d38",
+          "relative_to_module": false
+        },
+        "gold": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56b525c8",
+          "relative_to_module": false
+        },
+        "essence": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56b0759c",
+          "relative_to_module": false
+        },
+        "player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ade9f8",
+          "relative_to_module": false
+        },
+        "max_player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56adb610",
+          "relative_to_module": false
+        }
+      },
+      "profile_id": "default_20985960"
+    },
+    {
+      "id": "artifact_combo_44",
+      "required_admin": false,
+      "fields": {
+        "current_wave": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ad1d38",
+          "relative_to_module": false
+        },
+        "gold": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56b525c8",
+          "relative_to_module": false
+        },
+        "essence": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56b16690",
+          "relative_to_module": false
+        },
+        "player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ade9f8",
+          "relative_to_module": false
+        },
+        "max_player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56adb610",
+          "relative_to_module": false
+        }
+      },
+      "profile_id": "default_20985960"
+    },
+    {
+      "id": "artifact_combo_45",
+      "required_admin": false,
+      "fields": {
+        "current_wave": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ad1d38",
+          "relative_to_module": false
+        },
+        "gold": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56b535f0",
+          "relative_to_module": false
+        },
+        "essence": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ae7284",
+          "relative_to_module": false
+        },
+        "player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ade9f8",
+          "relative_to_module": false
+        },
+        "max_player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56adb610",
+          "relative_to_module": false
+        }
+      },
+      "profile_id": "default_20985960"
+    },
+    {
+      "id": "artifact_combo_46",
+      "required_admin": false,
+      "fields": {
+        "current_wave": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ad1d38",
+          "relative_to_module": false
+        },
+        "gold": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56b535f0",
+          "relative_to_module": false
+        },
+        "essence": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56af3c78",
+          "relative_to_module": false
+        },
+        "player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ade9f8",
+          "relative_to_module": false
+        },
+        "max_player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56adb610",
+          "relative_to_module": false
+        }
+      },
+      "profile_id": "default_20985960"
+    },
+    {
+      "id": "artifact_combo_47",
+      "required_admin": false,
+      "fields": {
+        "current_wave": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ad1d38",
+          "relative_to_module": false
+        },
+        "gold": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56b535f0",
+          "relative_to_module": false
+        },
+        "essence": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56b0759c",
+          "relative_to_module": false
+        },
+        "player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ade9f8",
+          "relative_to_module": false
+        },
+        "max_player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56adb610",
+          "relative_to_module": false
+        }
+      },
+      "profile_id": "default_20985960"
+    },
+    {
+      "id": "artifact_combo_48",
+      "required_admin": false,
+      "fields": {
+        "current_wave": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ad1d38",
+          "relative_to_module": false
+        },
+        "gold": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56b535f0",
+          "relative_to_module": false
+        },
+        "essence": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56b16690",
+          "relative_to_module": false
+        },
+        "player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ade9f8",
+          "relative_to_module": false
+        },
+        "max_player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56adb610",
+          "relative_to_module": false
+        }
+      },
+      "profile_id": "default_20985960"
+    },
+    {
+      "id": "artifact_combo_49",
+      "required_admin": false,
+      "fields": {
+        "current_wave": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ad44b0",
+          "relative_to_module": false
+        },
+        "gold": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ad02d4",
+          "relative_to_module": false
+        },
+        "essence": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ae7284",
+          "relative_to_module": false
+        },
+        "player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ade9f8",
+          "relative_to_module": false
+        },
+        "max_player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56adb610",
+          "relative_to_module": false
+        }
+      },
+      "profile_id": "default_20985960"
+    },
+    {
+      "id": "artifact_combo_50",
+      "required_admin": false,
+      "fields": {
+        "current_wave": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ad44b0",
+          "relative_to_module": false
+        },
+        "gold": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ad02d4",
+          "relative_to_module": false
+        },
+        "essence": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56af3c78",
+          "relative_to_module": false
+        },
+        "player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ade9f8",
+          "relative_to_module": false
+        },
+        "max_player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56adb610",
+          "relative_to_module": false
+        }
+      },
+      "profile_id": "default_20985960"
+    },
+    {
+      "id": "artifact_combo_51",
+      "required_admin": false,
+      "fields": {
+        "current_wave": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ad44b0",
+          "relative_to_module": false
+        },
+        "gold": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ad02d4",
+          "relative_to_module": false
+        },
+        "essence": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56b0759c",
+          "relative_to_module": false
+        },
+        "player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ade9f8",
+          "relative_to_module": false
+        },
+        "max_player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56adb610",
+          "relative_to_module": false
+        }
+      },
+      "profile_id": "default_20985960"
+    },
+    {
+      "id": "artifact_combo_52",
+      "required_admin": false,
+      "fields": {
+        "current_wave": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ad44b0",
+          "relative_to_module": false
+        },
+        "gold": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ad02d4",
+          "relative_to_module": false
+        },
+        "essence": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56b16690",
+          "relative_to_module": false
+        },
+        "player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ade9f8",
+          "relative_to_module": false
+        },
+        "max_player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56adb610",
+          "relative_to_module": false
+        }
+      },
+      "profile_id": "default_20985960"
+    },
+    {
+      "id": "artifact_combo_53",
+      "required_admin": false,
+      "fields": {
+        "current_wave": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ad44b0",
+          "relative_to_module": false
+        },
+        "gold": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56b50294",
+          "relative_to_module": false
+        },
+        "essence": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ae7284",
+          "relative_to_module": false
+        },
+        "player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ade9f8",
+          "relative_to_module": false
+        },
+        "max_player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56adb610",
+          "relative_to_module": false
+        }
+      },
+      "profile_id": "default_20985960"
+    },
+    {
+      "id": "artifact_combo_54",
+      "required_admin": false,
+      "fields": {
+        "current_wave": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ad44b0",
+          "relative_to_module": false
+        },
+        "gold": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56b50294",
+          "relative_to_module": false
+        },
+        "essence": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56af3c78",
+          "relative_to_module": false
+        },
+        "player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ade9f8",
+          "relative_to_module": false
+        },
+        "max_player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56adb610",
+          "relative_to_module": false
+        }
+      },
+      "profile_id": "default_20985960"
+    },
+    {
+      "id": "artifact_combo_55",
+      "required_admin": false,
+      "fields": {
+        "current_wave": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ad44b0",
+          "relative_to_module": false
+        },
+        "gold": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56b50294",
+          "relative_to_module": false
+        },
+        "essence": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56b0759c",
+          "relative_to_module": false
+        },
+        "player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ade9f8",
+          "relative_to_module": false
+        },
+        "max_player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56adb610",
+          "relative_to_module": false
+        }
+      },
+      "profile_id": "default_20985960"
+    },
+    {
+      "id": "artifact_combo_56",
+      "required_admin": false,
+      "fields": {
+        "current_wave": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ad44b0",
+          "relative_to_module": false
+        },
+        "gold": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56b50294",
+          "relative_to_module": false
+        },
+        "essence": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56b16690",
+          "relative_to_module": false
+        },
+        "player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ade9f8",
+          "relative_to_module": false
+        },
+        "max_player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56adb610",
+          "relative_to_module": false
+        }
+      },
+      "profile_id": "default_20985960"
+    },
+    {
+      "id": "artifact_combo_57",
+      "required_admin": false,
+      "fields": {
+        "current_wave": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ad44b0",
+          "relative_to_module": false
+        },
+        "gold": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56b525c8",
+          "relative_to_module": false
+        },
+        "essence": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ae7284",
+          "relative_to_module": false
+        },
+        "player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ade9f8",
+          "relative_to_module": false
+        },
+        "max_player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56adb610",
+          "relative_to_module": false
+        }
+      },
+      "profile_id": "default_20985960"
+    },
+    {
+      "id": "artifact_combo_58",
+      "required_admin": false,
+      "fields": {
+        "current_wave": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ad44b0",
+          "relative_to_module": false
+        },
+        "gold": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56b525c8",
+          "relative_to_module": false
+        },
+        "essence": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56af3c78",
+          "relative_to_module": false
+        },
+        "player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ade9f8",
+          "relative_to_module": false
+        },
+        "max_player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56adb610",
+          "relative_to_module": false
+        }
+      },
+      "profile_id": "default_20985960"
+    },
+    {
+      "id": "artifact_combo_59",
+      "required_admin": false,
+      "fields": {
+        "current_wave": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ad44b0",
+          "relative_to_module": false
+        },
+        "gold": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56b525c8",
+          "relative_to_module": false
+        },
+        "essence": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56b0759c",
+          "relative_to_module": false
+        },
+        "player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ade9f8",
+          "relative_to_module": false
+        },
+        "max_player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56adb610",
+          "relative_to_module": false
+        }
+      },
+      "profile_id": "default_20985960"
+    },
+    {
+      "id": "artifact_combo_60",
+      "required_admin": false,
+      "fields": {
+        "current_wave": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ad44b0",
+          "relative_to_module": false
+        },
+        "gold": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56b525c8",
+          "relative_to_module": false
+        },
+        "essence": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56b16690",
+          "relative_to_module": false
+        },
+        "player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ade9f8",
+          "relative_to_module": false
+        },
+        "max_player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56adb610",
+          "relative_to_module": false
+        }
+      },
+      "profile_id": "default_20985960"
+    },
+    {
+      "id": "artifact_combo_61",
+      "required_admin": false,
+      "fields": {
+        "current_wave": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ad44b0",
+          "relative_to_module": false
+        },
+        "gold": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56b535f0",
+          "relative_to_module": false
+        },
+        "essence": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ae7284",
+          "relative_to_module": false
+        },
+        "player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ade9f8",
+          "relative_to_module": false
+        },
+        "max_player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56adb610",
+          "relative_to_module": false
+        }
+      },
+      "profile_id": "default_20985960"
+    },
+    {
+      "id": "artifact_combo_62",
+      "required_admin": false,
+      "fields": {
+        "current_wave": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ad44b0",
+          "relative_to_module": false
+        },
+        "gold": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56b535f0",
+          "relative_to_module": false
+        },
+        "essence": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56af3c78",
+          "relative_to_module": false
+        },
+        "player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ade9f8",
+          "relative_to_module": false
+        },
+        "max_player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56adb610",
+          "relative_to_module": false
+        }
+      },
+      "profile_id": "default_20985960"
+    },
+    {
+      "id": "artifact_combo_63",
+      "required_admin": false,
+      "fields": {
+        "current_wave": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ad44b0",
+          "relative_to_module": false
+        },
+        "gold": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56b535f0",
+          "relative_to_module": false
+        },
+        "essence": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56b0759c",
+          "relative_to_module": false
+        },
+        "player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ade9f8",
+          "relative_to_module": false
+        },
+        "max_player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56adb610",
+          "relative_to_module": false
+        }
+      },
+      "profile_id": "default_20985960"
+    },
+    {
+      "id": "artifact_combo_64",
+      "required_admin": false,
+      "fields": {
+        "current_wave": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ad44b0",
+          "relative_to_module": false
+        },
+        "gold": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56b535f0",
+          "relative_to_module": false
+        },
+        "essence": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56b16690",
+          "relative_to_module": false
+        },
+        "player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ade9f8",
+          "relative_to_module": false
+        },
+        "max_player_hp": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56adb610",
+          "relative_to_module": false
+        }
+      },
+      "profile_id": "default_20985960"
+    }
+  ],
+  "recommended_candidate_id": "artifact_combo_1",
+  "recommended_candidate_support": {
+    "algorithm": "preferred_if_valid_else_max_required_resolved_then_active_candidate_id_then_original_order",
+    "preferred_candidate_id": "artifact_combo_1",
+    "active_candidate_id": "artifact_combo_1",
+    "required_combat_fields": [
+      "current_wave",
+      "gold",
+      "essence"
+    ],
+    "optional_combat_fields": [
+      "lives",
+      "player_hp",
+      "max_player_hp",
+      "enemies_alive",
+      "combat_time_s"
+    ],
+    "recommended_candidate_id": "artifact_combo_1",
+    "reason": "preferred_candidate_valid",
+    "candidate_scores": [
+      {
+        "id": "artifact_combo_1",
+        "valid": true,
+        "resolved_required_fields": 3,
+        "is_active_candidate": true,
+        "original_order": 1
+      },
+      {
+        "id": "artifact_combo_2",
+        "valid": true,
+        "resolved_required_fields": 3,
+        "is_active_candidate": false,
+        "original_order": 2
+      },
+      {
+        "id": "artifact_combo_3",
+        "valid": true,
+        "resolved_required_fields": 3,
+        "is_active_candidate": false,
+        "original_order": 3
+      },
+      {
+        "id": "artifact_combo_4",
+        "valid": true,
+        "resolved_required_fields": 3,
+        "is_active_candidate": false,
+        "original_order": 4
+      },
+      {
+        "id": "artifact_combo_5",
+        "valid": true,
+        "resolved_required_fields": 3,
+        "is_active_candidate": false,
+        "original_order": 5
+      },
+      {
+        "id": "artifact_combo_6",
+        "valid": true,
+        "resolved_required_fields": 3,
+        "is_active_candidate": false,
+        "original_order": 6
+      },
+      {
+        "id": "artifact_combo_7",
+        "valid": true,
+        "resolved_required_fields": 3,
+        "is_active_candidate": false,
+        "original_order": 7
+      },
+      {
+        "id": "artifact_combo_8",
+        "valid": true,
+        "resolved_required_fields": 3,
+        "is_active_candidate": false,
+        "original_order": 8
+      },
+      {
+        "id": "artifact_combo_9",
+        "valid": true,
+        "resolved_required_fields": 3,
+        "is_active_candidate": false,
+        "original_order": 9
+      },
+      {
+        "id": "artifact_combo_10",
+        "valid": true,
+        "resolved_required_fields": 3,
+        "is_active_candidate": false,
+        "original_order": 10
+      },
+      {
+        "id": "artifact_combo_11",
+        "valid": true,
+        "resolved_required_fields": 3,
+        "is_active_candidate": false,
+        "original_order": 11
+      },
+      {
+        "id": "artifact_combo_12",
+        "valid": true,
+        "resolved_required_fields": 3,
+        "is_active_candidate": false,
+        "original_order": 12
+      },
+      {
+        "id": "artifact_combo_13",
+        "valid": true,
+        "resolved_required_fields": 3,
+        "is_active_candidate": false,
+        "original_order": 13
+      },
+      {
+        "id": "artifact_combo_14",
+        "valid": true,
+        "resolved_required_fields": 3,
+        "is_active_candidate": false,
+        "original_order": 14
+      },
+      {
+        "id": "artifact_combo_15",
+        "valid": true,
+        "resolved_required_fields": 3,
+        "is_active_candidate": false,
+        "original_order": 15
+      },
+      {
+        "id": "artifact_combo_16",
+        "valid": true,
+        "resolved_required_fields": 3,
+        "is_active_candidate": false,
+        "original_order": 16
+      },
+      {
+        "id": "artifact_combo_17",
+        "valid": true,
+        "resolved_required_fields": 3,
+        "is_active_candidate": false,
+        "original_order": 17
+      },
+      {
+        "id": "artifact_combo_18",
+        "valid": true,
+        "resolved_required_fields": 3,
+        "is_active_candidate": false,
+        "original_order": 18
+      },
+      {
+        "id": "artifact_combo_19",
+        "valid": true,
+        "resolved_required_fields": 3,
+        "is_active_candidate": false,
+        "original_order": 19
+      },
+      {
+        "id": "artifact_combo_20",
+        "valid": true,
+        "resolved_required_fields": 3,
+        "is_active_candidate": false,
+        "original_order": 20
+      },
+      {
+        "id": "artifact_combo_21",
+        "valid": true,
+        "resolved_required_fields": 3,
+        "is_active_candidate": false,
+        "original_order": 21
+      },
+      {
+        "id": "artifact_combo_22",
+        "valid": true,
+        "resolved_required_fields": 3,
+        "is_active_candidate": false,
+        "original_order": 22
+      },
+      {
+        "id": "artifact_combo_23",
+        "valid": true,
+        "resolved_required_fields": 3,
+        "is_active_candidate": false,
+        "original_order": 23
+      },
+      {
+        "id": "artifact_combo_24",
+        "valid": true,
+        "resolved_required_fields": 3,
+        "is_active_candidate": false,
+        "original_order": 24
+      },
+      {
+        "id": "artifact_combo_25",
+        "valid": true,
+        "resolved_required_fields": 3,
+        "is_active_candidate": false,
+        "original_order": 25
+      },
+      {
+        "id": "artifact_combo_26",
+        "valid": true,
+        "resolved_required_fields": 3,
+        "is_active_candidate": false,
+        "original_order": 26
+      },
+      {
+        "id": "artifact_combo_27",
+        "valid": true,
+        "resolved_required_fields": 3,
+        "is_active_candidate": false,
+        "original_order": 27
+      },
+      {
+        "id": "artifact_combo_28",
+        "valid": true,
+        "resolved_required_fields": 3,
+        "is_active_candidate": false,
+        "original_order": 28
+      },
+      {
+        "id": "artifact_combo_29",
+        "valid": true,
+        "resolved_required_fields": 3,
+        "is_active_candidate": false,
+        "original_order": 29
+      },
+      {
+        "id": "artifact_combo_30",
+        "valid": true,
+        "resolved_required_fields": 3,
+        "is_active_candidate": false,
+        "original_order": 30
+      },
+      {
+        "id": "artifact_combo_31",
+        "valid": true,
+        "resolved_required_fields": 3,
+        "is_active_candidate": false,
+        "original_order": 31
+      },
+      {
+        "id": "artifact_combo_32",
+        "valid": true,
+        "resolved_required_fields": 3,
+        "is_active_candidate": false,
+        "original_order": 32
+      },
+      {
+        "id": "artifact_combo_33",
+        "valid": true,
+        "resolved_required_fields": 3,
+        "is_active_candidate": false,
+        "original_order": 33
+      },
+      {
+        "id": "artifact_combo_34",
+        "valid": true,
+        "resolved_required_fields": 3,
+        "is_active_candidate": false,
+        "original_order": 34
+      },
+      {
+        "id": "artifact_combo_35",
+        "valid": true,
+        "resolved_required_fields": 3,
+        "is_active_candidate": false,
+        "original_order": 35
+      },
+      {
+        "id": "artifact_combo_36",
+        "valid": true,
+        "resolved_required_fields": 3,
+        "is_active_candidate": false,
+        "original_order": 36
+      },
+      {
+        "id": "artifact_combo_37",
+        "valid": true,
+        "resolved_required_fields": 3,
+        "is_active_candidate": false,
+        "original_order": 37
+      },
+      {
+        "id": "artifact_combo_38",
+        "valid": true,
+        "resolved_required_fields": 3,
+        "is_active_candidate": false,
+        "original_order": 38
+      },
+      {
+        "id": "artifact_combo_39",
+        "valid": true,
+        "resolved_required_fields": 3,
+        "is_active_candidate": false,
+        "original_order": 39
+      },
+      {
+        "id": "artifact_combo_40",
+        "valid": true,
+        "resolved_required_fields": 3,
+        "is_active_candidate": false,
+        "original_order": 40
+      },
+      {
+        "id": "artifact_combo_41",
+        "valid": true,
+        "resolved_required_fields": 3,
+        "is_active_candidate": false,
+        "original_order": 41
+      },
+      {
+        "id": "artifact_combo_42",
+        "valid": true,
+        "resolved_required_fields": 3,
+        "is_active_candidate": false,
+        "original_order": 42
+      },
+      {
+        "id": "artifact_combo_43",
+        "valid": true,
+        "resolved_required_fields": 3,
+        "is_active_candidate": false,
+        "original_order": 43
+      },
+      {
+        "id": "artifact_combo_44",
+        "valid": true,
+        "resolved_required_fields": 3,
+        "is_active_candidate": false,
+        "original_order": 44
+      },
+      {
+        "id": "artifact_combo_45",
+        "valid": true,
+        "resolved_required_fields": 3,
+        "is_active_candidate": false,
+        "original_order": 45
+      },
+      {
+        "id": "artifact_combo_46",
+        "valid": true,
+        "resolved_required_fields": 3,
+        "is_active_candidate": false,
+        "original_order": 46
+      },
+      {
+        "id": "artifact_combo_47",
+        "valid": true,
+        "resolved_required_fields": 3,
+        "is_active_candidate": false,
+        "original_order": 47
+      },
+      {
+        "id": "artifact_combo_48",
+        "valid": true,
+        "resolved_required_fields": 3,
+        "is_active_candidate": false,
+        "original_order": 48
+      },
+      {
+        "id": "artifact_combo_49",
+        "valid": true,
+        "resolved_required_fields": 3,
+        "is_active_candidate": false,
+        "original_order": 49
+      },
+      {
+        "id": "artifact_combo_50",
+        "valid": true,
+        "resolved_required_fields": 3,
+        "is_active_candidate": false,
+        "original_order": 50
+      },
+      {
+        "id": "artifact_combo_51",
+        "valid": true,
+        "resolved_required_fields": 3,
+        "is_active_candidate": false,
+        "original_order": 51
+      },
+      {
+        "id": "artifact_combo_52",
+        "valid": true,
+        "resolved_required_fields": 3,
+        "is_active_candidate": false,
+        "original_order": 52
+      },
+      {
+        "id": "artifact_combo_53",
+        "valid": true,
+        "resolved_required_fields": 3,
+        "is_active_candidate": false,
+        "original_order": 53
+      },
+      {
+        "id": "artifact_combo_54",
+        "valid": true,
+        "resolved_required_fields": 3,
+        "is_active_candidate": false,
+        "original_order": 54
+      },
+      {
+        "id": "artifact_combo_55",
+        "valid": true,
+        "resolved_required_fields": 3,
+        "is_active_candidate": false,
+        "original_order": 55
+      },
+      {
+        "id": "artifact_combo_56",
+        "valid": true,
+        "resolved_required_fields": 3,
+        "is_active_candidate": false,
+        "original_order": 56
+      },
+      {
+        "id": "artifact_combo_57",
+        "valid": true,
+        "resolved_required_fields": 3,
+        "is_active_candidate": false,
+        "original_order": 57
+      },
+      {
+        "id": "artifact_combo_58",
+        "valid": true,
+        "resolved_required_fields": 3,
+        "is_active_candidate": false,
+        "original_order": 58
+      },
+      {
+        "id": "artifact_combo_59",
+        "valid": true,
+        "resolved_required_fields": 3,
+        "is_active_candidate": false,
+        "original_order": 59
+      },
+      {
+        "id": "artifact_combo_60",
+        "valid": true,
+        "resolved_required_fields": 3,
+        "is_active_candidate": false,
+        "original_order": 60
+      },
+      {
+        "id": "artifact_combo_61",
+        "valid": true,
+        "resolved_required_fields": 3,
+        "is_active_candidate": false,
+        "original_order": 61
+      },
+      {
+        "id": "artifact_combo_62",
+        "valid": true,
+        "resolved_required_fields": 3,
+        "is_active_candidate": false,
+        "original_order": 62
+      },
+      {
+        "id": "artifact_combo_63",
+        "valid": true,
+        "resolved_required_fields": 3,
+        "is_active_candidate": false,
+        "original_order": 63
+      },
+      {
+        "id": "artifact_combo_64",
+        "valid": true,
+        "resolved_required_fields": 3,
+        "is_active_candidate": false,
+        "original_order": 64
+      }
+    ]
+  }
+}

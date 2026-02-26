@@ -1,0 +1,8 @@
+output=/mnt/c/Users/lenovo/AppData/Local/Temp/tmp9w60ttt1/generated_candidates.json
+schema=nordhold_memory_calibration_candidates_v2
+candidates=2
+active_candidate_id=artifact_combo_1
+recommended_candidate_id=artifact_combo_1
+combination_space=2
+combination_truncated=False
+extra_combat_fields=lives

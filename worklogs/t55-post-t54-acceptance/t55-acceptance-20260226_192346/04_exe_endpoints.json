@@ -1,0 +1,27 @@
+﻿{
+    "checked_at":  "2026-02-26T19:27:32.6537247+03:00",
+    "base_url":  "http://127.0.0.1:18013",
+    "port":  18013,
+    "launcher_pid":  21008,
+    "all_ok":  true,
+    "endpoints":  [
+                      {
+                          "path":  "/health",
+                          "status":  200,
+                          "body":  "{\"status\":\"ok\"}",
+                          "ok":  true
+                      },
+                      {
+                          "path":  "/api/v1/live/status",
+                          "status":  200,
+                          "body":  "{\"status\":\"degraded\",\"mode\":\"synthetic\",\"process_name\":\"NordHold.exe\",\"poll_ms\":1000,\"require_admin\":true,\"dataset_version\":\"\",\"game_build\":\"\",\"signature_profile\":\"\",\"calibration_candidates_path\":\"\",\"calibration_candidate\":\"\",\"reason\":\"not_connected\",\"replay_session_id\":\"\",\"memory_connected\":false,\"required_field_resolution\":{\"current_wave\":{\"present\":false,\"resolved\":false,\"source\":\"\",\"type\":\"\",\"address\":\"\",\"offsets\":[],\"relative_to_module\":false},\"gold\":{\"present\":false,\"resolved\":false,\"source\":\"\",\"type\":\"\",\"address\":\"\",\"offsets\":[],\"relative_to_module\":false},\"essence\":{\"present\":false,\"resolved\":false,\"source\":\"\",\"type\":\"\",\"address\":\"\",\"offsets\":[],\"relative_to_module\":false}},\"field_coverage\":{\"required_total\":3,\"required_resolved\":0,\"optional_total\":0,\"optional_resolved\":0},\"calibration_quality\":\"minimal\",\"active_required_fields\":[\"current_wave\",\"gold\",\"essence\"],\"calibration_candidate_ids\":[],\"last_memory_values\":{},\"last_error\":{},\"autoconnect_enabled\":false,\"autoconnect_last_attempt_at\":\"\",\"autoconnect_last_result\":{},\"dataset_autorefresh\":true}",
+                          "ok":  true
+                      },
+                      {
+                          "path":  "/api/v1/live/snapshot",
+                          "status":  200,
+                          "body":  "{\"timestamp\":1772123252.6316364,\"wave\":1,\"gold\":0.0,\"essence\":0.0,\"build\":{\"towers\":[],\"raw_memory_fields\":{\"combat_block_value\":0.0,\"combat_block_percent\":0.0,\"combat_block_flat\":0.0,\"current_wave\":0,\"gold\":0,\"essence\":0,\"wood\":0,\"stone\":0,\"wheat\":0,\"workers_total\":0,\"workers_free\":0,\"tower_inflation_index\":1.0,\"base_hp_current\":0,\"base_hp_max\":0,\"leaks_total\":0,\"enemies_alive\":0,\"boss_hp_current\":0,\"boss_hp_max\":0,\"wave_elapsed_s\":0,\"wave_remaining_s\":0,\"barrier_hp_total\":0,\"enemy_regen_total_per_s\":0,\"boss_alive\":false,\"is_combat_phase\":false}},\"source_mode\":\"synthetic\"}",
+                          "ok":  true
+                      }
+                  ]
+}

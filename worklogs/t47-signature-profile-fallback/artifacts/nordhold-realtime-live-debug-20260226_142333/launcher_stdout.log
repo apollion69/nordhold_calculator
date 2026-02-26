@@ -1,0 +1,9 @@
+Nordhold project root: C:\Users\lenovo\Documents\cursor\codex\projects\nordhold\runtime\dist\NordholdRealtimeLauncher\_internal
+Web dist path: C:\Users\lenovo\Documents\cursor\codex\projects\nordhold\runtime\dist\NordholdRealtimeLauncher\_internal\web\dist
+INFO:     127.0.0.1:65327 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65354 - "GET /api/v1/live/status HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65354 - "GET /api/v1/live/calibration/candidates HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65354 - "POST /api/v1/live/connect HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65354 - "GET /api/v1/live/status HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65354 - "GET /api/v1/live/snapshot HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65383 - "POST /api/v1/live/connect HTTP/1.1" 200 OK

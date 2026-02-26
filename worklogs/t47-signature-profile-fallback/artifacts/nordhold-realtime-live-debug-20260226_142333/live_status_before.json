@@ -1,0 +1,71 @@
+﻿{
+    "status":  "degraded",
+    "mode":  "synthetic",
+    "process_name":  "NordHold.exe",
+    "poll_ms":  1000,
+    "require_admin":  true,
+    "dataset_version":  "",
+    "game_build":  "",
+    "signature_profile":  "",
+    "calibration_candidates_path":  "",
+    "calibration_candidate":  "",
+    "reason":  "not_connected",
+    "replay_session_id":  "",
+    "memory_connected":  false,
+    "required_field_resolution":  {
+                                      "current_wave":  {
+                                                           "present":  false,
+                                                           "resolved":  false,
+                                                           "source":  "",
+                                                           "type":  "",
+                                                           "address":  "",
+                                                           "offsets":  [
+
+                                                                       ],
+                                                           "relative_to_module":  false
+                                                       },
+                                      "gold":  {
+                                                   "present":  false,
+                                                   "resolved":  false,
+                                                   "source":  "",
+                                                   "type":  "",
+                                                   "address":  "",
+                                                   "offsets":  [
+
+                                                               ],
+                                                   "relative_to_module":  false
+                                               },
+                                      "essence":  {
+                                                      "present":  false,
+                                                      "resolved":  false,
+                                                      "source":  "",
+                                                      "type":  "",
+                                                      "address":  "",
+                                                      "offsets":  [
+
+                                                                  ],
+                                                      "relative_to_module":  false
+                                                  }
+                                  },
+    "field_coverage":  {
+                           "required_total":  3,
+                           "required_resolved":  0,
+                           "optional_total":  0,
+                           "optional_resolved":  0
+                       },
+    "calibration_quality":  "minimal",
+    "active_required_fields":  [
+                                   "current_wave",
+                                   "gold",
+                                   "essence"
+                               ],
+    "calibration_candidate_ids":  [
+
+                                  ],
+    "last_memory_values":  {
+
+                           },
+    "last_error":  {
+
+                   }
+}

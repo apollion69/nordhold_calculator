@@ -1,0 +1,25 @@
+run_id=t55-acceptance-20260226_192346
+started_at=2026-02-26T19:25:18+03:00
+python_bin=/mnt/c/Users/lenovo/Documents/cursor/.venv/Scripts/python.exe
+selection_mode=fallback_all_src_nordhold (backend/sim dirs absent + git no commits)
+file_count=19
+files:
+src/nordhold/__init__.py
+src/nordhold/__main__.py
+src/nordhold/api.py
+src/nordhold/calculator.py
+src/nordhold/cli.py
+src/nordhold/config.py
+src/nordhold/formatting.py
+src/nordhold/gui.py
+src/nordhold/launcher.py
+src/nordhold/models.py
+src/nordhold/realtime/__init__.py
+src/nordhold/realtime/analytics.py
+src/nordhold/realtime/calibration_candidates.py
+src/nordhold/realtime/catalog.py
+src/nordhold/realtime/engine.py
+src/nordhold/realtime/live_bridge.py
+src/nordhold/realtime/memory_reader.py
+src/nordhold/realtime/models.py
+src/nordhold/realtime/replay.py

@@ -1,0 +1,41 @@
+﻿{
+    "timestamp":  1772106662.0724485,
+    "wave":  3,
+    "gold":  99.0,
+    "essence":  9.0,
+    "build":  {
+                  "towers":  [
+
+                             ],
+                  "raw_memory_fields":  {
+                                            "current_wave":  3.0,
+                                            "gold":  99.0,
+                                            "essence":  9.0,
+                                            "player_hp":  20,
+                                            "max_player_hp":  20,
+                                            "combat_block_value":  0.0,
+                                            "combat_block_percent":  0.0,
+                                            "combat_block_flat":  0.0,
+                                            "base_hp_current":  20.0,
+                                            "base_hp_max":  20.0,
+                                            "leaks_total":  0,
+                                            "enemies_alive":  0,
+                                            "boss_hp_current":  0,
+                                            "boss_hp_max":  0,
+                                            "wave_elapsed_s":  0,
+                                            "wave_remaining_s":  0,
+                                            "barrier_hp_total":  0,
+                                            "enemy_regen_total_per_s":  0,
+                                            "boss_alive":  false,
+                                            "is_combat_phase":  false
+                                        },
+                  "combat":  {
+                                 "block":  {
+                                               "value":  0.0,
+                                               "percent":  0.0,
+                                               "flat":  0.0
+                                           }
+                             }
+              },
+    "source_mode":  "memory"
+}

@@ -1,0 +1,4 @@
+HEALTH={"status":"ok"}
+OUTLOG=C:\Users\lenovo\Documents\cursor\codex\projects\nordhold\worklogs\t37-exe-packaging\artifacts\20260226_112737-exe-run.out.log
+ERRLOG=C:\Users\lenovo\Documents\cursor\codex\projects\nordhold\worklogs\t37-exe-packaging\artifacts\20260226_112737-exe-run.err.log
+PID=3160

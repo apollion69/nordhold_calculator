@@ -1,0 +1,42 @@
+{
+  "schema": "nordhold_combat_deep_probe_v1",
+  "created_at_utc": "2026-02-26T12:43:11Z",
+  "process_name": "NordHold.exe",
+  "pid": 12000,
+  "candidate_source_path": "C:\\Users\\lenovo\\Documents\\cursor\\codex\\projects\\nordhold\\worklogs\\t47-signature-profile-fallback\\artifacts\\nordhold-combat-deep-probe-20260226_152414\\memory_calibration_candidates_autoload.json",
+  "selected_candidate_id": "artifact_combo_1",
+  "anchor_fields": [
+    {
+      "name": "current_wave",
+      "address": "0x56ad0004"
+    },
+    {
+      "name": "gold",
+      "address": "0x56ad02d4"
+    },
+    {
+      "name": "essence",
+      "address": "0x56ae7284"
+    },
+    {
+      "name": "player_hp",
+      "address": "0x56ade9f8"
+    },
+    {
+      "name": "max_player_hp",
+      "address": "0x56adb610"
+    }
+  ],
+  "probe_address_count": 9400,
+  "duration_s": 180,
+  "interval_ms": 1000,
+  "summary": {
+    "top_enemies_alive": null,
+    "top_combat_time_s": null,
+    "top_is_combat_phase": null,
+    "selected_meta": {}
+  },
+  "sample_count": 0,
+  "samples_included": false,
+  "samples": []
+}

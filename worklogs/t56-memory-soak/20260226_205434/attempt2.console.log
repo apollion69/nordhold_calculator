@@ -1,0 +1,6 @@
+C:\Users\lenovo\Documents\cursor\codex\projects\nordhold\scripts\run_nordhold_live_soak.ps1 : Cannot process argument t
+ransformation on parameter 'RequireAdmin'. Cannot convert value "System.String" to type "System.Boolean". Boolean param
+eters accept only Boolean values and numbers, such as $True, $False, 1 or 0.
+    + CategoryInfo          : InvalidData: (:) [run_nordhold_live_soak.ps1], ParentContainsErrorRecordException
+    + FullyQualifiedErrorId : ParameterArgumentTransformationError,run_nordhold_live_soak.ps1
+ 

@@ -1,0 +1,11 @@
+Installing packaging dependencies...
+Building EXE with PyInstaller...
+EXE was not produced at expected path: C:\Users\lenovo\Documents\cursor\codex\projects\nordhold\runtime\dist\NordholdRe
+altimeLauncher\NordholdRealtimeLauncher.exe
+At C:\Users\lenovo\Documents\cursor\codex\projects\nordhold\scripts\build_nordhold_realtime_exe.ps1:93 char:3
++   throw "EXE was not produced at expected path: $exePath"
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : OperationStopped: (EXE was not pro...imeLauncher.exe:String) [], RuntimeException
+    + FullyQualifiedErrorId : EXE was not produced at expected path: C:\Users\lenovo\Documents\cursor\codex\projects\n 
+   ordhold\runtime\dist\NordholdRealtimeLauncher\NordholdRealtimeLauncher.exe
+ 

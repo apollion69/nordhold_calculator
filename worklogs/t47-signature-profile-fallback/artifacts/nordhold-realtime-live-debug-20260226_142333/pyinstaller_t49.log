@@ -1,0 +1,132 @@
+112 INFO: PyInstaller: 6.19.0, contrib hooks: 2026.1
+112 INFO: Python: 3.11.9
+121 INFO: Platform: Windows-10-10.0.19045-SP0
+121 INFO: Python environment: C:\Users\lenovo\Documents\cursor\.venv
+121 INFO: wrote C:\Users\lenovo\Documents\cursor\codex\projects\nordhold\runtime\build\pyinstaller_t49\NordholdRealtimeLauncher.spec
+123 INFO: Removing temporary files and cleaning cache in C:\Users\lenovo\AppData\Local\pyinstaller
+1403 INFO: Module search paths (PYTHONPATH):
+['C:\\Users\\lenovo\\Documents\\cursor',
+ 'C:\\Program '
+ 'Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\\python311.zip',
+ 'C:\\Program '
+ 'Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\\DLLs',
+ 'C:\\Program '
+ 'Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\\Lib',
+ 'C:\\Program '
+ 'Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0',
+ 'C:\\Users\\lenovo\\Documents\\cursor\\.venv',
+ 'C:\\Users\\lenovo\\Documents\\cursor\\.venv\\Lib\\site-packages',
+ 'C:\\Users\\lenovo\\Documents\\cursor\\codex\\projects\\nordhold\\src',
+ 'C:\\Users\\lenovo\\Documents\\cursor\\codex\\projects\\nordhold\\src']
+1665 INFO: Appending 'datas' from .spec
+1667 INFO: checking Analysis
+1667 INFO: Building Analysis because Analysis-00.toc is non existent
+1667 INFO: Looking for Python shared library...
+1667 INFO: Using Python shared library: C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\python311.dll
+1667 INFO: Running Analysis Analysis-00.toc
+1667 INFO: Target bytecode optimization level: 0
+1667 INFO: Initializing module dependency graph...
+1669 INFO: Initializing module graph hook caches...
+1683 INFO: Analyzing modules for base_library.zip ...
+2439 INFO: Processing standard module hook 'hook-encodings.py' from 'C:\\Users\\lenovo\\Documents\\cursor\\.venv\\Lib\\site-packages\\PyInstaller\\hooks'
+3006 INFO: Processing standard module hook 'hook-heapq.py' from 'C:\\Users\\lenovo\\Documents\\cursor\\.venv\\Lib\\site-packages\\PyInstaller\\hooks'
+4374 INFO: Processing standard module hook 'hook-pickle.py' from 'C:\\Users\\lenovo\\Documents\\cursor\\.venv\\Lib\\site-packages\\PyInstaller\\hooks'
+5851 INFO: Caching module dependency graph...
+5886 INFO: Analyzing C:\Users\lenovo\Documents\cursor\codex\projects\nordhold\src\nordhold\launcher.py
+5925 INFO: Processing standard module hook 'hook-uvicorn.py' from 'C:\\Users\\lenovo\\Documents\\cursor\\.venv\\Lib\\site-packages\\_pyinstaller_hooks_contrib\\stdhooks'
+6418 INFO: Processing standard module hook 'hook-multiprocessing.util.py' from 'C:\\Users\\lenovo\\Documents\\cursor\\.venv\\Lib\\site-packages\\PyInstaller\\hooks'
+6554 INFO: Processing standard module hook 'hook-xml.py' from 'C:\\Users\\lenovo\\Documents\\cursor\\.venv\\Lib\\site-packages\\PyInstaller\\hooks'
+6808 INFO: Processing standard module hook 'hook-_ctypes.py' from 'C:\\Users\\lenovo\\Documents\\cursor\\.venv\\Lib\\site-packages\\PyInstaller\\hooks'
+7415 INFO: Processing pre-safe-import-module hook 'hook-typing_extensions.py' from 'C:\\Users\\lenovo\\Documents\\cursor\\.venv\\Lib\\site-packages\\PyInstaller\\hooks\\pre_safe_import_module'
+7417 INFO: SetuptoolsInfo: initializing cached setuptools info...
+8143 INFO: Processing standard module hook 'hook-platform.py' from 'C:\\Users\\lenovo\\Documents\\cursor\\.venv\\Lib\\site-packages\\PyInstaller\\hooks'
+8204 INFO: Processing standard module hook 'hook-difflib.py' from 'C:\\Users\\lenovo\\Documents\\cursor\\.venv\\Lib\\site-packages\\PyInstaller\\hooks'
+8531 INFO: Processing pre-find-module-path hook 'hook-tkinter.py' from 'C:\\Users\\lenovo\\Documents\\cursor\\.venv\\Lib\\site-packages\\PyInstaller\\hooks\\pre_find_module_path'
+8532 INFO: TclTkInfo: initializing cached Tcl/Tk info...
+8896 INFO: Processing standard module hook 'hook-_tkinter.py' from 'C:\\Users\\lenovo\\Documents\\cursor\\.venv\\Lib\\site-packages\\PyInstaller\\hooks'
+9253 INFO: Processing standard module hook 'hook-pydantic.py' from 'C:\\Users\\lenovo\\Documents\\cursor\\.venv\\Lib\\site-packages\\_pyinstaller_hooks_contrib\\stdhooks'
+9957 INFO: Processing standard module hook 'hook-zoneinfo.py' from 'C:\\Users\\lenovo\\Documents\\cursor\\.venv\\Lib\\site-packages\\_pyinstaller_hooks_contrib\\stdhooks'
+9975 INFO: Processing standard module hook 'hook-sysconfig.py' from 'C:\\Users\\lenovo\\Documents\\cursor\\.venv\\Lib\\site-packages\\PyInstaller\\hooks'
+10856 INFO: Processing standard module hook 'hook-anyio.py' from 'C:\\Users\\lenovo\\Documents\\cursor\\.venv\\Lib\\site-packages\\_pyinstaller_hooks_contrib\\stdhooks'
+12153 INFO: Analyzing hidden import 'uvicorn.__main__'
+12153 INFO: Analyzing hidden import 'uvicorn.lifespan'
+12154 INFO: Analyzing hidden import 'uvicorn.lifespan.off'
+12154 INFO: Analyzing hidden import 'uvicorn.lifespan.on'
+12158 INFO: Analyzing hidden import 'uvicorn.loops'
+12158 INFO: Analyzing hidden import 'uvicorn.loops.asyncio'
+12160 INFO: Analyzing hidden import 'uvicorn.loops.auto'
+12163 INFO: Analyzing hidden import 'uvicorn.protocols.http.auto'
+12164 INFO: Analyzing hidden import 'uvicorn.protocols.websockets.auto'
+12164 INFO: Analyzing hidden import 'uvicorn.workers'
+12167 INFO: Analyzing hidden import 'fastapi.__main__'
+12170 INFO: Analyzing hidden import 'fastapi.middleware.cors'
+12177 INFO: Analyzing hidden import 'fastapi.middleware.gzip'
+12183 INFO: Analyzing hidden import 'fastapi.middleware.httpsredirect'
+12185 INFO: Analyzing hidden import 'fastapi.middleware.trustedhost'
+12186 INFO: Analyzing hidden import 'fastapi.middleware.wsgi'
+12193 INFO: Analyzing hidden import 'fastapi.templating'
+12201 INFO: Analyzing hidden import 'fastapi.testclient'
+12222 INFO: Analyzing hidden import 'pydantic.alias_generators'
+12224 INFO: Analyzing hidden import 'pydantic.class_validators'
+12225 INFO: Analyzing hidden import 'pydantic.datetime_parse'
+12225 INFO: Analyzing hidden import 'pydantic.decorator'
+12226 INFO: Analyzing hidden import 'pydantic.deprecated.decorator'
+12235 INFO: Analyzing hidden import 'pydantic.env_settings'
+12236 INFO: Analyzing hidden import 'pydantic.error_wrappers'
+12236 INFO: Analyzing hidden import 'pydantic.experimental'
+12236 INFO: Analyzing hidden import 'pydantic.experimental.arguments_schema'
+12238 INFO: Analyzing hidden import 'pydantic.experimental.missing_sentinel'
+12239 INFO: Analyzing hidden import 'pydantic.experimental.pipeline'
+12261 INFO: Analyzing hidden import 'pydantic.generics'
+12262 INFO: Analyzing hidden import 'pydantic.json'
+12262 INFO: Analyzing hidden import 'pydantic.mypy'
+12336 INFO: Processing pre-safe-import-module hook 'hook-tomli.py' from 'C:\\Users\\lenovo\\Documents\\cursor\\.venv\\Lib\\site-packages\\PyInstaller\\hooks\\pre_safe_import_module'
+12339 INFO: Analyzing hidden import 'pydantic.parse'
+12340 INFO: Analyzing hidden import 'pydantic.schema'
+12340 INFO: Analyzing hidden import 'pydantic.tools'
+12341 INFO: Analyzing hidden import 'pydantic.typing'
+12342 INFO: Analyzing hidden import 'pydantic.utils'
+12342 INFO: Analyzing hidden import 'pydantic.v1._hypothesis_plugin'
+12354 INFO: Analyzing hidden import 'pydantic.v1.generics'
+12363 INFO: Analyzing hidden import 'pydantic.v1.mypy'
+12386 INFO: Analyzing hidden import 'pydantic.validators'
+12387 INFO: Processing module hooks (post-graph stage)...
+12526 WARNING: Hidden import "tzdata" not found!
+12781 INFO: Processing standard module hook 'hook-_tkinter.py' from 'C:\\Users\\lenovo\\Documents\\cursor\\.venv\\Lib\\site-packages\\PyInstaller\\hooks'
+12807 INFO: Performing binary vs. data reclassification (932 entries)
+12913 INFO: Looking for ctypes DLLs
+12953 INFO: Analyzing run-time hooks ...
+12956 INFO: Including run-time hook 'pyi_rth_pkgutil.py' from 'C:\\Users\\lenovo\\Documents\\cursor\\.venv\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks'
+12959 INFO: Including run-time hook 'pyi_rth_multiprocessing.py' from 'C:\\Users\\lenovo\\Documents\\cursor\\.venv\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks'
+12961 INFO: Including run-time hook 'pyi_rth_inspect.py' from 'C:\\Users\\lenovo\\Documents\\cursor\\.venv\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks'
+12964 INFO: Including run-time hook 'pyi_rth__tkinter.py' from 'C:\\Users\\lenovo\\Documents\\cursor\\.venv\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks'
+12995 INFO: Creating base_library.zip...
+13021 INFO: Looking for dynamic libraries
+13697 INFO: Extra DLL search directories (AddDllDirectory): []
+13698 INFO: Extra DLL search directories (PATH): []
+13983 INFO: Warnings written to C:\Users\lenovo\Documents\cursor\codex\projects\nordhold\runtime\build\pyinstaller_t49\NordholdRealtimeLauncher\warn-NordholdRealtimeLauncher.txt
+14044 INFO: Graph cross-reference written to C:\Users\lenovo\Documents\cursor\codex\projects\nordhold\runtime\build\pyinstaller_t49\NordholdRealtimeLauncher\xref-NordholdRealtimeLauncher.html
+14084 INFO: checking PYZ
+14084 INFO: Building PYZ because PYZ-00.toc is non existent
+14084 INFO: Building PYZ (ZlibArchive) C:\Users\lenovo\Documents\cursor\codex\projects\nordhold\runtime\build\pyinstaller_t49\NordholdRealtimeLauncher\PYZ-00.pyz
+14513 INFO: Building PYZ (ZlibArchive) C:\Users\lenovo\Documents\cursor\codex\projects\nordhold\runtime\build\pyinstaller_t49\NordholdRealtimeLauncher\PYZ-00.pyz completed successfully.
+14524 INFO: checking PKG
+14524 INFO: Building PKG because PKG-00.toc is non existent
+14524 INFO: Building PKG (CArchive) NordholdRealtimeLauncher.pkg
+14539 INFO: Building PKG (CArchive) NordholdRealtimeLauncher.pkg completed successfully.
+14540 INFO: Bootloader C:\Users\lenovo\Documents\cursor\.venv\Lib\site-packages\PyInstaller\bootloader\Windows-64bit-intel\run.exe
+14540 INFO: checking EXE
+14540 INFO: Building EXE because EXE-00.toc is non existent
+14540 INFO: Building EXE from EXE-00.toc
+14540 INFO: Copying bootloader EXE to C:\Users\lenovo\Documents\cursor\codex\projects\nordhold\runtime\build\pyinstaller_t49\NordholdRealtimeLauncher\NordholdRealtimeLauncher.exe
+14545 INFO: Copying icon to EXE
+14547 INFO: Copying 0 resources to EXE
+14547 INFO: Embedding manifest in EXE
+14550 INFO: Appending PKG archive to EXE
+14553 INFO: Fixing EXE headers
+14616 INFO: Building EXE from EXE-00.toc completed successfully.
+14624 INFO: checking COLLECT
+14625 INFO: Building COLLECT because COLLECT-00.toc is non existent
+14625 INFO: Building COLLECT COLLECT-00.toc
+15400 INFO: Building COLLECT COLLECT-00.toc completed successfully.
+15416 INFO: Build complete! The results are available in: C:\Users\lenovo\Documents\cursor\codex\projects\nordhold\runtime\dist_t49

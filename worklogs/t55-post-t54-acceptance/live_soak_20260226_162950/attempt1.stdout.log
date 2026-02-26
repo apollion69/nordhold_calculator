@@ -1,0 +1,173 @@
+Soak completed.
+Summary: C:\Users\lenovo\Documents\cursor\codex\projects\nordhold\runtime\logs\nordhold-live-soak-20260226_193004.summary.json
+{
+    "run_id":  "nordhold-live-soak-20260226_193004",
+    "timestamp_utc":  "2026-02-26T17:01:21Z",
+    "duration_s":  1800,
+    "poll_ms":  1000,
+    "port":  8013,
+    "process_name":  "NordHold.exe",
+    "require_admin":  true,
+    "dataset_version":  "1.0.0",
+    "iterations":  1800,
+    "endpoint_cycle_failures":  0,
+    "status_not_memory_count":  1800,
+    "memory_connected_false_count":  1800,
+    "max_cycle_latency_ms":  64.3,
+    "last_mode":  "degraded",
+    "last_reason":  "memory_unavailable_no_replay",
+    "last_memory_connected":  false,
+    "autoconnect":  {
+                        "status":  "degraded",
+                        "mode":  "degraded",
+                        "process_name":  "NordHold.exe",
+                        "poll_ms":  1000,
+                        "require_admin":  true,
+                        "dataset_version":  "1.0.0",
+                        "game_build":  "20985960",
+                        "signature_profile":  "default_20985960@artifact_combo_1",
+                        "calibration_candidates_path":  "C:\\Users\\lenovo\\Documents\\cursor\\codex\\projects\\nordhold\\worklogs\\t47-signature-profile-fallback\\artifacts\\nordhold-combat-deep-probe-20260226_154010\\memory_calibration_candidates_autoload.json",
+                        "calibration_candidate":  "artifact_combo_1",
+                        "reason":  "memory_unavailable_no_replay",
+                        "replay_session_id":  "",
+                        "memory_connected":  false,
+                        "required_field_resolution":  {
+                                                          "current_wave":  {
+                                                                               "present":  true,
+                                                                               "resolved":  true,
+                                                                               "source":  "address",
+                                                                               "type":  "int32",
+                                                                               "address":  "0x56ad0004",
+                                                                               "offsets":  [
+
+                                                                                           ],
+                                                                               "relative_to_module":  false
+                                                                           },
+                                                          "gold":  {
+                                                                       "present":  true,
+                                                                       "resolved":  true,
+                                                                       "source":  "address",
+                                                                       "type":  "int32",
+                                                                       "address":  "0x56ad02d4",
+                                                                       "offsets":  [
+                                                                                       "0x0"
+                                                                                   ],
+                                                                       "relative_to_module":  false
+                                                                   },
+                                                          "essence":  {
+                                                                          "present":  true,
+                                                                          "resolved":  true,
+                                                                          "source":  "address",
+                                                                          "type":  "int32",
+                                                                          "address":  "0x56ae7284",
+                                                                          "offsets":  [
+                                                                                          "0x0"
+                                                                                      ],
+                                                                          "relative_to_module":  false
+                                                                      }
+                                                      },
+                        "field_coverage":  {
+                                               "required_total":  3,
+                                               "required_resolved":  3,
+                                               "optional_total":  2,
+                                               "optional_resolved":  2
+                                           },
+                        "calibration_quality":  "full",
+                        "active_required_fields":  [
+                                                       "current_wave",
+                                                       "gold",
+                                                       "essence"
+                                                   ],
+                        "calibration_candidate_ids":  [
+                                                          "artifact_combo_1",
+                                                          "artifact_combo_2",
+                                                          "artifact_combo_3",
+                                                          "artifact_combo_4",
+                                                          "artifact_combo_5",
+                                                          "artifact_combo_6",
+                                                          "artifact_combo_7",
+                                                          "artifact_combo_8",
+                                                          "artifact_combo_9",
+                                                          "artifact_combo_10",
+                                                          "artifact_combo_11",
+                                                          "artifact_combo_12",
+                                                          "artifact_combo_13",
+                                                          "artifact_combo_14",
+                                                          "artifact_combo_15",
+                                                          "artifact_combo_16",
+                                                          "artifact_combo_17",
+                                                          "artifact_combo_18",
+                                                          "artifact_combo_19",
+                                                          "artifact_combo_20",
+                                                          "artifact_combo_21",
+                                                          "artifact_combo_22",
+                                                          "artifact_combo_23",
+                                                          "artifact_combo_24",
+                                                          "artifact_combo_25",
+                                                          "artifact_combo_26",
+                                                          "artifact_combo_27",
+                                                          "artifact_combo_28",
+                                                          "artifact_combo_29",
+                                                          "artifact_combo_30",
+                                                          "artifact_combo_31",
+                                                          "artifact_combo_32",
+                                                          "artifact_combo_33",
+                                                          "artifact_combo_34",
+                                                          "artifact_combo_35",
+                                                          "artifact_combo_36",
+                                                          "artifact_combo_37",
+                                                          "artifact_combo_38",
+                                                          "artifact_combo_39",
+                                                          "artifact_combo_40",
+                                                          "artifact_combo_41",
+                                                          "artifact_combo_42",
+                                                          "artifact_combo_43",
+                                                          "artifact_combo_44",
+                                                          "artifact_combo_45",
+                                                          "artifact_combo_46",
+                                                          "artifact_combo_47",
+                                                          "artifact_combo_48",
+                                                          "artifact_combo_49",
+                                                          "artifact_combo_50",
+                                                          "artifact_combo_51",
+                                                          "artifact_combo_52",
+                                                          "artifact_combo_53",
+                                                          "artifact_combo_54",
+                                                          "artifact_combo_55",
+                                                          "artifact_combo_56",
+                                                          "artifact_combo_57",
+                                                          "artifact_combo_58",
+                                                          "artifact_combo_59",
+                                                          "artifact_combo_60",
+                                                          "artifact_combo_61",
+                                                          "artifact_combo_62",
+                                                          "artifact_combo_63",
+                                                          "artifact_combo_64"
+                                                      ],
+                        "last_memory_values":  {
+
+                                               },
+                        "last_error":  {
+
+                                       },
+                        "autoconnect_enabled":  true,
+                        "autoconnect_last_attempt_at":  "2026-02-26T16:30:05Z",
+                        "autoconnect_last_result":  {
+                                                        "ok":  false,
+                                                        "mode":  "degraded",
+                                                        "reason":  "memory_unavailable_no_replay",
+                                                        "dataset_version":  "1.0.0",
+                                                        "calibration_candidates_path":  "C:\\Users\\lenovo\\Documents\\cursor\\codex\\projects\\nordhold\\worklogs\\t47-signature-profile-fallback\\artifacts\\nordhold-combat-deep-probe-20260226_154010\\memory_calibration_candidates_autoload.json",
+                                                        "calibration_candidate":  "artifact_combo_1",
+                                                        "candidate_selection":  {
+                                                                                    "selected_candidate_id":  "artifact_combo_1",
+                                                                                    "resolved_candidates_path":  "C:\\Users\\lenovo\\Documents\\cursor\\codex\\projects\\nordhold\\worklogs\\t47-signature-profile-fallback\\artifacts\\nordhold-combat-deep-probe-20260226_154010\\memory_calibration_candidates_autoload.json",
+                                                                                    "recommendation_reason":  "preferred_candidate_valid"
+                                                                                }
+                                                    },
+                        "dataset_autorefresh":  true
+                    },
+    "launcher_pid":  7388,
+    "launcher_out_log":  "C:\\Users\\lenovo\\Documents\\cursor\\codex\\projects\\nordhold\\runtime\\logs\\nordhold-live-soak-20260226_193004.launcher.out.log",
+    "launcher_err_log":  "C:\\Users\\lenovo\\Documents\\cursor\\codex\\projects\\nordhold\\runtime\\logs\\nordhold-live-soak-20260226_193004.launcher.err.log"
+}

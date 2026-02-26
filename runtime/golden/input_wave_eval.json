@@ -1,0 +1,67 @@
+{
+  "dataset_version": "1.0.0",
+  "mode": "expected",
+  "seed": 42,
+  "monte_carlo_runs": 1,
+  "build_plan": {
+    "scenario_id": "normal_baseline",
+    "towers": [
+      {
+        "tower_id": "arrow_tower",
+        "count": 2,
+        "level": 1,
+        "focus_priorities": ["progress", "lowest_hp"],
+        "focus_until_death": false
+      },
+      {
+        "tower_id": "frost_tower",
+        "count": 1,
+        "level": 1,
+        "focus_priorities": ["barrier", "progress"],
+        "focus_until_death": true
+      }
+    ],
+    "active_global_modifiers": ["village_arsenal_l3"],
+    "actions": [
+      {
+        "wave": 1,
+        "at_s": 0.0,
+        "type": "assign_workers",
+        "payload": {
+          "gold_workers": 3,
+          "essence_workers": 1
+        }
+      },
+      {
+        "wave": 1,
+        "at_s": 0.1,
+        "type": "economy_policy",
+        "payload": {
+          "policy_id": "rush"
+        }
+      },
+      {
+        "wave": 2,
+        "at_s": 0.0,
+        "type": "build",
+        "target_id": "",
+        "value": 1,
+        "payload": {
+          "tower_id": "arrow_tower",
+          "count": 1,
+          "level": 0,
+          "focus_priorities": ["progress", "lowest_hp"],
+          "focus_until_death": false
+        }
+      },
+      {
+        "wave": 2,
+        "at_s": 0.2,
+        "type": "economy_policy",
+        "payload": {
+          "policy_id": "harvest"
+        }
+      }
+    ]
+  }
+}

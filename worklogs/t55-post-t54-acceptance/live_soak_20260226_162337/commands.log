@@ -1,0 +1,1 @@
+command: powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -File C:\\Users\\lenovo\\Documents\\cursor\\codex\\projects\\nordhold\\scripts\\run_nordhold_live_soak.ps1 -DurationS 1800 -PollMs 1000 

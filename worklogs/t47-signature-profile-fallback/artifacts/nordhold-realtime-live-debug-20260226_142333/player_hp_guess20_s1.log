@@ -1,0 +1,27 @@
+process=NordHold.exe pid=1028
+value_type=int32 target=20
+candidates=38
+snapshot_meta=C:\Users\lenovo\Documents\cursor\codex\projects\nordhold\worklogs\t47-signature-profile-fallback\artifacts\nordhold-realtime-live-debug-20260226_142333\player_hp_guess20_s1.meta.json
+snapshot_records=C:\Users\lenovo\Documents\cursor\codex\projects\nordhold\worklogs\t47-signature-profile-fallback\artifacts\nordhold-realtime-live-debug-20260226_142333\player_hp_guess20_s1.records.tsv
+scan_stats={"regions_scanned": 5, "bytes_scanned": 1232896, "read_errors": 0, "elapsed_s": 0.094, "max_results_hit": 0}
+top_candidates:
+  001 addr=0x56adb610 value=20
+  002 addr=0x56ade9f8 value=20
+  003 addr=0x56af0810 value=20
+  004 addr=0x56af1734 value=20
+  005 addr=0x56af5fe8 value=20
+  006 addr=0x56b03fb8 value=20
+  007 addr=0x56b06ca0 value=20
+  008 addr=0x56b07664 value=20
+  009 addr=0x56b0d788 value=20
+  010 addr=0x56b18764 value=20
+  011 addr=0x56b1c878 value=20
+  012 addr=0x56b1c8d0 value=20
+  013 addr=0x56b29498 value=20
+  014 addr=0x56b30510 value=20
+  015 addr=0x56b4e6e8 value=20
+  016 addr=0x56b50b10 value=20
+  017 addr=0x56b52e28 value=20
+  018 addr=0x56b5c18c value=20
+  019 addr=0x56b6118c value=20
+  020 addr=0x56b615b0 value=20

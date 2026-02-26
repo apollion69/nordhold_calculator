@@ -1,0 +1,9 @@
+test_combat_mode_with_runtime_actions_is_deterministic_for_same_seed (tests.test_realtime_engine.RealtimeEngineTests.test_combat_mode_with_runtime_actions_is_deterministic_for_same_seed) ... ok
+test_expected_mode_produces_wave_results (tests.test_realtime_engine.RealtimeEngineTests.test_expected_mode_produces_wave_results) ... ok
+test_monte_carlo_aggregation_is_seed_deterministic (tests.test_realtime_engine.RealtimeEngineTests.test_monte_carlo_aggregation_is_seed_deterministic) ... ok
+test_outputs_match_golden_fixtures (tests.test_golden_regression.GoldenRegressionTests.test_outputs_match_golden_fixtures) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.279s
+
+OK
