@@ -1,0 +1,278 @@
+{
+  "tower_slots": 3,
+  "global_effects": [
+    {
+      "target": "damage",
+      "value_type": "percent",
+      "value": 0.05,
+      "stack": "add",
+      "note": "Wave 40 ambient bonus"
+    }
+  ],
+  "forced_modifiers": [
+    {
+      "category": "buildings",
+      "name": "Arsenal Level 3",
+      "effects": [
+        {
+          "target": "damage",
+          "value_type": "percent",
+          "value": 0.10,
+          "stack": "add",
+          "note": "Arsenal aura"
+        },
+        {
+          "target": "attack_speed",
+          "value_type": "percent",
+          "value": 0.05,
+          "stack": "add"
+        }
+      ],
+      "applies_to": [],
+      "global_scope": true,
+      "cost": 0
+    }
+  ],
+  "towers": [
+    {
+      "name": "Frost Tower",
+      "base_damage": 180,
+      "attack_speed": 0.9,
+      "tags": ["frost", "slow"],
+      "max_count": 2,
+      "cost": 120,
+      "upgrades": [
+        {
+          "name": "Shattering Ice",
+          "cost": 90,
+          "effects": [
+            {
+              "target": "damage",
+              "value_type": "percent",
+              "value": 0.25,
+              "stack": "add",
+              "note": "Tier 1 upgrade"
+            },
+            {
+              "target": "attack_speed",
+              "value_type": "percent",
+              "value": 0.10,
+              "stack": "add"
+            }
+          ],
+          "add_tags": ["burst"],
+          "remove_tags": []
+        },
+        {
+          "name": "Glacier Core",
+          "cost": 130,
+          "effects": [
+            {
+              "target": "damage",
+              "value_type": "multiplier",
+              "value": 1.15,
+              "stack": "mult",
+              "note": "Tier 2 crystal"
+            }
+          ],
+          "add_tags": [],
+          "remove_tags": []
+        }
+      ]
+    },
+    {
+      "name": "Arcane Cannon",
+      "base_damage": 420,
+      "attack_speed": 0.65,
+      "tags": ["arcane", "burst"],
+      "max_count": 2,
+      "cost": 200,
+      "upgrades": [
+        {
+          "name": "Arcane Overload",
+          "cost": 140,
+          "effects": [
+            {
+              "target": "damage",
+              "value_type": "percent",
+              "value": 0.30,
+              "stack": "add"
+            }
+          ]
+        },
+        {
+          "name": "Mana Surge",
+          "cost": 160,
+          "effects": [
+            {
+              "target": "damage",
+              "value_type": "multiplier",
+              "value": 1.20,
+              "stack": "mult",
+              "note": "Arcane mastery"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Sun Lance",
+      "base_damage": 150,
+      "attack_speed": 1.6,
+      "tags": ["holy", "rapid"],
+      "max_count": 3,
+      "cost": 150,
+      "upgrades": [
+        {
+          "name": "Solar Infusion",
+          "cost": 110,
+          "effects": [
+            {
+              "target": "attack_speed",
+              "value_type": "percent",
+              "value": 0.20,
+              "stack": "add"
+            }
+          ]
+        },
+        {
+          "name": "Helios Focus",
+          "cost": 180,
+          "effects": [
+            {
+              "target": "damage",
+              "value_type": "percent",
+              "value": 0.18,
+              "stack": "mult",
+              "note": "Multiplicative radiance"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "modifiers": {
+    "banners": [
+      {
+        "name": "Banner of Power",
+        "effects": [
+          {
+            "target": "damage",
+            "value_type": "percent",
+            "value": 0.18,
+            "stack": "add"
+          }
+        ],
+        "max_stacks": 2,
+        "cost": 75
+      },
+      {
+        "name": "Banner of Precision",
+        "effects": [
+          {
+            "target": "damage",
+            "value_type": "flat",
+            "value": 60,
+            "stack": "add"
+          }
+        ],
+        "applies_to": ["burst"],
+        "cost": 70
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "Orb of Haste",
+        "effects": [
+          {
+            "target": "attack_speed",
+            "value_type": "percent",
+            "value": 0.15,
+            "stack": "add"
+          }
+        ],
+        "cost": 120
+      },
+      {
+        "name": "Crystal Focus",
+        "effects": [
+          {
+            "target": "damage",
+            "value_type": "percent",
+            "value": 0.25,
+            "stack": "mult",
+            "note": "Multiplicative arcane"
+          }
+        ],
+        "applies_to": ["arcane"],
+        "cost": 180
+      },
+      {
+        "name": "Frozen Core",
+        "effects": [
+          {
+            "target": "damage",
+            "value_type": "percent",
+            "value": 0.12,
+            "stack": "add"
+          }
+        ],
+        "applies_to": ["frost"],
+        "cost": 150
+      }
+    ],
+    "hero": [
+      {
+        "name": "Hero Ability: Stormcall",
+        "effects": [
+          {
+            "target": "attack_speed",
+            "value_type": "percent",
+            "value": 0.25,
+            "stack": "add"
+          },
+          {
+            "target": "damage",
+            "value_type": "percent",
+            "value": 0.10,
+            "stack": "add"
+          }
+        ],
+        "cost": 0,
+        "exclusive": true
+      },
+      {
+        "name": "Hero Ability: Precision Aura",
+        "effects": [
+          {
+            "target": "damage",
+            "value_type": "percent",
+            "value": 0.22,
+            "stack": "mult"
+          }
+        ],
+        "exclusive": true
+      }
+    ],
+    "oracle": [
+      {
+        "name": "Oracle: Critical Insight",
+        "effects": [
+          {
+            "target": "damage",
+            "value_type": "percent",
+            "value": 0.20,
+            "stack": "mult"
+          }
+        ],
+        "exclusive": true
+      }
+    ]
+  },
+  "selection_limits": {
+    "banners": 2,
+    "artifacts": 2,
+    "hero": 1,
+    "oracle": 1
+  }
+}

@@ -1,0 +1,236 @@
+{
+  "archive_path": "codex/projects/nordhold/runtime/exports/nordhold_handoff_20260226_224906.zip",
+  "archive_size_bytes": 2503283,
+  "sha256": "b83cb27b1b9bdc5349f45bca86a56827a32d0630360276cc9a306aab5682c7b8",
+  "created_at_utc": "2026-02-26T19:49:11Z",
+  "scope": "Nordhold handoff",
+  "profile": "lean transfer",
+  "included_roots": [
+    "codex/projects/nordhold/src",
+    "codex/projects/nordhold/tests",
+    "codex/projects/nordhold/scripts",
+    "codex/projects/nordhold/data",
+    "codex/projects/nordhold/worklogs",
+    "codex/projects/nordhold/runtime/logs",
+    "projects/nordhold-autosync-econ-phase2-20260226",
+    "codex/projects/nordhold/README.md",
+    "codex/projects/nordhold/RUNBOOK.md",
+    "codex/projects/nordhold/PROJECT.md",
+    "TASKS.md",
+    "STATUS.md",
+    "DECISIONS.md"
+  ],
+  "excluded_patterns": [
+    "^codex/projects/nordhold\\.zip$",
+    "^codex/projects/nordhold/web/node_modules/",
+    "^codex/projects/nordhold/runtime/dist[^/]*/",
+    "^codex/projects/nordhold/runtime/dist/",
+    ".*\\.records\\.tsv$",
+    ".*\\.tmp$",
+    ".*\\.part-[^/]*$",
+    "^codex/projects/nordhold/worklogs/.*/artifacts/.*\\.(zip|7z|tar|tgz|gz|bin)$"
+  ],
+  "top_entries_by_size": [
+    {
+      "path": "codex/projects/nordhold/worklogs/t47-signature-profile-fallback/artifacts/nordhold-realtime-live-debug-20260226_142333/combat_deep_probe_report.json",
+      "size_bytes": 8947932
+    },
+    {
+      "path": "codex/projects/nordhold/runtime/logs/nordhold-live-soak-20260226_193004.launcher.out.log",
+      "size_bytes": 543995
+    },
+    {
+      "path": "codex/projects/nordhold/worklogs/t56-memory-soak/20260226_203000/00_precheck_command_output.log",
+      "size_bytes": 284800
+    },
+    {
+      "path": "codex/projects/nordhold/worklogs/t56-memory-soak/20260226_203000/02_precheck_result.json",
+      "size_bytes": 258172
+    },
+    {
+      "path": "codex/projects/nordhold/runtime/logs/nordhold-t54-soak-20260226_185004.out.log",
+      "size_bytes": 119383
+    },
+    {
+      "path": "STATUS.md",
+      "size_bytes": 95957
+    },
+    {
+      "path": "codex/projects/nordhold/worklogs/t47-signature-profile-fallback/artifacts/nordhold-realtime-live-debug-20260226_142333/memory_calibration_candidates_combat_hp_autoload_noadmin.json",
+      "size_bytes": 80386
+    },
+    {
+      "path": "codex/projects/nordhold/worklogs/t47-signature-profile-fallback/artifacts/nordhold-realtime-live-debug-20260226_142333/memory_calibration_candidates_autoload.json",
+      "size_bytes": 80386
+    },
+    {
+      "path": "codex/projects/nordhold/worklogs/t47-signature-profile-fallback/artifacts/nordhold-realtime-live-debug-20260226_142333/memory_calibration_candidates_combat_hp_autoload.json",
+      "size_bytes": 80322
+    },
+    {
+      "path": "codex/projects/nordhold/runtime/logs/nordhold-live-soak-20260226_192347.launcher.out.log",
+      "size_bytes": 79821
+    },
+    {
+      "path": "codex/projects/nordhold/worklogs/t47-signature-profile-fallback/artifacts/nordhold-t51-deep-probe-compact-20260226_152011/memory_calibration_candidates_promoted.json",
+      "size_bytes": 77389
+    },
+    {
+      "path": "codex/projects/nordhold/worklogs/t47-signature-profile-fallback/artifacts/nordhold-combat-deep-probe-20260226_154010/memory_calibration_candidates_autoload.json",
+      "size_bytes": 77389
+    },
+    {
+      "path": "codex/projects/nordhold/worklogs/t47-signature-profile-fallback/artifacts/nordhold-combat-deep-probe-20260226_152414/memory_calibration_candidates_autoload.json",
+      "size_bytes": 77389
+    },
+    {
+      "path": "TASKS.md",
+      "size_bytes": 60181
+    },
+    {
+      "path": "codex/projects/nordhold/tests/__pycache__/test_replay_live.cpython-311.pyc",
+      "size_bytes": 53634
+    },
+    {
+      "path": "codex/projects/nordhold/worklogs/t47-signature-profile-fallback/artifacts/nordhold-realtime-live-debug-20260226_142333/player_hp_candidate_timeseries.json",
+      "size_bytes": 53319
+    },
+    {
+      "path": "codex/projects/nordhold/worklogs/t56-memory-soak/20260226_212616/00_precheck_command_output.log",
+      "size_bytes": 51118
+    },
+    {
+      "path": "codex/projects/nordhold/worklogs/t56-memory-soak/20260226_205207/00_precheck_command_output.log",
+      "size_bytes": 51118
+    },
+    {
+      "path": "codex/projects/nordhold/worklogs/t56-memory-soak/20260226_212616/02_precheck_result.json",
+      "size_bytes": 51109
+    },
+    {
+      "path": "codex/projects/nordhold/worklogs/t56-memory-soak/20260226_205207/02_precheck_result.json",
+      "size_bytes": 51109
+    },
+    {
+      "path": "codex/projects/nordhold/src/nordhold/__pycache__/gui.cpython-311.pyc",
+      "size_bytes": 48598
+    },
+    {
+      "path": "codex/projects/nordhold/tests/__pycache__/test_replay_live.cpython-312.pyc",
+      "size_bytes": 46031
+    },
+    {
+      "path": "codex/projects/nordhold/runtime/logs/backend_20260226_003947.out.log",
+      "size_bytes": 45273
+    },
+    {
+      "path": "codex/projects/nordhold/src/nordhold/__pycache__/gui.cpython-312.pyc",
+      "size_bytes": 44413
+    },
+    {
+      "path": "codex/projects/nordhold/src/nordhold/realtime/__pycache__/engine.cpython-311.pyc",
+      "size_bytes": 44354
+    },
+    {
+      "path": "codex/projects/nordhold/src/nordhold/realtime/__pycache__/engine.cpython-312.pyc",
+      "size_bytes": 42928
+    },
+    {
+      "path": "codex/projects/nordhold/src/nordhold/realtime/__pycache__/models.cpython-311.pyc",
+      "size_bytes": 42789
+    },
+    {
+      "path": "codex/projects/nordhold/tests/test_replay_live.py",
+      "size_bytes": 38659
+    },
+    {
+      "path": "codex/projects/nordhold/tests/__pycache__/test_live_memory_v1.cpython-311.pyc",
+      "size_bytes": 37020
+    },
+    {
+      "path": "codex/projects/nordhold/scripts/__pycache__/nordhold_memory_scan.cpython-311.pyc",
+      "size_bytes": 36897
+    },
+    {
+      "path": "codex/projects/nordhold/src/nordhold/__pycache__/api.cpython-311.pyc",
+      "size_bytes": 36780
+    },
+    {
+      "path": "codex/projects/nordhold/runtime/logs/backend_20260225_235948.out.log",
+      "size_bytes": 35326
+    },
+    {
+      "path": "codex/projects/nordhold/src/nordhold/realtime/__pycache__/live_bridge.cpython-311.pyc",
+      "size_bytes": 34963
+    },
+    {
+      "path": "codex/projects/nordhold/src/nordhold/realtime/__pycache__/calibration_candidates.cpython-311.pyc",
+      "size_bytes": 34754
+    },
+    {
+      "path": "codex/projects/nordhold/src/nordhold/realtime/__pycache__/memory_reader.cpython-311.pyc",
+      "size_bytes": 34595
+    },
+    {
+      "path": "codex/projects/nordhold/tests/test_live_memory_v1.py",
+      "size_bytes": 34334
+    },
+    {
+      "path": "codex/projects/nordhold/src/nordhold/realtime/__pycache__/models.cpython-312.pyc",
+      "size_bytes": 34193
+    },
+    {
+      "path": "codex/projects/nordhold/scripts/__pycache__/nordhold_memory_scan.cpython-312.pyc",
+      "size_bytes": 33480
+    },
+    {
+      "path": "codex/projects/nordhold/src/nordhold/realtime/engine.py",
+      "size_bytes": 32622
+    },
+    {
+      "path": "codex/projects/nordhold/src/nordhold/gui.py",
+      "size_bytes": 32579
+    },
+    {
+      "path": "codex/projects/nordhold/src/nordhold/realtime/__pycache__/live_bridge.cpython-312.pyc",
+      "size_bytes": 31808
+    },
+    {
+      "path": "codex/projects/nordhold/src/nordhold/__pycache__/api.cpython-312.pyc",
+      "size_bytes": 31745
+    },
+    {
+      "path": "codex/projects/nordhold/tests/__pycache__/test_live_memory_v1.cpython-312.pyc",
+      "size_bytes": 31566
+    },
+    {
+      "path": "codex/projects/nordhold/src/nordhold/realtime/live_bridge.py",
+      "size_bytes": 30942
+    },
+    {
+      "path": "codex/projects/nordhold/src/nordhold/realtime/__pycache__/memory_reader.cpython-312.pyc",
+      "size_bytes": 30730
+    },
+    {
+      "path": "codex/projects/nordhold/src/nordhold/realtime/__pycache__/calibration_candidates.cpython-312.pyc",
+      "size_bytes": 29643
+    },
+    {
+      "path": "codex/projects/nordhold/worklogs/t56-memory-soak/20260226_203000/03_diagnostic_attempt.json",
+      "size_bytes": 26563
+    },
+    {
+      "path": "codex/projects/nordhold/src/nordhold/__pycache__/calculator.cpython-311.pyc",
+      "size_bytes": 26450
+    },
+    {
+      "path": "codex/projects/nordhold/scripts/nordhold_memory_scan.py",
+      "size_bytes": 26350
+    },
+    {
+      "path": "codex/projects/nordhold/src/nordhold/realtime/calibration_candidates.py",
+      "size_bytes": 26244
+    }
+  ],
+  "fallback_applied": false
+}
