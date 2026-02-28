@@ -1,0 +1,1 @@
+powershell.exe -ExecutionPolicy Bypass -File scripts/run_nordhold_live_soak.ps1 -DurationS 1800 -PollMs 1000 -Port 8018

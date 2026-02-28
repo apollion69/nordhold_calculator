@@ -1,0 +1,13 @@
+{
+  "active_version": "1.0.0",
+  "versions": [
+    {
+      "id": "1.0.0",
+      "game_version": "1.0.0",
+      "build_id": "20985960",
+      "status": "active",
+      "catalog_path": "data/versions/1.0.0/catalog.json",
+      "memory_signatures_path": "data/versions/1.0.0/memory_signatures.json"
+    }
+  ]
+}

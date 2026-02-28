@@ -1,0 +1,9 @@
+Installing packaging dependencies...
+Building EXE with PyInstaller...
+PyInstaller build failed.
+At C:\Users\lenovo\Documents\cursor\codex\projects\nordhold\scripts\build_nordhold_realtime_exe.ps1:78 char:3
++   throw "PyInstaller build failed."
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : OperationStopped: (PyInstaller build failed.:String) [], RuntimeException
+    + FullyQualifiedErrorId : PyInstaller build failed.
+ 

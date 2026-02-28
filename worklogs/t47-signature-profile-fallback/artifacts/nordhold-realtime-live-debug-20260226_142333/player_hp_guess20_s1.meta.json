@@ -1,0 +1,26 @@
+{
+  "schema": "nordhold_memory_scan_snapshot_v1",
+  "created_at_utc": "2026-02-26T11:41:43.132472+00:00",
+  "process_name": "NordHold.exe",
+  "pid": 1028,
+  "value_type": "int32",
+  "mode": "scan",
+  "criteria": {
+    "target_value": 20,
+    "epsilon": 0.001,
+    "step": 4,
+    "min_address": 1442840576,
+    "max_address": 1476395008,
+    "max_results": 120000
+  },
+  "source_snapshot_meta": "",
+  "records_path": "C:\\Users\\lenovo\\Documents\\cursor\\codex\\projects\\nordhold\\worklogs\\t47-signature-profile-fallback\\artifacts\\nordhold-realtime-live-debug-20260226_142333\\player_hp_guess20_s1.records.tsv",
+  "records_count": 38,
+  "stats": {
+    "regions_scanned": 5,
+    "bytes_scanned": 1232896,
+    "read_errors": 0,
+    "elapsed_s": 0.094,
+    "max_results_hit": 0
+  }
+}

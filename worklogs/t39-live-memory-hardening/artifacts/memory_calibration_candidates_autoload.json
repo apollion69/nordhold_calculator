@@ -1,0 +1,93 @@
+{
+  "active_candidate_id": "artifact_combo_1",
+  "candidates": [
+    {
+      "id": "probe_unresolved_wave_only",
+      "profile_id": "default_20985960",
+      "required_admin": false,
+      "fields": {
+        "current_wave": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ad0004",
+          "relative_to_module": false
+        }
+      }
+    },
+    {
+      "id": "artifact_combo_1",
+      "profile_id": "default_20985960",
+      "required_admin": false,
+      "fields": {
+        "current_wave": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ad0004",
+          "relative_to_module": false
+        },
+        "gold": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ad02d4",
+          "relative_to_module": false
+        },
+        "essence": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ae7284",
+          "relative_to_module": false
+        }
+      }
+    },
+    {
+      "id": "artifact_combo_2",
+      "profile_id": "default_20985960",
+      "required_admin": false,
+      "fields": {
+        "current_wave": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56ad1754",
+          "relative_to_module": false
+        },
+        "gold": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x45156fe5b0",
+          "relative_to_module": false
+        },
+        "essence": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x45140b9b70",
+          "relative_to_module": false
+        }
+      }
+    },
+    {
+      "id": "artifact_combo_3",
+      "profile_id": "default_20985960",
+      "required_admin": false,
+      "fields": {
+        "current_wave": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56b0c7ac",
+          "relative_to_module": false
+        },
+        "gold": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x1a0993c8f40",
+          "relative_to_module": false
+        },
+        "essence": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x56b3c708",
+          "relative_to_module": false
+        }
+      }
+    }
+  ]
+}

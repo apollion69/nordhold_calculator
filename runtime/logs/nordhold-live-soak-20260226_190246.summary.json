@@ -1,0 +1,22 @@
+﻿{
+    "run_id":  "nordhold-live-soak-20260226_190246",
+    "timestamp_utc":  "2026-02-26T16:02:49Z",
+    "duration_s":  5,
+    "poll_ms":  500,
+    "port":  8013,
+    "process_name":  "NordHold.exe",
+    "require_admin":  true,
+    "dataset_version":  "1.0.0",
+    "iterations":  5,
+    "endpoint_cycle_failures":  0,
+    "status_not_memory_count":  5,
+    "memory_connected_false_count":  5,
+    "max_cycle_latency_ms":  59.01,
+    "last_mode":  "synthetic",
+    "last_reason":  "not_connected",
+    "last_memory_connected":  false,
+    "autoconnect":  null,
+    "launcher_pid":  20208,
+    "launcher_out_log":  "C:\\Users\\lenovo\\Documents\\cursor\\codex\\projects\\nordhold\\runtime\\logs\\nordhold-live-soak-20260226_190246.launcher.out.log",
+    "launcher_err_log":  "C:\\Users\\lenovo\\Documents\\cursor\\codex\\projects\\nordhold\\runtime\\logs\\nordhold-live-soak-20260226_190246.launcher.err.log"
+}

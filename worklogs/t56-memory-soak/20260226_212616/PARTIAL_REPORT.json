@@ -1,0 +1,36 @@
+{
+  "run_dir": "/mnt/c/Users/lenovo/Documents/cursor/codex/projects/nordhold/worklogs/t56-memory-soak/20260226_212616",
+  "target_duration_s": 1800,
+  "start_utc": "2026-02-26T18:26:52Z",
+  "captured_at_utc": "2026-02-26T18:53:59Z",
+  "elapsed_s_at_capture": 1627,
+  "duration_reached": false,
+  "summary_exists": false,
+  "summary_expected_path": "/mnt/c/Users/lenovo/Documents/cursor/codex/projects/nordhold/runtime/logs/nordhold-live-soak-20260226_212653.summary.json",
+  "command": "powershell.exe -ExecutionPolicy Bypass -File scripts/run_nordhold_live_soak.ps1 -DurationS 1800 -PollMs 1000 -Port 8018",
+  "precheck": {
+    "pass": true,
+    "mode": "memory",
+    "reason": "ok",
+    "memory_connected": true
+  },
+  "current_status": {
+    "checked_at_utc": "2026-02-26T18:53:05Z",
+    "mode": "degraded",
+    "reason": "memory_snapshot_failed:ReadProcessMemory failed: addr=0x56ad0004 size=4 read=0 winerr=299",
+    "memory_connected": false,
+    "snapshot": {
+      "wave": 3,
+      "gold": 0.0,
+      "essence": 0.0
+    }
+  },
+  "artifacts": {
+    "precheck_json": "/mnt/c/Users/lenovo/Documents/cursor/codex/projects/nordhold/worklogs/t56-memory-soak/20260226_212616/02_precheck_result.json",
+    "soak_stdout": "/mnt/c/Users/lenovo/Documents/cursor/codex/projects/nordhold/worklogs/t56-memory-soak/20260226_212616/10_soak_stdout.log",
+    "launcher_out": "/mnt/c/Users/lenovo/Documents/cursor/codex/projects/nordhold/runtime/logs/nordhold-live-soak-20260226_212653.launcher.out.log",
+    "launcher_err": "/mnt/c/Users/lenovo/Documents/cursor/codex/projects/nordhold/runtime/logs/nordhold-live-soak-20260226_212653.launcher.err.log",
+    "current_status_json": "/mnt/c/Users/lenovo/Documents/cursor/codex/projects/nordhold/worklogs/t56-memory-soak/20260226_212616/11_current_status.json"
+  },
+  "blocker": "run interrupted by user before 1800s completion; summary.json was not generated"
+}

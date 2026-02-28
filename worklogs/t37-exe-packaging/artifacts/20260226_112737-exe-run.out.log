@@ -1,0 +1,3 @@
+Nordhold project root: C:\Users\lenovo\Documents\cursor\codex\projects\nordhold\runtime\dist\NordholdRealtimeLauncher\_internal
+Web dist path: C:\Users\lenovo\Documents\cursor\codex\projects\nordhold\runtime\dist\NordholdRealtimeLauncher\_internal\web\dist
+INFO:     127.0.0.1:60593 - "GET /health HTTP/1.1" 200 OK

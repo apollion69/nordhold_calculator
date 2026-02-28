@@ -1,0 +1,18 @@
+# Python
+__pycache__/
+*.pyc
+
+# Web
+web/node_modules/
+web/dist/
+
+# Runtime local artifacts
+runtime/logs/*.log
+runtime/replays/replay-*.json
+runtime/snapshots/*.json
+
+# Local virtual env
+.venv/
+
+# Temporary
+.tmp/

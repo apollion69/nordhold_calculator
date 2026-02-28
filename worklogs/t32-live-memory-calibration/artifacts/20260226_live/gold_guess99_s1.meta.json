@@ -1,0 +1,26 @@
+{
+  "schema": "nordhold_memory_scan_snapshot_v1",
+  "created_at_utc": "2026-02-25T21:16:35.136104+00:00",
+  "process_name": "NordHold.exe",
+  "pid": 10164,
+  "value_type": "int32",
+  "mode": "scan",
+  "criteria": {
+    "target_value": 99,
+    "epsilon": 0.001,
+    "step": 4,
+    "min_address": 0,
+    "max_address": 140737488289791,
+    "max_results": 120000
+  },
+  "source_snapshot_meta": "",
+  "records_path": "worklogs\\t32-live-memory-calibration\\artifacts\\20260226_live\\gold_guess99_s1.records.tsv",
+  "records_count": 34246,
+  "stats": {
+    "regions_scanned": 1655,
+    "bytes_scanned": 5100343296,
+    "read_errors": 0,
+    "elapsed_s": 361.984,
+    "max_results_hit": 0
+  }
+}

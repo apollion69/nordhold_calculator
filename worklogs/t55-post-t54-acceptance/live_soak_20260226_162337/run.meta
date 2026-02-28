@@ -1,0 +1,5 @@
+run_dir=/mnt/c/Users/lenovo/Documents/cursor/codex/projects/nordhold/worklogs/t55-post-t54-acceptance/live_soak_20260226_162337
+started_utc=2026-02-26T16:23:37Z
+attempt1_command=powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -File C:\Users\lenovo\Documents\cursor\codex\projects\nordhold\scripts\run_nordhold_live_soak.ps1 -DurationS 1800 -PollMs 1000
+2026-02-26T16:23:47Z launching attempt1
+attempt1_pid=25494

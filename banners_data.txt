@@ -1,0 +1,45 @@
+================================================================================
+NORDHOLD BANNERS DATA
+================================================================================
+
+Extracted from game mechanics screenshots showing banner information.
+Focus on the selected banner (where cursor is in center) and details panel (right side).
+
+================================================================================
+BANNER DATA FORMAT:
+================================================================================
+
+Use this format for each banner:
+
+BANNER: [Name]
+TYPE: [Common/Rare/Epic/Legendary]
+COST: [Number]
+EFFECTS:
+  - [stat_name]: [value] ([value_type])
+  - [stat_name]: [value] ([value_type])
+APPLIES_TO: [all/towers/specific conditions]
+MAX_STACKS: [number or unlimited]
+TAGS: [tag1, tag2, tag3]
+NOTES: [Additional info]
+---
+
+VALUE TYPES:
+- additive_percent: Percentage addition (e.g., +25%)
+- multiplicative_percent: Percentage multiplication (e.g., x1.15)
+- flat: Fixed value addition (e.g., +50)
+- multiplier: Pure multiplier (e.g., x2.0)
+
+STAT TARGETS:
+- damage: Tower damage output
+- attack_speed: Attack rate / fire speed
+- range: Tower range / reach
+- cost: Building or upgrade cost
+- crit_chance: Critical hit chance
+- crit_damage: Critical hit damage multiplier
+
+================================================================================
+EXTRACTED BANNERS:
+================================================================================
+
+[Add banner data below this line]
+

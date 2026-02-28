@@ -1,0 +1,4 @@
+2026-02-26T19:27:00.9353008+03:00 Starting launcher: C:\Users\lenovo\Documents\cursor\codex\projects\nordhold\runtime\dist\NordholdRealtimeLauncher\NordholdRealtimeLauncher.exe --host 127.0.0.1 --port 18013 --no-browser
+2026-02-26T19:27:31.9588310+03:00 Starting launcher: C:\Users\lenovo\Documents\cursor\codex\projects\nordhold\runtime\dist\NordholdRealtimeLauncher\NordholdRealtimeLauncher.exe --host 127.0.0.1 --port 18013 --no-browser
+2026-02-26T19:27:32.6718114+03:00 Smoke complete. all_ok=True
+2026-02-26T19:27:32.6868132+03:00 Stopped launcher PID=21008

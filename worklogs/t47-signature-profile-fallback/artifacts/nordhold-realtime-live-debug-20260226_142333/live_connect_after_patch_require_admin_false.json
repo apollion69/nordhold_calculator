@@ -1,0 +1,91 @@
+﻿{
+    "status":  "connected",
+    "mode":  "memory",
+    "process_name":  "NordHold.exe",
+    "poll_ms":  1000,
+    "require_admin":  false,
+    "dataset_version":  "1.0.0",
+    "game_build":  "20985960",
+    "signature_profile":  "default_20985960@artifact_combo_1",
+    "calibration_candidates_path":  "C:\\Users\\lenovo\\Documents\\cursor\\codex\\projects\\nordhold\\worklogs\\t39-live-memory-hardening\\artifacts\\memory_calibration_candidates_autoload.json",
+    "calibration_candidate":  "artifact_combo_1",
+    "reason":  "ok",
+    "replay_session_id":  "",
+    "memory_connected":  true,
+    "required_field_resolution":  {
+                                      "current_wave":  {
+                                                           "present":  true,
+                                                           "resolved":  true,
+                                                           "source":  "address",
+                                                           "type":  "int32",
+                                                           "address":  "0x56ad0004",
+                                                           "offsets":  [
+
+                                                                       ],
+                                                           "relative_to_module":  false
+                                                       },
+                                      "gold":  {
+                                                   "present":  true,
+                                                   "resolved":  true,
+                                                   "source":  "address",
+                                                   "type":  "int32",
+                                                   "address":  "0x56ad02d4",
+                                                   "offsets":  [
+                                                                   "0x0"
+                                                               ],
+                                                   "relative_to_module":  false
+                                               },
+                                      "essence":  {
+                                                      "present":  true,
+                                                      "resolved":  true,
+                                                      "source":  "address",
+                                                      "type":  "int32",
+                                                      "address":  "0x56ae7284",
+                                                      "offsets":  [
+                                                                      "0x0"
+                                                                  ],
+                                                      "relative_to_module":  false
+                                                  }
+                                  },
+    "field_coverage":  {
+                           "required_total":  3,
+                           "required_resolved":  3,
+                           "optional_total":  0,
+                           "optional_resolved":  0
+                       },
+    "calibration_quality":  "full",
+    "active_required_fields":  [
+                                   "current_wave",
+                                   "gold",
+                                   "essence"
+                               ],
+    "calibration_candidate_ids":  [
+                                      "probe_unresolved_wave_only",
+                                      "artifact_combo_1",
+                                      "artifact_combo_2",
+                                      "artifact_combo_3"
+                                  ],
+    "last_memory_values":  {
+                               "current_wave":  3.0,
+                               "gold":  99.0,
+                               "essence":  9.0,
+                               "combat_block_value":  0.0,
+                               "combat_block_percent":  0.0,
+                               "combat_block_flat":  0.0,
+                               "base_hp_current":  0,
+                               "base_hp_max":  0,
+                               "leaks_total":  0,
+                               "enemies_alive":  0,
+                               "boss_hp_current":  0,
+                               "boss_hp_max":  0,
+                               "wave_elapsed_s":  0,
+                               "wave_remaining_s":  0,
+                               "barrier_hp_total":  0,
+                               "enemy_regen_total_per_s":  0,
+                               "boss_alive":  false,
+                               "is_combat_phase":  false
+                           },
+    "last_error":  {
+
+                   }
+}

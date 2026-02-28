@@ -1,0 +1,34 @@
+﻿[
+    {
+        "candidate":  "probe_unresolved_wave_only",
+        "mode":  "memory",
+        "reason":  "ok",
+        "wave":  3,
+        "gold":  99.0,
+        "essence":  9.0
+    },
+    {
+        "candidate":  "artifact_combo_1",
+        "mode":  "memory",
+        "reason":  "ok",
+        "wave":  3,
+        "gold":  99.0,
+        "essence":  9.0
+    },
+    {
+        "candidate":  "artifact_combo_2",
+        "mode":  "degraded",
+        "reason":  "memory_unavailable_no_replay",
+        "wave":  3,
+        "gold":  0.0,
+        "essence":  0.0
+    },
+    {
+        "candidate":  "artifact_combo_3",
+        "mode":  "degraded",
+        "reason":  "memory_unavailable_no_replay",
+        "wave":  3,
+        "gold":  0.0,
+        "essence":  0.0
+    }
+]

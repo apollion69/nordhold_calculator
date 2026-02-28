@@ -1,0 +1,61 @@
+{
+  "schema_version": "live_memory_v2",
+  "build_id": "20985960",
+  "process_name": "NordHold.exe",
+  "required_combat_fields": [
+    "current_wave",
+    "gold",
+    "essence"
+  ],
+  "optional_combat_fields": [
+    "lives",
+    "player_hp",
+    "max_player_hp",
+    "enemies_alive",
+    "combat_time_s"
+  ],
+  "profiles": [
+    {
+      "id": "default_20985960",
+      "description": "Live memory v2 placeholder profile for build 20985960. Replace unresolved addresses after local validation.",
+      "process_name": "NordHold.exe",
+      "module_name": "NordHold.exe",
+      "pointer_size": 8,
+      "poll_ms": 1000,
+      "required_admin": true,
+      "resolution_status": "unresolved",
+      "fields": {
+        "current_wave": {
+          "source": "address",
+          "type": "int32",
+          "address": "0x0",
+          "relative_to_module": true,
+          "unresolved": true,
+          "note": "Resolve to direct value address (RVA or absolute) for build 20985960."
+        },
+        "gold": {
+          "source": "pointer_chain",
+          "type": "int32",
+          "address": "0x0",
+          "offsets": [
+            "0x0"
+          ],
+          "relative_to_module": true,
+          "unresolved": true,
+          "note": "Resolve base address and offsets chain for build 20985960."
+        },
+        "essence": {
+          "source": "pointer_chain",
+          "type": "int32",
+          "address": "0x0",
+          "offsets": [
+            "0x0"
+          ],
+          "relative_to_module": true,
+          "unresolved": true,
+          "note": "Resolve base address and offsets chain for build 20985960."
+        }
+      }
+    }
+  ]
+}

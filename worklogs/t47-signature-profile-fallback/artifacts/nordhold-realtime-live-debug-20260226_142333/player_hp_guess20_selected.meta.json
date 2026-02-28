@@ -1,0 +1,13 @@
+{
+  "schema": "nordhold_memory_scan_snapshot_v1",
+  "created_at_utc": "2026-02-26T11:49:50Z",
+  "process_name": "NordHold.exe",
+  "pid": 1028,
+  "value_type": "int32",
+  "mode": "manual_select",
+  "criteria": {"source": "t47_auto_hp_select", "field": "player_hp", "confidence": "medium"},
+  "source_snapshot_meta": "/mnt/c/Users/lenovo/Documents/cursor/codex/projects/nordhold/worklogs/t47-signature-profile-fallback/artifacts/nordhold-realtime-live-debug-20260226_142333/player_hp_guess20_s1.meta.json",
+  "records_path": "/mnt/c/Users/lenovo/Documents/cursor/codex/projects/nordhold/worklogs/t47-signature-profile-fallback/artifacts/nordhold-realtime-live-debug-20260226_142333/player_hp_guess20_selected.records.tsv",
+  "records_count": 1,
+  "stats": {"selected": 1}
+}

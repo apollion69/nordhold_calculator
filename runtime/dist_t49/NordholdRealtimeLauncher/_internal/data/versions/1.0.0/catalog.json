@@ -1,0 +1,159 @@
+{
+  "dataset_version": "1.0.0",
+  "game_version": "1.0.0",
+  "build_id": "20985960",
+  "generated_at": "2026-02-25T00:00:00Z",
+  "scenarios": [
+    {
+      "id": "normal_baseline",
+      "name": "Normal Baseline",
+      "description": "Baseline scenario for realtime wave simulations.",
+      "rules": {
+        "accuracy_block_model": "linear_subtract",
+        "armor_penetration_model": "linear_subtract",
+        "barrier_inherits_armor": false,
+        "dot_scaling_policy": "source_only",
+        "critical_model": "expected"
+      },
+      "towers": [
+        {
+          "id": "arrow_tower",
+          "name": "Arrow Tower",
+          "base_stats": {
+            "damage": 92.0,
+            "fire_rate": 1.7,
+            "crit_chance": 0.08,
+            "crit_multiplier": 1.75,
+            "accuracy": 0.72,
+            "penetration": 0.14,
+            "barrier_damage_multiplier": 1.0
+          },
+          "tags": ["physical", "single_target"],
+          "upgrade_levels": [
+            {
+              "level": 1,
+              "cost": 65,
+              "modifiers": [
+                {"target": "damage", "op": "add", "value": 15.0},
+                {"target": "accuracy", "op": "add", "value": 0.05}
+              ],
+              "provenance": "online"
+            },
+            {
+              "level": 2,
+              "cost": 110,
+              "modifiers": [
+                {"target": "damage", "op": "mul", "value": 1.16},
+                {"target": "penetration", "op": "add", "value": 0.06}
+              ],
+              "provenance": "local_extract"
+            }
+          ],
+          "provenance": "online"
+        },
+        {
+          "id": "frost_tower",
+          "name": "Frost Tower",
+          "base_stats": {
+            "damage": 136.0,
+            "fire_rate": 1.05,
+            "crit_chance": 0.06,
+            "crit_multiplier": 1.6,
+            "accuracy": 0.66,
+            "penetration": 0.11,
+            "barrier_damage_multiplier": 1.1
+          },
+          "tags": ["frost", "dot"],
+          "dot_effects": [
+            {
+              "id": "frost_burn",
+              "damage_per_tick": 12.0,
+              "tick_interval_s": 0.5,
+              "duration_s": 3.0,
+              "max_stacks": 2,
+              "stacking": "refresh_duration",
+              "provenance": "manual"
+            }
+          ],
+          "upgrade_levels": [
+            {
+              "level": 1,
+              "cost": 80,
+              "modifiers": [
+                {"target": "damage", "op": "add", "value": 28.0},
+                {"target": "fire_rate", "op": "mul", "value": 1.08}
+              ],
+              "provenance": "online"
+            },
+            {
+              "level": 2,
+              "cost": 145,
+              "modifiers": [
+                {"target": "damage", "op": "mul", "value": 1.14},
+                {"target": "barrier_damage_multiplier", "op": "mul", "value": 1.12}
+              ],
+              "provenance": "manual"
+            }
+          ],
+          "provenance": "online"
+        }
+      ],
+      "global_modifiers": [
+        {
+          "id": "village_arsenal_l3",
+          "name": "Village Arsenal L3",
+          "modifiers": [
+            {"target": "damage", "op": "mul", "value": 1.1},
+            {"target": "fire_rate", "op": "mul", "value": 1.05}
+          ],
+          "provenance": "manual"
+        }
+      ],
+      "enemies": [
+        {
+          "id": "raider",
+          "name": "Raider",
+          "hp": 820.0,
+          "armor": 0.12,
+          "block": 0.08,
+          "barrier": 0.0,
+          "regen_per_s": 0.0,
+          "speed": 1.15,
+          "tags": ["melee"],
+          "provenance": "online"
+        },
+        {
+          "id": "barrier_guard",
+          "name": "Barrier Guard",
+          "hp": 1420.0,
+          "armor": 0.18,
+          "block": 0.14,
+          "barrier": 540.0,
+          "regen_per_s": 4.0,
+          "speed": 0.82,
+          "tags": ["barrier_carrier"],
+          "provenance": "manual"
+        }
+      ],
+      "waves": [
+        {
+          "index": 1,
+          "duration_s": 22.0,
+          "spawns": [
+            {"at_s": 0.0, "enemy_id": "raider", "count": 12, "interval_s": 0.45}
+          ],
+          "provenance": "manual"
+        },
+        {
+          "index": 2,
+          "duration_s": 30.0,
+          "spawns": [
+            {"at_s": 0.0, "enemy_id": "raider", "count": 8, "interval_s": 0.5},
+            {"at_s": 8.0, "enemy_id": "barrier_guard", "count": 4, "interval_s": 1.0}
+          ],
+          "provenance": "manual"
+        }
+      ]
+    }
+  ]
+}

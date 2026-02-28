@@ -1,0 +1,1 @@
+powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -Command "& 'C:\Users\lenovo\Documents\cursor\codex\projects\nordhold\scripts\run_nordhold_live_soak.ps1' -DurationS 1800 -PollMs 1000 -Port 8018 -ProcessName 'NordHold.exe' -RequireAdmin $true -DatasetVersion '1.0.0'"

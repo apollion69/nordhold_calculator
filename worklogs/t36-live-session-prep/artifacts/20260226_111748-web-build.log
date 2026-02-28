@@ -1,0 +1,14 @@
+
+> nordhold-realtime-ui@0.1.0 build
+> vite build
+
+vite v5.4.21 building for production...
+transforming...
+✓ 31 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                      0.42 kB │ gzip:  0.28 kB
+dist/assets/simWorker-Ct_EzgBU.js    0.48 kB
+dist/assets/index-D6z2Wjmx.css       6.66 kB │ gzip:  2.04 kB
+dist/assets/index-CBS1Cohi.js      160.26 kB │ gzip: 50.61 kB
+✓ built in 1.28s

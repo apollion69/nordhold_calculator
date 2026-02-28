@@ -1,0 +1,38 @@
+{
+  "mode": "monte_carlo",
+  "scenario_id": "normal_baseline",
+  "dataset_version": "1.0.0",
+  "seed": 111,
+  "monte_carlo_runs": 32,
+  "wave_results": [
+    {
+      "wave": 1,
+      "potential_damage": 3647.248,
+      "combat_damage": 3522.9375,
+      "effective_dps": 160.1335227273,
+      "clear_time_s": 22.0,
+      "leaks": 8.0,
+      "enemy_hp_pool": 9840.0,
+      "breakdown": {
+        "Arrow Tower": 3522.9375
+      }
+    },
+    {
+      "wave": 2,
+      "potential_damage": 4907.2064,
+      "combat_damage": 4889.4325,
+      "effective_dps": 162.9810833333,
+      "clear_time_s": 30.0,
+      "leaks": 12.0,
+      "enemy_hp_pool": 14400.0,
+      "breakdown": {
+        "Arrow Tower": 4889.4325
+      }
+    }
+  ],
+  "totals": {
+    "potential_damage": 8554.4544,
+    "combat_damage": 8412.37,
+    "leaks": 20.0
+  }
+}

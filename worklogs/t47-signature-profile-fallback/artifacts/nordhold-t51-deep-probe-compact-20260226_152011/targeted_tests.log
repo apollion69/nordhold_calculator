@@ -1,0 +1,16 @@
+test_build_promotion_inputs_fails_for_missing_required_snapshot_meta_path (tests.test_promote_deep_probe_candidates.PromoteDeepProbeCandidatesTests.test_build_promotion_inputs_fails_for_missing_required_snapshot_meta_path) ... ok
+test_build_promotion_inputs_merges_optional_meta_and_preserves_profile_and_active (tests.test_promote_deep_probe_candidates.PromoteDeepProbeCandidatesTests.test_build_promotion_inputs_merges_optional_meta_and_preserves_profile_and_active) ... ok
+test_build_calibration_candidates_accepts_extra_combat_meta_paths (tests.test_memory_scan_cli.MemoryScanCliTests.test_build_calibration_candidates_accepts_extra_combat_meta_paths) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.858s
+
+OK
+output=/mnt/c/Users/lenovo/AppData/Local/Temp/tmpdpf0wb01/generated_candidates.json
+schema=nordhold_memory_calibration_candidates_v2
+candidates=2
+active_candidate_id=artifact_combo_1
+recommended_candidate_id=artifact_combo_1
+combination_space=2
+combination_truncated=False
+extra_combat_fields=lives

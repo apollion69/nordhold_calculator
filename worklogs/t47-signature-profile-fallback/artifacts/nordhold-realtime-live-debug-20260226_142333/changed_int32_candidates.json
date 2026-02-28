@@ -1,0 +1,9 @@
+{
+  "schema": "nordhold_changed_int32_v1",
+  "pid": 1028,
+  "min_address": "0x56000000",
+  "max_address": "0x58000000",
+  "regions": 5,
+  "total_matches": 0,
+  "candidates": []
+}

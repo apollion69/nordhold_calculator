@@ -1,0 +1,22 @@
+test_apply_calibration_candidate_switches_explicit_candidate (tests.test_live_memory_v1.LiveMemoryV1ParserReaderTests.test_apply_calibration_candidate_switches_explicit_candidate) ... ok
+test_apply_calibration_candidate_uses_active_candidate (tests.test_live_memory_v1.LiveMemoryV1ParserReaderTests.test_apply_calibration_candidate_uses_active_candidate) ... ok
+test_build_calibration_candidates_from_snapshot_meta_files (tests.test_live_memory_v1.LiveMemoryV1ParserReaderTests.test_build_calibration_candidates_from_snapshot_meta_files) ... ok
+test_load_calibration_payload_autodiscovers_latest_candidate_file (tests.test_live_memory_v1.LiveMemoryV1ParserReaderTests.test_load_calibration_payload_autodiscovers_latest_candidate_file) ... ok
+test_load_memory_profile_parses_live_memory_v1_fields (tests.test_live_memory_v1.LiveMemoryV1ParserReaderTests.test_load_memory_profile_parses_live_memory_v1_fields) ... ok
+test_memory_profile_ensure_resolved_requires_required_fields (tests.test_live_memory_v1.LiveMemoryV1ParserReaderTests.test_memory_profile_ensure_resolved_requires_required_fields) ... ok
+test_memory_reader_decodes_typed_reads_from_addresses (tests.test_live_memory_v1.LiveMemoryV1ParserReaderTests.test_memory_reader_decodes_typed_reads_from_addresses) ... ok
+test_memory_reader_resolves_pointer_chain_relative_to_module (tests.test_live_memory_v1.LiveMemoryV1ParserReaderTests.test_memory_reader_resolves_pointer_chain_relative_to_module) ... ok
+test_resolve_calibration_payload_path_falls_back_from_internal_to_parent (tests.test_live_memory_v1.LiveMemoryV1ParserReaderTests.test_resolve_calibration_payload_path_falls_back_from_internal_to_parent) ... ok
+test_live_bridge_autodiscovers_calibration_candidates_without_path (tests.test_replay_live.ReplayLiveTests.test_live_bridge_autodiscovers_calibration_candidates_without_path) ... ok
+test_live_bridge_calibration_candidates_support_fast_switch (tests.test_replay_live.ReplayLiveTests.test_live_bridge_calibration_candidates_support_fast_switch) ... ok
+test_live_bridge_memory_snapshot_failure_falls_back_to_synthetic (tests.test_replay_live.ReplayLiveTests.test_live_bridge_memory_snapshot_failure_falls_back_to_synthetic) ... ok
+test_live_bridge_uses_replay_fallback (tests.test_replay_live.ReplayLiveTests.test_live_bridge_uses_replay_fallback) ... ok
+test_live_calibration_candidates_route_autodiscovers_when_path_is_omitted (tests.test_replay_live.ReplayLiveTests.test_live_calibration_candidates_route_autodiscovers_when_path_is_omitted) ... ok
+test_live_calibration_candidates_route_returns_ids_and_addresses (tests.test_replay_live.ReplayLiveTests.test_live_calibration_candidates_route_returns_ids_and_addresses) ... ok
+test_replay_json_import_and_latest (tests.test_replay_live.ReplayLiveTests.test_replay_json_import_and_latest) ... ok
+test_v1_routes_exist (tests.test_api_contract.ApiContractTests.test_v1_routes_exist) ... ok
+
+----------------------------------------------------------------------
+Ran 17 tests in 0.359s
+
+OK

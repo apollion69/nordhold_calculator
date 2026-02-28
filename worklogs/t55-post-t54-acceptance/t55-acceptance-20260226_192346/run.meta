@@ -1,0 +1,11 @@
+run_id=t55-acceptance-20260226_192346
+created_at=2026-02-26T19:23:46+03:00
+repo_root=/mnt/c/Users/lenovo/Documents/cursor/codex
+project_root=/mnt/c/Users/lenovo/Documents/cursor/codex/projects/nordhold
+port=18013
+exe_path=/mnt/c/Users/lenovo/Documents/cursor/codex/projects/nordhold/runtime/dist/NordholdRealtimeLauncher/NordholdRealtimeLauncher.exe
+launcher_log=/mnt/c/Users/lenovo/Documents/cursor/codex/projects/nordhold/runtime/logs/t55-acceptance-20260226_192346.launcher.log
+port=18013
+exe_path=/mnt/c/Users/lenovo/Documents/cursor/codex/projects/nordhold/runtime/dist/NordholdRealtimeLauncher/NordholdRealtimeLauncher.exe
+launcher_out_log=/mnt/c/Users/lenovo/Documents/cursor/codex/projects/nordhold/runtime/logs/t55-acceptance-20260226_192346.launcher.out.log
+launcher_err_log=/mnt/c/Users/lenovo/Documents/cursor/codex/projects/nordhold/runtime/logs/t55-acceptance-20260226_192346.launcher.err.log
