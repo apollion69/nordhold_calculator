@@ -27,7 +27,7 @@ from nordhold.realtime.calibration_candidates import (
     build_calibration_candidates_from_snapshots,
 )
 
-ValueType = Literal["int32", "float32"]
+ValueType = Literal["int32", "float32", "uint64"]
 NarrowMode = Literal["equal", "unchanged", "changed", "increased", "decreased", "delta"]
 
 MEM_COMMIT = 0x1000
@@ -98,7 +98,7 @@ def _parse_combat_meta_argument(text: str) -> tuple[str, Path]:
 
 
 def _parse_value(text: str, value_type: ValueType) -> int | float:
-    if value_type == "int32":
+    if value_type in {"int32", "uint64"}:
         return _parse_int(text)
     return float(text)
 
@@ -106,11 +106,13 @@ def _parse_value(text: str, value_type: ValueType) -> int | float:
 def _decode_value(raw: bytes, value_type: ValueType) -> int | float:
     if value_type == "int32":
         return struct.unpack("<i", raw)[0]
+    if value_type == "uint64":
+        return struct.unpack("<Q", raw)[0]
     return struct.unpack("<f", raw)[0]
 
 
 def _value_to_text(value: int | float, value_type: ValueType) -> str:
-    if value_type == "int32":
+    if value_type in {"int32", "uint64"}:
         return str(int(value))
     return f"{float(value):.9g}"
 
@@ -131,6 +133,12 @@ def _eq(a: int | float, b: int | float, value_type: ValueType, epsilon: float) -
     if value_type == "float32":
         return _float_eq(float(a), float(b), epsilon)
     return int(a) == int(b)
+
+
+def _value_width(value_type: ValueType) -> int:
+    if value_type == "uint64":
+        return 8
+    return 4
 
 
 def _resolve_snapshot_paths(base: Path) -> tuple[Path, Path]:
@@ -283,7 +291,7 @@ class ProcessScanner:
             address = max(next_address, address + 0x1000)
 
     def read_value(self, address: int, value_type: ValueType) -> int | float:
-        raw = self.backend.read_memory(self.handle, int(address), 4)
+        raw = self.backend.read_memory(self.handle, int(address), _value_width(value_type))
         return _decode_value(raw, value_type)
 
     def scan_for_value(
@@ -338,14 +346,15 @@ class ProcessScanner:
                     payload = chunk
                     payload_address = cursor
 
-                limit = len(payload) - 4
+                value_width = _value_width(value_type)
+                limit = len(payload) - value_width
                 if limit >= 0:
                     start_offset = (-payload_address) % step
                     offset = start_offset
                     while offset <= limit:
-                        current = _decode_value(payload[offset : offset + 4], value_type)
+                        current = _decode_value(payload[offset : offset + value_width], value_type)
                         is_match = False
-                        if value_type == "int32":
+                        if value_type in {"int32", "uint64"}:
                             is_match = int(current) == int(target)
                         else:
                             is_match = _float_eq(float(current), float(target), epsilon)
@@ -362,9 +371,10 @@ class ProcessScanner:
                                 }
                         offset += step
 
-                if len(payload) >= 3:
-                    carry = payload[-3:]
-                    carry_addr = payload_address + len(payload) - 3
+                carry_size = max(0, _value_width(value_type) - 1)
+                if len(payload) >= carry_size and carry_size > 0:
+                    carry = payload[-carry_size:]
+                    carry_addr = payload_address + len(payload) - carry_size
                 else:
                     carry = payload
                     carry_addr = payload_address
@@ -617,13 +627,13 @@ def cmd_build_calibration_candidates(args: argparse.Namespace) -> int:
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        description="Practical memory scanner for NordHold.exe (int32/float32) with snapshot narrowing."
+        description="Practical memory scanner for NordHold.exe (int32/float32/uint64) with snapshot narrowing."
     )
     sub = parser.add_subparsers(dest="command", required=True)
 
     scan = sub.add_parser("scan", help="Initial exact-value scan over readable process memory regions.")
     scan.add_argument("--process", default="NordHold.exe")
-    scan.add_argument("--type", dest="value_type", choices=["int32", "float32"], required=True)
+    scan.add_argument("--type", dest="value_type", choices=["int32", "float32", "uint64"], required=True)
     scan.add_argument("--value", required=True, help="Target value (supports hex for int32, e.g. 0x64).")
     scan.add_argument("--out", type=Path, required=True, help="Snapshot output base path.")
     scan.add_argument("--step", type=int, default=4, help="Scan stride in bytes. Typical: 4.")
