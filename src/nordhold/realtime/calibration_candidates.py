@@ -180,10 +180,10 @@ def _read_snapshot_addresses(
         raise MemoryProfileError(f"Snapshot meta must be a JSON object: {meta_path}")
 
     value_type = str(meta_payload.get("value_type", "int32")).strip().lower()
-    if value_type not in {"int32", "float32"}:
+    if value_type not in {"int32", "float32", "uint64"}:
         raise MemoryProfileError(
             f"Snapshot '{meta_path}' has unsupported value_type '{value_type}'. "
-            "Supported scanner value types: int32|float32."
+            "Supported scanner value types: int32|float32|uint64."
         )
 
     records_path = _resolve_records_path(

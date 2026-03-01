@@ -187,11 +187,24 @@ function Test-Candidate {
   $consecutive = 0
   $effectiveMaxPolls = $MaxPollsPerCandidate
   for ($i = 0; $i -lt $MaxPollsPerCandidate; $i++) {
+    $snapshot = $null
+    try {
+      $snapshot = Invoke-LiveApi -Method "GET" -Uri "/api/v1/live/snapshot"
+    }
+    catch {
+      $result.last_error = $_.Exception.Message
+      $consecutive = 0
+      Start-Sleep -Milliseconds $PollMs
+      continue
+    }
+
     try {
       $status = Invoke-LiveApi -Method "GET" -Uri "/api/v1/live/status"
     }
     catch {
       $result.last_error = $_.Exception.Message
+      $consecutive = 0
+      Start-Sleep -Milliseconds $PollMs
       continue
     }
 
@@ -235,7 +248,8 @@ function Test-Candidate {
       $result.last_error_message = [string]$status.last_error.message
     }
 
-    if ($status.mode -eq "memory" -and $status.reason -eq "ok" -and $status.memory_connected) {
+    $snapshotOk = ($snapshot -ne $null -and [string]$snapshot.source_mode -eq "memory")
+    if ($status.mode -eq "memory" -and $status.reason -eq "ok" -and $status.memory_connected -and $snapshotOk) {
       $result.snapshot_ok_windows++
       $consecutive++
       if ($consecutive -ge $RequiredConsecutiveMemoryWindows) {
@@ -272,6 +286,72 @@ if (-not $candidatePath) {
 }
 
 $candidateMetadata = Get-CandidateMetadata -Path $candidatePath -CandidateTtlHours $CandidateTtlHours
+
+function New-ResolverSummary {
+  param(
+    [object]$CandidateMetadata,
+    [string]$CandidatePath,
+    [string[]]$CandidateIds = @(),
+    [object[]]$Results = @(),
+    [object]$Best = $null,
+    [bool]$CandidateSetStale = $false,
+    [string]$CandidateSetStaleReason = "",
+    [bool]$Transient299Clustered = $false,
+    [int]$FailedCandidatesCount = 0,
+    [double]$Winerr299Rate = 0.0,
+    [bool]$NoStableCandidate = $true,
+    [int]$WinnerCandidateAgeSec = 0,
+    [hashtable]$FailureByStage = @{},
+    [hashtable]$FailureByType = @{}
+  )
+
+  $winnerCandidateId = ""
+  if ($Best) {
+    $winnerCandidateId = [string]$Best.candidate_id
+  }
+
+  return [ordered]@{
+    ok = [bool]$Best
+    base_url = $BaseUrl
+    dataset_version = $DatasetVersion
+    process_name = $ProcessName
+    require_admin = $RequireAdmin
+    poll_ms = $PollMs
+    calibration_candidates_path = $CandidatePath
+    required_consecutive_memory_windows = $RequiredConsecutiveMemoryWindows
+    max_polls_per_candidate = $MaxPollsPerCandidate
+    candidate_ids = $CandidateIds
+    candidates = $Results
+    best_candidate_id = $winnerCandidateId
+    best_connect_failures_total_last = if ($Best) { [int]$Best.connect_failures_total_last } else { 0 }
+    best_snapshot_failure_streak_max = if ($Best) { [int]$Best.snapshot_failure_streak_max } else { 0 }
+    best_snapshot_failures_total_last = if ($Best) { [int]$Best.snapshot_failures_total_last } else { 0 }
+    best_last_reason = if ($Best) { [string]$Best.last_reason } else { "" }
+    failure_taxonomy = [ordered]@{
+      by_stage = $FailureByStage
+      by_type = $FailureByType
+    }
+    candidate_set_stale = [bool]$CandidateSetStale
+    candidate_set_stale_reason = [string]$CandidateSetStaleReason
+    candidate_stale_reason = [string]$CandidateSetStaleReason
+    transient_299_clustered = [bool]$Transient299Clustered
+    candidate_scan_epoch = [string]$CandidateMetadata.candidate_scan_epoch
+    source_artifact_path = [string]$CandidateMetadata.path
+    artifact_hash = [string]$CandidateMetadata.artifact_hash
+    failed_candidates_count = [int]$FailedCandidatesCount
+    winner_candidate_id = $winnerCandidateId
+    winner_candidate_age_sec = [int]$WinnerCandidateAgeSec
+    winerr299_rate = [double]$Winerr299Rate
+    no_stable_candidate = [bool]$NoStableCandidate
+    candidate_file_stale = [bool]($CandidateMetadata.stale_reasons.Count -gt 0)
+    candidate_file_stale_reasons = @($CandidateMetadata.stale_reasons)
+    candidate_file_age_sec = [int]$CandidateMetadata.file_age_sec
+    candidate_payload_age_sec = [int]$CandidateMetadata.payload_age_sec
+    candidate_file_generated_at_utc = [string]$CandidateMetadata.generated_at_utc
+    candidate_file_build_id = [string]$CandidateMetadata.build_id
+    candidate_file_dataset_version = [string]$CandidateMetadata.dataset_version
+  }
+}
 
 try {
   $datasetPayload = Invoke-LiveApi -Method "GET" -Uri "/api/v1/dataset/version"
@@ -314,7 +394,20 @@ if (-not $candidateIds -and $candidatesPayload.candidates) {
   $candidateIds = @($candidatesPayload.candidates | ForEach-Object { [string]($_.id) })
 }
 if (-not $candidateIds) {
-  throw "No calibration candidates available at path: $CalibrationCandidatesPath"
+  $noCandidatesReason = "no_candidates_available"
+  if ($candidatesPayload -and $candidatesPayload.error) {
+    $noCandidatesReason = "no_candidates_available:$([string]$candidatesPayload.error)"
+  }
+  elseif ($candidatesPayload -and $candidatesPayload.reason) {
+    $noCandidatesReason = "no_candidates_available:$([string]$candidatesPayload.reason)"
+  }
+
+  $summary = New-ResolverSummary -CandidateMetadata $candidateMetadata -CandidatePath $candidatePath -CandidateSetStale $true -CandidateSetStaleReason $noCandidatesReason -Transient299Clustered $false -FailedCandidatesCount 0 -Winerr299Rate 0.0 -NoStableCandidate $true
+  if ($OutputPath) {
+    Set-Content -Path $OutputPath -Value ($summary | ConvertTo-Json -Depth 12) -Encoding UTF8
+  }
+  $summary
+  exit 2
 }
 
 $results = @()
@@ -407,47 +500,7 @@ if ($candidatesPayload.recommended_candidate_support -and $candidatesPayload.rec
 $overallNoStableCandidate = $noStableCandidate -or -not $best
 $overallNoStableCandidate = [bool]($overallNoStableCandidate -or $candidateSetStale)
 
-$summary = [ordered]@{
-  ok = [bool]$best
-  base_url = $BaseUrl
-  dataset_version = $DatasetVersion
-  process_name = $ProcessName
-  require_admin = $RequireAdmin
-  poll_ms = $PollMs
-  calibration_candidates_path = $candidatePath
-  required_consecutive_memory_windows = $RequiredConsecutiveMemoryWindows
-  max_polls_per_candidate = $MaxPollsPerCandidate
-  candidate_ids = $candidateIds
-  candidates = $results
-  best_candidate_id = $winnerCandidateId
-  best_connect_failures_total_last = if ($best) { [int]$best.connect_failures_total_last } else { 0 }
-  best_snapshot_failure_streak_max = if ($best) { [int]$best.snapshot_failure_streak_max } else { 0 }
-  best_snapshot_failures_total_last = if ($best) { [int]$best.snapshot_failures_total_last } else { 0 }
-  best_last_reason = if ($best) { [string]$best.last_reason } else { "" }
-  failure_taxonomy = [ordered]@{
-    by_stage = $failureByStage
-    by_type = $failureByType
-  }
-  candidate_set_stale = [bool]$candidateSetStale
-  candidate_set_stale_reason = [string]$candidateSetStaleReason
-  candidate_stale_reason = [string]$candidateSetStaleReason
-  transient_299_clustered = [bool]$transient299Clustered
-  candidate_scan_epoch = [string]$candidateMetadata.candidate_scan_epoch
-  source_artifact_path = [string]$candidateMetadata.path
-  artifact_hash = [string]$candidateMetadata.artifact_hash
-  failed_candidates_count = [int]$failedCandidatesCount
-  winner_candidate_id = $winnerCandidateId
-  winner_candidate_age_sec = [int]$winnerCandidateAgeSec
-  winerr299_rate = [double]$winerr299Rate
-  no_stable_candidate = [bool]$overallNoStableCandidate
-  candidate_file_stale = [bool]($candidateMetadata.stale_reasons.Count -gt 0)
-  candidate_file_stale_reasons = @($candidateMetadata.stale_reasons)
-  candidate_file_age_sec = [int]$candidateMetadata.file_age_sec
-  candidate_payload_age_sec = [int]$candidateMetadata.payload_age_sec
-  candidate_file_generated_at_utc = [string]$candidateMetadata.generated_at_utc
-  candidate_file_build_id = [string]$candidateMetadata.build_id
-  candidate_file_dataset_version = [string]$candidateMetadata.dataset_version
-}
+$summary = New-ResolverSummary -CandidateMetadata $candidateMetadata -CandidatePath $candidatePath -CandidateIds $candidateIds -Results $results -Best $best -CandidateSetStale $candidateSetStale -CandidateSetStaleReason $candidateSetStaleReason -Transient299Clustered $transient299Clustered -FailedCandidatesCount $failedCandidatesCount -Winerr299Rate $winerr299Rate -NoStableCandidate $overallNoStableCandidate -WinnerCandidateAgeSec $winnerCandidateAgeSec -FailureByStage $failureByStage -FailureByType $failureByType
 
 if ($OutputPath) {
   Set-Content -Path $OutputPath -Value ($summary | ConvertTo-Json -Depth 12) -Encoding UTF8
