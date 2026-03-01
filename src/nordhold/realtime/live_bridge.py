@@ -156,6 +156,12 @@ class LiveBridge:
         self._available_calibration_candidate_ids: list[str] = []
         self._last_memory_values: Dict[str, float | int | bool] = {}
         self._last_error: Dict[str, str] = {}
+        self._snapshot_failure_streak = 0
+        self._snapshot_failures_total = 0
+        self._snapshot_transient_failure_count = 0
+        self._connect_failures_total = 0
+        self._connect_transient_failure_count = 0
+        self._connect_retry_success_total = 0
         self.autoconnect_enabled = False
         self.autoconnect_last_attempt_at = ""
         self.autoconnect_last_result: Dict[str, Any] = {}
@@ -180,6 +186,13 @@ class LiveBridge:
         self._last_memory_values = {}
         self._required_fields = REQUIRED_MEMORY_FIELDS
         self._clear_last_error()
+        self._snapshot_failure_streak = 0
+        self._snapshot_failures_total = 0
+        self._snapshot_transient_failure_count = 0
+        self._connect_failures_total = 0
+        self._connect_transient_failure_count = 0
+        self._connect_retry_success_total = 0
+        explicit_connect_failure_reason = ""
 
         self.process_name = process_name or "NordHold.exe"
         self.poll_ms = max(200, int(poll_ms))
@@ -285,23 +298,20 @@ class LiveBridge:
                 return self.status()
             else:
                 try:
-                    profile.ensure_resolved()
-                    self.memory_reader.open(self.process_name, profile)
-                    # Validate signature resolution immediately.
-                    self._last_memory_values = self._normalize_raw_memory_values(
-                        self.memory_reader.read_fields(profile)
-                    )
+                    self._last_memory_values = self._connect_open_and_read_with_single_retry(profile)
                 except MemoryProfileError as exc:
                     self.memory_reader.close()
                     self.connected = False
                     self.mode = "degraded"
                     self.last_reason = f"memory_profile_invalid:{exc}"
+                    explicit_connect_failure_reason = self.last_reason
                     self._set_last_error("connect_profile_validate", exc)
                 except MemoryReaderError as exc:
                     self.memory_reader.close()
                     self.connected = False
                     self.mode = "degraded"
                     self.last_reason = f"memory_connect_failed:{exc}"
+                    explicit_connect_failure_reason = self.last_reason
                     self._set_last_error("connect_memory_open", exc)
                 else:
                     self.connected = True
@@ -325,6 +335,13 @@ class LiveBridge:
                 self.last_reason = "using_replay_fallback"
                 self.replay_session_id = replay_session_id
                 self._clear_last_error()
+            return self.status()
+
+        if explicit_connect_failure_reason:
+            self.connected = False
+            self.mode = "degraded"
+            self.last_reason = explicit_connect_failure_reason
+            self.replay_session_id = ""
             return self.status()
 
         self.connected = False
@@ -356,10 +373,12 @@ class LiveBridge:
         selected_path = requested_path
         selected_candidate_id = requested_candidate
         recommendation_reason = ""
+        candidate_attempt_order: list[str] = []
 
         try:
             calibration_payload, resolved_path = self._load_calibration_payload(requested_path)
             selected_path = str(resolved_path)
+            candidate_ids = calibration_candidate_ids(calibration_payload)
             selected_candidate_id = choose_calibration_candidate_id(
                 calibration_payload,
                 preferred_candidate_id=requested_candidate,
@@ -372,27 +391,68 @@ class LiveBridge:
                     required_fields=REQUIRED_MEMORY_FIELDS,
                 ).get("reason", "")
             )
+            if selected_candidate_id:
+                candidate_attempt_order.append(selected_candidate_id)
+            for candidate_id in candidate_ids:
+                candidate_id_value = str(candidate_id).strip()
+                if candidate_id_value and candidate_id_value not in candidate_attempt_order:
+                    candidate_attempt_order.append(candidate_id_value)
         except MemoryProfileError:
             if explicit_calibration_request:
                 raise
+
+        if not candidate_attempt_order:
+            if selected_candidate_id:
+                candidate_attempt_order = [selected_candidate_id]
+            else:
+                candidate_attempt_order = [""]
 
         requested_dataset_version = dataset_version.strip()
         selected_dataset_version: Optional[str] = (
             None if self.dataset_autorefresh else (requested_dataset_version or None)
         )
 
-        status = self.connect(
-            process_name=process_name,
-            poll_ms=poll_ms,
-            require_admin=require_admin,
-            dataset_version=selected_dataset_version,
-            replay_session_id=replay_session_id,
-            signature_profile_id=signature_profile_id,
-            calibration_candidates_path=selected_path,
-            calibration_candidate_id=selected_candidate_id,
-            autoconnect_enabled=True,
-            dataset_autorefresh=self.dataset_autorefresh,
-        )
+        status: Dict[str, Any] = {}
+        attempts: list[Dict[str, Any]] = []
+        selected_candidate_id_final = ""
+        fallback_used = False
+
+        for index, attempt_candidate_id in enumerate(candidate_attempt_order):
+            status = self.connect(
+                process_name=process_name,
+                poll_ms=poll_ms,
+                require_admin=require_admin,
+                dataset_version=selected_dataset_version,
+                replay_session_id=replay_session_id,
+                signature_profile_id=signature_profile_id,
+                calibration_candidates_path=selected_path,
+                calibration_candidate_id=attempt_candidate_id,
+                autoconnect_enabled=True,
+                dataset_autorefresh=self.dataset_autorefresh,
+            )
+            final_candidate = str(status.get("calibration_candidate", "")).strip()
+            selected_candidate_id_final = final_candidate or str(attempt_candidate_id).strip()
+            attempts.append(
+                {
+                    "index": index + 1,
+                    "candidate_id": str(attempt_candidate_id),
+                    "selected_candidate_id": selected_candidate_id_final,
+                    "mode": str(status.get("mode", "")),
+                    "reason": str(status.get("reason", "")),
+                    "memory_connected": bool(status.get("memory_connected", False)),
+                }
+            )
+            if status.get("mode") == "memory":
+                fallback_used = index > 0
+                break
+
+        if not status:
+            status = self.status()
+        if not selected_candidate_id_final:
+            selected_candidate_id_final = str(status.get("calibration_candidate", "")).strip()
+        if len(attempts) > 1:
+            fallback_used = True
+
         self.autoconnect_last_result = {
             "ok": status.get("mode") == "memory",
             "mode": status.get("mode", ""),
@@ -405,6 +465,9 @@ class LiveBridge:
                 "resolved_candidates_path": selected_path,
                 "recommendation_reason": recommendation_reason,
             },
+            "attempts": attempts,
+            "selected_candidate_id_final": selected_candidate_id_final,
+            "fallback_used": bool(fallback_used),
         }
         return self.status()
 
@@ -431,6 +494,12 @@ class LiveBridge:
             "calibration_candidate_ids": list(self._available_calibration_candidate_ids),
             "last_memory_values": dict(self._last_memory_values),
             "last_error": dict(self._last_error),
+            "snapshot_failure_streak": int(self._snapshot_failure_streak),
+            "snapshot_failures_total": int(self._snapshot_failures_total),
+            "snapshot_transient_failure_count": int(self._snapshot_transient_failure_count),
+            "connect_failures_total": int(self._connect_failures_total),
+            "connect_transient_failure_count": int(self._connect_transient_failure_count),
+            "connect_retry_success_total": int(self._connect_retry_success_total),
             "autoconnect_enabled": self.autoconnect_enabled,
             "autoconnect_last_attempt_at": self.autoconnect_last_attempt_at,
             "autoconnect_last_result": dict(self.autoconnect_last_result),
@@ -443,12 +512,34 @@ class LiveBridge:
             try:
                 values = self.memory_reader.read_fields(self._memory_profile)
             except MemoryReaderError as exc:
-                self.memory_reader.close()
-                self.connected = False
-                self.mode = "degraded"
-                self.last_reason = f"memory_snapshot_failed:{exc}"
-                self._set_last_error("snapshot_memory_read", exc)
+                self._snapshot_failures_total += 1
+                self._snapshot_failure_streak += 1
+                if self._is_transient_memory_error(str(exc)):
+                    self._snapshot_transient_failure_count += 1
+                    try:
+                        values = self._reopen_and_read_memory_fields(self._memory_profile)
+                    except MemoryReaderError as retry_exc:
+                        self.memory_reader.close()
+                        self.connected = False
+                        self.mode = "degraded"
+                        self.last_reason = f"memory_snapshot_failed:{retry_exc}"
+                        self._set_last_error("snapshot_memory_read", retry_exc)
+                    else:
+                        self.connected = True
+                        self.mode = "memory"
+                        self.last_reason = "ok"
+                        self._snapshot_failure_streak = 0
+                        self._last_memory_values = self._normalize_raw_memory_values(values)
+                        self._clear_last_error()
+                        return self._snapshot_from_memory_values(now=now, values=self._last_memory_values)
+                else:
+                    self.memory_reader.close()
+                    self.connected = False
+                    self.mode = "degraded"
+                    self.last_reason = f"memory_snapshot_failed:{exc}"
+                    self._set_last_error("snapshot_memory_read", exc)
             else:
+                self._snapshot_failure_streak = 0
                 self._last_memory_values = self._normalize_raw_memory_values(values)
                 self._clear_last_error()
                 return self._snapshot_from_memory_values(now=now, values=self._last_memory_values)
@@ -690,6 +781,33 @@ class LiveBridge:
 
     def _clear_last_error(self) -> None:
         self._last_error = {}
+
+    def _reopen_and_read_memory_fields(self, profile: MemoryProfile) -> Dict[str, Any]:
+        self.memory_reader.close()
+        self.memory_reader.open(self.process_name, profile)
+        return self.memory_reader.read_fields(profile)
+
+    def _connect_open_and_read_with_single_retry(self, profile: MemoryProfile) -> Dict[str, Any]:
+        profile.ensure_resolved()
+        try:
+            self.memory_reader.open(self.process_name, profile)
+            return self._normalize_raw_memory_values(self.memory_reader.read_fields(profile))
+        except MemoryReaderError as exc:
+            self._connect_failures_total += 1
+            if self._is_transient_memory_error(str(exc)):
+                self._connect_transient_failure_count += 1
+                try:
+                    values = self._reopen_and_read_memory_fields(profile)
+                except MemoryReaderError as retry_exc:
+                    self._connect_failures_total += 1
+                    raise
+                self._connect_retry_success_total += 1
+                return self._normalize_raw_memory_values(values)
+            raise
+
+    def _is_transient_memory_error(self, message: str) -> bool:
+        text = str(message).lower()
+        return "winerr=299" in text and "readprocessmemory failed" in text
 
     def _profile_has_unresolved_required_fields(self, profile: MemoryProfile) -> bool:
         for field_name in self._required_fields:

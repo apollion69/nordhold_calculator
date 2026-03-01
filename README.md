@@ -97,13 +97,29 @@ Run a bounded live API soak loop (autoconnect + status/snapshot/run-state/events
 ```powershell
 powershell -ExecutionPolicy Bypass -File .\scripts\run_nordhold_live_soak.ps1 -DurationS 1800 -PollMs 1000
 ```
+Default live attach mode for this script is non-admin (`RequireAdmin=$false`).
+Console launcher window is hidden by default (`HideLauncherWindow=$true`) to avoid focus-stealing popups.
+If you explicitly run with `RequireAdmin=$true`, the script auto-elevates launcher startup (`AutoElevateForAdmin=$true`).
 
 Stop soak loop (and launcher on the same port):
 ```powershell
 powershell -ExecutionPolicy Bypass -File .\scripts\stop_nordhold_live_soak.ps1 -Port 8013
 ```
 
-Summary JSON is written to `runtime\logs\nordhold-live-soak-*.summary.json`.
+Summary JSON is written to `runtime\logs\nordhold-live-soak-*.summary.json` and includes:
+- `snapshot_transient_failure_count`
+- `max_snapshot_failure_streak`
+- `snapshot_failures_total_last`
+- `admin_fallback_applied`
+- `autoconnect_attempt_require_admin`
+
+`GET /api/v1/live/status` additive diagnostics include:
+- `connect_failures_total`
+- `connect_transient_failure_count`
+- `connect_retry_success_total`
+- `autoconnect_last_result.attempts`
+- `autoconnect_last_result.selected_candidate_id_final`
+- `autoconnect_last_result.fallback_used`
 
 ## Windows EXE build/run
 ### Build EXE
@@ -111,6 +127,9 @@ Summary JSON is written to `runtime\logs\nordhold-live-soak-*.summary.json`.
 cd C:\Users\lenovo\Documents\cursor\codex\projects\nordhold
 powershell -ExecutionPolicy Bypass -File .\scripts\build_nordhold_realtime_exe.ps1
 ```
+
+By default, external packaging/install steps (`npm`, `pip`, `pyinstaller`) run in quiet hidden mode (`QuietExternal=$true`), with per-step logs in `runtime\logs\*.out.log` / `*.err.log`.
+If you need foreground verbose execution, pass `-QuietExternal:$false`.
 
 Expected output binary:
 - `runtime\dist\NordholdRealtimeLauncher\NordholdRealtimeLauncher.exe`

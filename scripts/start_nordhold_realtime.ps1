@@ -1,5 +1,6 @@
 param(
-  [switch]$NoBrowser
+  [switch]$NoBrowser,
+  [bool]$HideBackendWindow = $true
 )
 
 $ErrorActionPreference = "Stop"
@@ -12,9 +13,9 @@ $backendOutLog = Join-Path $logDir "backend_$timestamp.out.log"
 $backendErrLog = Join-Path $logDir "backend_$timestamp.err.log"
 $frontendOutLog = Join-Path $logDir "frontend_$timestamp.out.log"
 $frontendErrLog = Join-Path $logDir "frontend_$timestamp.err.log"
-$host = "127.0.0.1"
+$bindHost = "127.0.0.1"
 $port = 8000
-$baseUrl = "http://$host`:$port"
+$baseUrl = "http://$bindHost`:$port"
 
 $venvPython = Join-Path $projectRoot ".venv\Scripts\python.exe"
 $workspaceRoot = Split-Path -Parent (Split-Path -Parent (Split-Path -Parent $projectRoot))
@@ -121,11 +122,17 @@ try {
   & $venvPython -m pip install -q --upgrade pip
   & $venvPython -m pip install -q -e $projectRoot
 
-  $backend = Start-Process -FilePath $venvPython `
-    -ArgumentList "-m", "uvicorn", "nordhold.api:app", "--app-dir", "src", "--host", $host, "--port", "$port" `
-    -RedirectStandardOutput $backendOutLog `
-    -RedirectStandardError $backendErrLog `
-    -PassThru
+  $backendStartArgs = @{
+    FilePath = $venvPython
+    ArgumentList = @("-m", "uvicorn", "nordhold.api:app", "--app-dir", "src", "--host", $bindHost, "--port", "$port")
+    RedirectStandardOutput = $backendOutLog
+    RedirectStandardError = $backendErrLog
+    PassThru = $true
+  }
+  if ($HideBackendWindow) {
+    $backendStartArgs.WindowStyle = "Hidden"
+  }
+  $backend = Start-Process @backendStartArgs
 
   Start-Sleep -Seconds 1
   $stateEndpoint = Resolve-StateEndpoint -BaseUrl $baseUrl -WaitSeconds 12

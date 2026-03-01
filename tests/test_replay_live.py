@@ -158,6 +158,117 @@ class ReplayLiveTests(unittest.TestCase):
         self.assertFalse(status["memory_connected"])
         self.assertEqual(status["replay_session_id"], "")
 
+    def test_live_bridge_connect_transient_memory_error_recovers_with_single_retry(self) -> None:
+        class ConnectTransientMemoryReader:
+            def __init__(self):
+                self.connected = False
+                self.open_calls = 0
+                self.read_calls = 0
+                self.close_calls = 0
+
+            def close(self) -> None:
+                self.close_calls += 1
+                self.connected = False
+
+            def open(self, process_name: str, profile) -> None:
+                self.open_calls += 1
+                self.connected = True
+
+            def read_fields(self, profile):
+                self.read_calls += 1
+                if self.read_calls == 1:
+                    raise MemoryReaderError(
+                        "ReadProcessMemory failed: addr=0x56ad0004 size=4 read=0 winerr=299"
+                    )
+                return {"current_wave": 9, "gold": 90, "essence": 19}
+
+        memory_reader = ConnectTransientMemoryReader()
+        bridge = LiveBridge(
+            catalog=self.repo,
+            replay_store=self.store,
+            project_root=self.repo.project_root,
+            memory_reader=memory_reader,  # type: ignore[arg-type]
+        )
+
+        with (
+            patch.object(self.repo, "load_memory_signatures", return_value=_valid_memory_signatures()),
+            patch.object(bridge, "_process_exists", return_value=True),
+            patch.object(bridge, "_is_admin_context", return_value=True),
+        ):
+            status = bridge.connect(
+                process_name="NordHold.exe",
+                poll_ms=1000,
+                require_admin=False,
+                dataset_version="1.0.0",
+            )
+
+        self.assertEqual(status["mode"], "memory")
+        self.assertEqual(status["reason"], "ok")
+        self.assertTrue(status["memory_connected"])
+        self.assertEqual(status["connect_failures_total"], 1)
+        self.assertEqual(status["connect_transient_failure_count"], 1)
+        self.assertEqual(status["connect_retry_success_total"], 1)
+        self.assertEqual(status["last_memory_values"]["current_wave"], 9)
+        self.assertEqual(status["last_error"], {})
+        self.assertEqual(memory_reader.read_calls, 2)
+        self.assertGreaterEqual(memory_reader.open_calls, 2)
+        self.assertGreaterEqual(memory_reader.close_calls, 2)
+
+    def test_live_bridge_connect_non_transient_error_keeps_connect_failure_reason(self) -> None:
+        class ConnectNonTransientMemoryReader:
+            def __init__(self):
+                self.connected = False
+                self.open_calls = 0
+                self.read_calls = 0
+                self.close_calls = 0
+
+            def close(self) -> None:
+                self.close_calls += 1
+                self.connected = False
+
+            def open(self, process_name: str, profile) -> None:
+                self.open_calls += 1
+                self.connected = True
+
+            def read_fields(self, profile):
+                self.read_calls += 1
+                raise MemoryReaderError(
+                    "ReadProcessMemory failed: addr=0x56ad0004 size=4 read=0 winerr=5"
+                )
+
+        memory_reader = ConnectNonTransientMemoryReader()
+        bridge = LiveBridge(
+            catalog=self.repo,
+            replay_store=self.store,
+            project_root=self.repo.project_root,
+            memory_reader=memory_reader,  # type: ignore[arg-type]
+        )
+
+        with (
+            patch.object(self.repo, "load_memory_signatures", return_value=_valid_memory_signatures()),
+            patch.object(bridge, "_process_exists", return_value=True),
+            patch.object(bridge, "_is_admin_context", return_value=True),
+        ):
+            status = bridge.connect(
+                process_name="NordHold.exe",
+                poll_ms=1000,
+                require_admin=False,
+                dataset_version="1.0.0",
+            )
+
+        self.assertEqual(status["mode"], "degraded")
+        self.assertTrue(status["reason"].startswith("memory_connect_failed:"))
+        self.assertNotEqual(status["reason"], "memory_unavailable_no_replay")
+        self.assertEqual(status["connect_failures_total"], 1)
+        self.assertEqual(status["connect_transient_failure_count"], 0)
+        self.assertEqual(status["connect_retry_success_total"], 0)
+        self.assertEqual(status["last_error"]["stage"], "connect_memory_open")
+        self.assertEqual(status["last_error"]["type"], "MemoryReaderError")
+        self.assertFalse(status["memory_connected"])
+        self.assertEqual(memory_reader.read_calls, 1)
+        self.assertEqual(memory_reader.open_calls, 1)
+        self.assertGreaterEqual(memory_reader.close_calls, 2)
+
     def test_live_bridge_memory_snapshot_failure_falls_back_to_synthetic(self) -> None:
         class FlakyMemoryReader:
             def __init__(self):
@@ -178,7 +289,9 @@ class ReplayLiveTests(unittest.TestCase):
                 self.read_calls += 1
                 if self.read_calls == 1:
                     return {"current_wave": 7, "gold": 321, "essence": 45}
-                raise MemoryReaderError("forced snapshot failure")
+                raise MemoryReaderError(
+                    "ReadProcessMemory failed: addr=0x56ad0004 size=4 read=0 winerr=5"
+                )
 
         memory_reader = FlakyMemoryReader()
         bridge = LiveBridge(
@@ -213,8 +326,76 @@ class ReplayLiveTests(unittest.TestCase):
         self.assertEqual(after["last_memory_values"]["gold"], 321)
         self.assertEqual(after["last_error"]["stage"], "snapshot_memory_read")
         self.assertEqual(after["last_error"]["type"], "MemoryReaderError")
+        self.assertEqual(after["snapshot_failure_streak"], 1)
+        self.assertEqual(after["snapshot_failures_total"], 1)
+        self.assertEqual(after["snapshot_transient_failure_count"], 0)
         self.assertGreaterEqual(memory_reader.close_calls, 2)
         self.assertEqual(memory_reader.read_calls, 2)
+
+    def test_live_bridge_transient_memory_snapshot_failure_recovers_with_retry(self) -> None:
+        class TransientMemoryReader:
+            def __init__(self):
+                self.connected = False
+                self.open_calls = 0
+                self.read_calls = 0
+                self.close_calls = 0
+
+            def close(self) -> None:
+                self.close_calls += 1
+                self.connected = False
+
+            def open(self, process_name: str, profile) -> None:
+                self.open_calls += 1
+                self.connected = True
+
+            def read_fields(self, profile):
+                self.read_calls += 1
+                if self.read_calls == 1:
+                    return {"current_wave": 7, "gold": 321, "essence": 45}
+                if self.read_calls == 2:
+                    raise MemoryReaderError(
+                        "ReadProcessMemory failed: addr=0x56ad0004 size=4 read=0 winerr=299"
+                    )
+                return {"current_wave": 8, "gold": 222, "essence": 33}
+
+        memory_reader = TransientMemoryReader()
+        bridge = LiveBridge(
+            catalog=self.repo,
+            replay_store=self.store,
+            project_root=self.repo.project_root,
+            memory_reader=memory_reader,  # type: ignore[arg-type]
+        )
+
+        with (
+            patch.object(self.repo, "load_memory_signatures", return_value=_valid_memory_signatures()),
+            patch.object(bridge, "_process_exists", return_value=True),
+            patch.object(bridge, "_is_admin_context", return_value=True),
+        ):
+            status = bridge.connect(
+                process_name="NordHold.exe",
+                poll_ms=1000,
+                require_admin=False,
+                dataset_version="1.0.0",
+            )
+
+        self.assertEqual(status["mode"], "memory")
+        snap = bridge.snapshot()
+        self.assertEqual(snap.source_mode, "memory")
+        self.assertEqual(snap.wave, 8)
+
+        after = bridge.status()
+        self.assertEqual(after["mode"], "memory")
+        self.assertEqual(after["reason"], "ok")
+        self.assertTrue(after["memory_connected"])
+        self.assertEqual(after["snapshot_failure_streak"], 0)
+        self.assertEqual(after["snapshot_failures_total"], 1)
+        self.assertEqual(after["snapshot_transient_failure_count"], 1)
+        self.assertEqual(after["last_memory_values"]["current_wave"], 8)
+        self.assertEqual(after["last_memory_values"]["gold"], 222)
+        self.assertEqual(after["last_error"], {})
+        self.assertGreaterEqual(memory_reader.open_calls, 2)
+        self.assertGreaterEqual(memory_reader.close_calls, 2)
+        self.assertEqual(memory_reader.read_calls, 3)
 
     def test_live_bridge_accepts_composite_signature_profile_without_calibration_path(self) -> None:
         class CompositeProfileMemoryReader:
@@ -891,6 +1072,98 @@ class ReplayLiveTests(unittest.TestCase):
             status["autoconnect_last_result"]["candidate_selection"]["selected_candidate_id"],
             "candidate_full",
         )
+
+    def test_live_bridge_autoconnect_fallbacks_to_next_candidate_after_connect_failure(self) -> None:
+        class AutoconnectFallbackMemoryReader:
+            def __init__(self):
+                self.connected = False
+
+            def close(self) -> None:
+                self.connected = False
+
+            def open(self, process_name: str, profile) -> None:
+                self.connected = True
+
+            def read_fields(self, profile):
+                wave_address = profile.fields["current_wave"].address
+                if wave_address == 0x1110:
+                    raise MemoryReaderError(
+                        "ReadProcessMemory failed: addr=0x56ad0004 size=4 read=0 winerr=5"
+                    )
+                if wave_address == 0x4440:
+                    return {"current_wave": 14, "gold": 340, "essence": 44}
+                raise MemoryReaderError(f"unexpected_wave_address:{hex(wave_address)}")
+
+        worklogs_dir = Path(self._tmpdir.name) / "worklogs" / "autoconnect_fallback"
+        worklogs_dir.mkdir(parents=True, exist_ok=True)
+        calibration_path = worklogs_dir / "memory_calibration_candidates_autoconnect_fallback.json"
+        calibration_path.write_text(
+            json.dumps(
+                {
+                    "active_candidate_id": "candidate_a",
+                    "candidates": [
+                        {
+                            "id": "candidate_a",
+                            "profile_id": "base_profile",
+                            "fields": {
+                                "current_wave": {"address": "0x1110"},
+                                "gold": {"address": "0x2220"},
+                                "essence": {"address": "0x3330"},
+                            },
+                        },
+                        {
+                            "id": "candidate_b",
+                            "profile_id": "base_profile",
+                            "fields": {
+                                "current_wave": {"address": "0x4440"},
+                                "gold": {"address": "0x5550"},
+                                "essence": {"address": "0x6660"},
+                            },
+                        },
+                    ],
+                }
+            ),
+            encoding="utf-8",
+        )
+
+        bridge = LiveBridge(
+            catalog=self.repo,
+            replay_store=self.store,
+            project_root=Path(self._tmpdir.name),
+            memory_reader=AutoconnectFallbackMemoryReader(),  # type: ignore[arg-type]
+        )
+
+        with (
+            patch.object(self.repo, "load_memory_signatures", return_value=_unresolved_memory_signatures()),
+            patch.object(bridge, "_process_exists", return_value=True),
+            patch.object(bridge, "_is_admin_context", return_value=True),
+        ):
+            status = bridge.autoconnect(
+                process_name="NordHold.exe",
+                poll_ms=1000,
+                require_admin=False,
+            )
+
+        self.assertEqual(status["mode"], "memory")
+        self.assertEqual(status["reason"], "ok")
+        self.assertEqual(status["calibration_candidate"], "candidate_b")
+        self.assertEqual(status["signature_profile"], "base_profile@candidate_b")
+        autoconnect_result = status["autoconnect_last_result"]
+        self.assertTrue(autoconnect_result["ok"])
+        self.assertTrue(autoconnect_result["fallback_used"])
+        self.assertEqual(autoconnect_result["selected_candidate_id_final"], "candidate_b")
+        self.assertEqual(
+            autoconnect_result["candidate_selection"]["selected_candidate_id"],
+            "candidate_a",
+        )
+        attempts = autoconnect_result["attempts"]
+        self.assertEqual(len(attempts), 2)
+        self.assertEqual(attempts[0]["candidate_id"], "candidate_a")
+        self.assertEqual(attempts[0]["mode"], "degraded")
+        self.assertTrue(str(attempts[0]["reason"]).startswith("memory_connect_failed:"))
+        self.assertEqual(attempts[1]["candidate_id"], "candidate_b")
+        self.assertEqual(attempts[1]["mode"], "memory")
+        self.assertEqual(attempts[1]["reason"], "ok")
 
     def test_live_autoconnect_route_uses_default_payload(self) -> None:
         try:

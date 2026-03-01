@@ -47,6 +47,9 @@ function Test-Candidate {
     candidate_id = $CandidateId
     status = "not_run"
     transient_failures = 0
+    connect_failures_total_last = 0
+    connect_transient_failure_count = 0
+    connect_retry_success_total = 0
     snapshot_failure_streak_max = 0
     snapshot_failures_total_last = 0
     stable_windows = 0
@@ -56,6 +59,9 @@ function Test-Candidate {
     last_reason = ""
     last_memory_connected = $false
     last_error = ""
+    last_error_stage = ""
+    last_error_type = ""
+    last_error_message = ""
     last_memory_values = @{}
   }
 
@@ -103,6 +109,20 @@ function Test-Candidate {
     if ($status.snapshot_failures_total -ne $null) {
       $result.snapshot_failures_total_last = [int]$status.snapshot_failures_total
     }
+    if ($status.connect_failures_total -ne $null) {
+      $result.connect_failures_total_last = [int]$status.connect_failures_total
+    }
+    if ($status.connect_transient_failure_count -ne $null) {
+      $result.connect_transient_failure_count = [int]$status.connect_transient_failure_count
+    }
+    if ($status.connect_retry_success_total -ne $null) {
+      $result.connect_retry_success_total = [int]$status.connect_retry_success_total
+    }
+    if ($status.last_error -ne $null) {
+      $result.last_error_stage = [string]$status.last_error.stage
+      $result.last_error_type = [string]$status.last_error.type
+      $result.last_error_message = [string]$status.last_error.message
+    }
 
     if ($status.mode -eq "memory" -and $status.reason -eq "ok" -and $status.memory_connected) {
       $result.snapshot_ok_windows++
@@ -147,8 +167,27 @@ foreach ($candidateId in $candidateIds) {
   $results += Test-Candidate -CandidateId $candidateId
 }
 
-$stable = $results | Where-Object { $_.status -eq "memory_stable" } | Sort-Object @{Expression = { $_.snapshot_failure_streak_max }; Ascending = $true }, @{Expression = { $_.snapshot_failures_total_last }; Ascending = $true }
+$stable = $results | Where-Object { $_.status -eq "memory_stable" } | Sort-Object @{Expression = { $_.connect_failures_total_last }; Ascending = $true }, @{Expression = { $_.snapshot_failure_streak_max }; Ascending = $true }, @{Expression = { $_.snapshot_failures_total_last }; Ascending = $true }
 $best = if ($stable.Count -gt 0) { $stable[0] } else { $null }
+$failureByStage = @{}
+$failureByType = @{}
+foreach ($item in $results) {
+  $stage = [string]$item.last_error_stage
+  if ($stage) {
+    if (-not $failureByStage.ContainsKey($stage)) {
+      $failureByStage[$stage] = 0
+    }
+    $failureByStage[$stage]++
+  }
+
+  $errorType = [string]$item.last_error_type
+  if ($errorType) {
+    if (-not $failureByType.ContainsKey($errorType)) {
+      $failureByType[$errorType] = 0
+    }
+    $failureByType[$errorType]++
+  }
+}
 
 $summary = [ordered]@{
   base_url = $BaseUrl
@@ -162,9 +201,14 @@ $summary = [ordered]@{
   candidate_ids = $candidateIds
   candidates = $results
   best_candidate_id = if ($best) { [string]$best.candidate_id } else { "" }
+  best_connect_failures_total_last = if ($best) { [int]$best.connect_failures_total_last } else { 0 }
   best_snapshot_failure_streak_max = if ($best) { [int]$best.snapshot_failure_streak_max } else { 0 }
   best_snapshot_failures_total_last = if ($best) { [int]$best.snapshot_failures_total_last } else { 0 }
   best_last_reason = if ($best) { [string]$best.last_reason } else { "" }
+  failure_taxonomy = [ordered]@{
+    by_stage = $failureByStage
+    by_type = $failureByType
+  }
 }
 
 if ($OutputPath) {

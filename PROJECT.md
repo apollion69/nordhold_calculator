@@ -193,3 +193,125 @@ Owner: codex
   - `worklogs/t37-exe-packaging/artifacts/20260226_113040-exe-smoke-verbose.log`,
   - `worklogs/t37-exe-packaging/artifacts/20260226_113040-exe-run.out.log`,
   - `worklogs/t37-exe-packaging/artifacts/20260226_113040-exe-run.err.log`.
+
+## DONE (T56 Memory-First Runtime Hardening, implementation)
+- [x] Added snapshot runtime counters and transient-retry flow in `LiveBridge`:
+  - `snapshot_failure_streak`,
+  - `snapshot_failures_total`,
+  - `snapshot_transient_failure_count`,
+  - transient detector + one-shot `close -> open -> read_fields` retry path.
+- [x] Extended `GET /api/v1/live/status` with additive fields:
+  - `snapshot_failure_streak`,
+  - `snapshot_failures_total`,
+  - `snapshot_transient_failure_count`.
+- [x] Updated soak script `scripts/run_nordhold_live_soak.ps1`:
+  - default `RequireAdmin=$false`,
+  - summary/partial now include:
+    - `snapshot_transient_failure_count`,
+    - `max_snapshot_failure_streak`,
+    - `snapshot_failures_total_last`.
+- [x] Kept/verified resolver script behavior in `scripts/resolve_live_memory_candidate.ps1`:
+  - default `RequireAdmin=$false`,
+  - stable candidate ranking by:
+    - min `snapshot_failure_streak_max`,
+    - then min `snapshot_failures_total_last`.
+- [x] Added/updated tests:
+  - transient recovery test in `tests/test_replay_live.py`,
+  - non-transient fallback remains `degraded`,
+  - status contract extended in `tests/test_api_contract.py` with optional-int compatibility.
+- [x] Docs updated:
+  - `README.md`,
+  - `RUNBOOK.md`.
+- [x] Verification artifacts (run `20260228_223411`):
+  - tests:
+    - `worklogs/t56-memory-soak/20260228_223411/tests_targeted_after_patch.log`,
+    - `worklogs/t56-memory-soak/20260228_223411/tests_full_after_patch.log`,
+  - smoke soak:
+    - `runtime/logs/nordhold-live-soak-20260228_223309.summary.json`,
+    - `runtime/logs/nordhold-live-soak-20260228_223309.partial.json`,
+    - copied evidence:
+      - `worklogs/t56-memory-soak/20260228_223411/nordhold-live-soak-20260228_223309.summary.json`,
+      - `worklogs/t56-memory-soak/20260228_223411/nordhold-live-soak-20260228_223309.partial.json`.
+- [ ] Acceptance blocker remains:
+  - smoke run is completed, but final runtime state is still `mode=degraded`, `reason=memory_unavailable_no_replay` with `ReadProcessMemory ... winerr=299`,
+  - 1800s memory-mode PASS requires refreshed stable live candidate against current runtime.
+
+## DONE (T56 Admin Attach + No-Popup Launcher Hardening)
+- [x] Updated `scripts/run_nordhold_live_soak.ps1` for popup-safe runtime:
+  - added `HideLauncherWindow` (default `true`) so launcher console window does not steal focus,
+  - added `AutoElevateForAdmin` (default `true`) for `RequireAdmin=true` attach path,
+  - elevated helper includes timeout guard to avoid indefinite wait on elevation flow,
+  - added summary/partial fields:
+    - `auto_elevate_for_admin`,
+    - `launcher_elevated`,
+    - `launcher_window_hidden`.
+- [x] Updated `scripts/start_nordhold_realtime.ps1`:
+  - added `HideBackendWindow` (default `true`) so backend `uvicorn` process starts without popup console window.
+- [x] Swarm execution/evidence run: `20260228_224111-swarm`:
+  - packet report: `worklogs/t56-memory-soak/20260228_224111-swarm/swarm_report.md`,
+  - no-admin smoke: `runtime/logs/nordhold-live-soak-20260228_225347.summary.json`,
+  - admin/elevated smoke: `runtime/logs/nordhold-live-soak-20260228_225357.summary.json`,
+  - admin + autoconnect smoke: `runtime/logs/nordhold-live-soak-20260228_225411.summary.json`.
+- [ ] Acceptance blocker unchanged:
+  - admin attach path is now active (`launcher_elevated=true`) and popup-safe (`launcher_window_hidden=true`),
+  - runtime still degrades with `memory_unavailable_no_replay` (`ReadProcessMemory ... winerr=299`) until live candidate refresh resolves memory-read instability.
+
+## DONE (T56 Quiet Execution + Runtime Contract Recovery)
+- [x] Quiet execution hardening run: `run_id=20260301_050712_t56_quiet`
+  - tests:
+    - `worklogs/t56-memory-soak/20260301_050712_t56_quiet/tests_targeted.log`
+    - `worklogs/t56-memory-soak/20260301_050712_t56_quiet/tests_full.log`
+  - build:
+    - `scripts/build_nordhold_realtime_exe.ps1` now defaults to quiet hidden external steps (`QuietExternal=$true`) with per-step logs in `runtime/logs`.
+    - evidence: `worklogs/t56-memory-soak/20260301_050712_t56_quiet/build_quiet_after_patch.log`
+  - soak runtime contract:
+    - `scripts/run_nordhold_live_soak.ps1` now recovers `autoconnect` payload from `status.autoconnect_last_result` when POST `/autoconnect` request times out.
+    - timeout diagnostics are preserved in additive `autoconnect.request_error`.
+    - evidence summary: `runtime/logs/nordhold-live-soak-20260301_051112.summary.json`
+    - evidence gate: `worklogs/t56-memory-soak/20260301_050712_t56_quiet/smoke15_after_autoconnect_fallback_patch_gate.json` (`attempts/fallback_used/selected_candidate_id_final` present).
+- [ ] Residual blocker (still open):
+  - short smoke still ends `last_mode=degraded`, `last_reason=memory_connect_failed:...winerr=299`.
+  - current candidate set path remains legacy (`.../nordhold-combat-deep-probe-20260226_154010/...`).
+  - diagnostic resolve artifact with fast polling:
+    - `worklogs/t56-memory-soak/20260301_050712_t56_quiet/resolve_admin_true.json`
+    - result: `best_candidate_id=""` (no stable candidate in current set).
+  - next required step remains unchanged: fresh S1/S2/S3 scan-narrow-build candidate refresh, then elevated resolve and 1800s soak.
+
+## DONE (T56 TDD Iteration: Connect Retry + Autoconnect Failover)
+- [x] Backend `LiveBridge` connect-path hardening:
+  - added status counters:
+    - `connect_failures_total`,
+    - `connect_transient_failure_count`,
+    - `connect_retry_success_total`,
+  - added connect-stage transient one-shot retry on `winerr=299` + `ReadProcessMemory failed`,
+  - preserved explicit `memory_connect_failed:*` reason (no unconditional overwrite to `memory_unavailable_no_replay`),
+  - added deterministic autoconnect candidate failover chain and additive payload fields:
+    - `autoconnect_last_result.attempts`,
+    - `autoconnect_last_result.selected_candidate_id_final`,
+    - `autoconnect_last_result.fallback_used`.
+- [x] Script updates:
+  - `scripts/run_nordhold_live_soak.ps1` summary/partial now include:
+    - `admin_fallback_applied`,
+    - `autoconnect_attempt_require_admin`,
+  - one-time admin fallback autoconnect is triggered when initial no-admin autoconnect reason is `process_found_but_admin_required`,
+  - `scripts/resolve_live_memory_candidate.ps1` ranking now prefers:
+    - min `connect_failures_total_last`,
+    - then min `snapshot_failure_streak_max`,
+    - then min `snapshot_failures_total_last`,
+  - resolve output now includes last-error taxonomy fields.
+- [x] Windows bootstrap (ops prerequisite):
+  - installed Python `3.11.9` (`C:\Users\admin\AppData\Local\Programs\Python\Python311\python.exe`),
+  - created project venv `.venv-win311` for scan/probe CLI chain.
+- [x] Tests (TDD RED -> GREEN):
+  - `PYTHONPATH=src python3 -m unittest -v tests.test_replay_live tests.test_api_contract` -> `OK` (`skipped=7` for missing `fastapi` in env),
+  - `PYTHONPATH=src python3 -m unittest discover -s tests -v` -> `OK` (`skipped=7` for missing `fastapi` in env).
+- [x] Script validation:
+  - PowerShell parse checks passed for:
+    - `scripts/run_nordhold_live_soak.ps1`,
+    - `scripts/resolve_live_memory_candidate.ps1`.
+- [x] Smoke soak evidence:
+  - `runtime/logs/nordhold-live-soak-20260228_232640.summary.json`,
+  - `runtime/logs/nordhold-live-soak-20260228_232640.partial.json`.
+- [ ] Acceptance blocker remains:
+  - smoke still ends with `last_mode=degraded`, `last_reason=memory_unavailable_no_replay`,
+  - underlying memory read failure persists (`ReadProcessMemory ... winerr=299`) and still requires live candidate refresh + long `1800s` PASS run.

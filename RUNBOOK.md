@@ -74,6 +74,9 @@ Run long stability check (default port `8013`, poll `1000 ms`):
 ```powershell
 powershell -ExecutionPolicy Bypass -File .\scripts\run_nordhold_live_soak.ps1 -DurationS 1800 -PollMs 1000
 ```
+Default live attach mode for this script is non-admin (`RequireAdmin=$false`).
+Launcher console window is hidden by default (`HideLauncherWindow=$true`) to avoid popup window steals.
+For admin memory attach, pass `RequireAdmin=$true`; launcher start path auto-elevates (`AutoElevateForAdmin=$true`).
 
 Expected summary output:
 - `runtime\logs\nordhold-live-soak-*.summary.json`
@@ -82,6 +85,19 @@ Expected summary output:
   - `status_not_memory_count`
   - `memory_connected_false_count`
   - `max_cycle_latency_ms`
+  - `snapshot_transient_failure_count`
+  - `max_snapshot_failure_streak`
+  - `snapshot_failures_total_last`
+  - `admin_fallback_applied`
+  - `autoconnect_attempt_require_admin`
+
+`GET /api/v1/live/status` diagnostics for connect-stage stability:
+- `connect_failures_total`
+- `connect_transient_failure_count`
+- `connect_retry_success_total`
+- `autoconnect_last_result.attempts`
+- `autoconnect_last_result.selected_candidate_id_final`
+- `autoconnect_last_result.fallback_used`
 
 Stop the soak loop explicitly if needed:
 ```powershell
@@ -97,6 +113,7 @@ powershell -ExecutionPolicy Bypass -File .\scripts\stop_nordhold_live_soak.ps1 -
 ### EXE launcher mode
 - Build executable:
   - `powershell -ExecutionPolicy Bypass -File .\scripts\build_nordhold_realtime_exe.ps1`
+  - default packaging/install path is quiet/hidden (`QuietExternal=$true`); step logs are written to `runtime\logs\*.out.log` and `runtime\logs\*.err.log`.
 - Run executable:
   - `runtime\dist\NordholdRealtimeLauncher\NordholdRealtimeLauncher.exe`
 - Runtime flags:

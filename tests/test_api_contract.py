@@ -91,11 +91,32 @@ class ApiContractTests(unittest.TestCase):
         self.assertIsInstance(status["active_required_fields"], list)
         self.assertTrue(all(isinstance(field, str) for field in status["active_required_fields"]))
         self.assertEqual(len(status["active_required_fields"]), coverage["required_total"])
+        for key in (
+            "snapshot_failure_streak",
+            "snapshot_failures_total",
+            "snapshot_transient_failure_count",
+            "connect_failures_total",
+            "connect_transient_failure_count",
+            "connect_retry_success_total",
+        ):
+            if key in status and status[key] is not None:
+                self.assertIsInstance(status[key], int)
+                self.assertGreaterEqual(status[key], 0)
         resolution_keys = set(status.get("required_field_resolution", {}).keys())
         self.assertTrue(set(status["active_required_fields"]).issubset(resolution_keys))
         self.assertIsInstance(status["autoconnect_enabled"], bool)
         self.assertIsInstance(status["autoconnect_last_attempt_at"], str)
         self.assertIsInstance(status["autoconnect_last_result"], dict)
+        autoconnect_last_result = status["autoconnect_last_result"]
+        if "attempts" in autoconnect_last_result and autoconnect_last_result["attempts"] is not None:
+            self.assertIsInstance(autoconnect_last_result["attempts"], list)
+        if (
+            "selected_candidate_id_final" in autoconnect_last_result
+            and autoconnect_last_result["selected_candidate_id_final"] is not None
+        ):
+            self.assertIsInstance(autoconnect_last_result["selected_candidate_id_final"], str)
+        if "fallback_used" in autoconnect_last_result and autoconnect_last_result["fallback_used"] is not None:
+            self.assertIsInstance(autoconnect_last_result["fallback_used"], bool)
         self.assertIsInstance(status["dataset_autorefresh"], bool)
 
         snapshot = api_module.live_snapshot()
