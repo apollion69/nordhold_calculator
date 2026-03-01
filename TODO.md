@@ -34,6 +34,11 @@ Scope: `codex/projects/nordhold`
   - исправление резолва Python helper и корректный `exit=0` на пути `C:\Users\admin\AppData\Local\Programs\Python\Python311\python.exe`;
   - `run_nordhold_live_soak.ps1` теперь пишет `helper_python_path/source`, `helper_python_ok`, `helper_launch_error`;
   - в refresh-цепочке зафиксировано приоритетное использование `memory_calibration_candidates*.json` без `autoload`, автоподбор на автозагрузке — только fallback.
+- Git sync + аудит заметок выполнен:
+  - `git pull --ff-only origin main` -> `already up to date`;
+  - `git status --short --branch` -> `main...origin/main`;
+  - заметки проверены: `TODO.md`, `PROJECT.md`, `docs/MENTOR_NOTES.md`, `STATUS.md`, `TASKS.md`;
+  - секретов/участков с credentials в проектных заметках не найдено.
 - Последний релевантный прогон автоподбора:
   - `runtime/logs/nordhold-live-soak-20260301_174605.summary.json` (`candidate_refresh_performed=true`, `candidate_set_stale=true`, `candidate_set_stale_reason=autoconnect_all_attempts_transient_299`, `transient_299_share=1`).
 - Для финального acceptance остаётся запуск:
@@ -62,6 +67,8 @@ Scope: `codex/projects/nordhold`
 | P-014 Final 1800s acceptance (live game required) | [~] | codex | 2026-03-01T17:50:00+04:00 |  | `runtime/logs/nordhold-live-soak-*.summary.json` | Живой процесс `NordHold.exe` и стабильный `mode=memory` на старте | Дождаться live-окна с процессом и запустить `DurationS 1800`, зафиксировать PASS и `candidate_set_stale=false` |
 | P-015 Backend dist/runtime freshness and fallback | [x] | codex | 2026-03-01T18:20:00+04:00 | 2026-03-01T18:25:00+04:00 | `runtime/dist/NordholdRealtimeLauncher`, `run script`, `runtime/logs/nordhold-live-soak-20260301_175604.summary.json` | Риск: `EXE` содержит старую версию `live_bridge.py`/`calibration_candidates.py` | Ввести проверку freshness `dist` vs src и fallback на `python uvicorn` через `-PythonPath` при mismatch |
 | P-016 Final 1800s acceptance (runtime-validated) | [~] | codex | 2026-03-01T18:22:00+04:00 |  | `runtime/logs/nordhold-live-soak-20260301_183044.summary.json`, `runtime/logs/nordhold-live-soak-20260301_183407.summary.json` | `candidate_set_stale=true` на массовом transient 299 при live режиме | Проверить валидацию набора: либо корректный профиль памяти, либо пересборка кандидатов в боевой сцене; только потом повторять `DurationS 1800` |
+| P-017 Git sync + notes audit | [x] | codex | 2026-03-01T20:00:00+04:00 | 2026-03-01T20:06:00+04:00 | `TODO.md`, `PROJECT.md`, `docs/MENTOR_NOTES.md`, `runtime/logs/*` | Нет drift ветки при пуле и блокеров по secret-handling | Подготовить финальный live 1800s пайплайн |
+| P-018 Final 1800s acceptance (live process required) | [ ] | codex | 2026-03-01T20:10:00+04:00 |  | `runtime/logs/nordhold-live-soak-<ts>.summary.json` | Зависит от живого процесса `NordHold.exe` + стабильного autoload | Запустить `run_nordhold_live_soak.ps1 -DurationS 1800` и сохранить PASS summary |
 
 ## Контракты для проверки в коде и логах
 - `resolve_live_memory_candidate.ps1` (stdout/JSON):  

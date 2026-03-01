@@ -4,7 +4,8 @@ Date: 2026-03-01
 Owner: codex
 
 ## Текущий статус (T56 Live Memory Hardening)
-- Статус: blocker смещён в runtime-кандидаты (`winerr=299` на всех попытках), инфраструктурный Python-путь закрыт. Дополнительно зафиксирован симптом массового stale после полного обхода кандидатов (`attempts=64`), что требует проверки свежести runtime-backend.
+- Статус: blocker смещён в runtime-кандидаты (`winerr=299` на всех попытках); инфраструктурный Python-путь уже закрыт и подтверждён (резолвер/проверка helper в `run_nordhold_live_soak.ps1` проходит с `helper_python_ok=true`).
+- Ревизия репозитория выполнена: `git pull --ff-only origin main` -> `Already up to date`, `main...origin/main` подтвержден.
 - Последняя целевая сессия для runtime-хука: `runtime/logs/nordhold-live-soak-20260301_174605.summary.json`
   - `completed=false`, `interrupted=true`
   - `final_stop_reason=autoconnect_candidate_set_stale`, `candidate_set_stale=true`, `transient_299_share=1`
