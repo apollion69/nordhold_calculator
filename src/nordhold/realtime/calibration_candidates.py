@@ -23,8 +23,36 @@ DEFAULT_CALIBRATION_CANDIDATES_GLOB = "memory_calibration_candidates*.json"
 CALIBRATION_CANDIDATES_SCHEMA_V1 = "nordhold_memory_calibration_candidates_v1"
 CALIBRATION_CANDIDATES_SCHEMA_V2 = "nordhold_memory_calibration_candidates_v2"
 CALIBRATION_CANDIDATE_ALGORITHM = (
-    "preferred_if_valid_else_max_required_resolved_then_active_candidate_id_then_original_order"
+    "preferred_if_valid_else_max_required_resolved_then_stability_then_active_candidate_id_then_original_order"
 )
+DEFAULT_MIN_STABLE_PROBE_CYCLES = 3
+DEFAULT_MIN_SNAPSHOT_OK_RATIO = 0.66
+DEFAULT_MAX_TRANSIENT_299_RATIO_FOR_STABLE = 0.33
+DEFAULT_MAX_TRANSIENT_299_CANDIDATES = 0.66
+DEFAULT_TRANSIENT_299_CLUSTER_PENALTY = 75.0
+DEFAULT_TRANSIENT_299_CONNECT_PENALTY = 16.0
+DEFAULT_MAX_CONNECT_FAILURE_PENALTY = 120.0
+DEFAULT_MAX_SNAPSHOT_STREAK_PENALTY = 60.0
+DEFAULT_MAX_CONNECT_FAILURES_FOR_SCORE = 6
+DEFAULT_MAX_SNAPSHOT_STREAK_FOR_SCORE = 6
+
+
+def _is_placeholder_address(value: int) -> bool:
+    numeric = int(value)
+    if numeric <= 0:
+        return True
+    return numeric in {
+        0xDEADBEEF,
+        0x0BADF00D,
+        0xDEAD,
+        0xBEEF,
+        0xBAADF00D,
+        0xCCCCCCCC,
+        0xCDCDCDCD,
+        0xFEEEFEEE,
+        0xFFFFFFFF,
+        0xFFFFFFFE,
+    }
 
 
 def _parse_int(value: Any, label: str) -> int:
@@ -142,7 +170,7 @@ def _read_snapshot_addresses(
     max_records_per_field: int,
 ) -> tuple[list[int], str, Path]:
     try:
-        meta_payload = json.loads(meta_path.read_text(encoding="utf-8"))
+        meta_payload = json.loads(meta_path.read_text(encoding="utf-8-sig"))
     except FileNotFoundError as exc:
         raise MemoryProfileError(f"Snapshot meta file not found: {meta_path}") from exc
     except json.JSONDecodeError as exc:
@@ -196,9 +224,157 @@ def _field_has_resolved_address(field_payload: Any) -> bool:
     if str(raw_address).strip() == "":
         return False
     try:
-        return _parse_int(raw_address, "field.address") != 0
+        return not _is_placeholder_address(_parse_int(raw_address, "field.address"))
     except MemoryProfileError:
         return False
+
+
+def _candidate_stability_stats(candidate_payload: Dict[str, Any]) -> Dict[str, Any]:
+    raw_stability = candidate_payload.get("stability", candidate_payload.get("stability_metrics", {}))
+    has_stability_metrics = isinstance(raw_stability, dict) and bool(raw_stability)
+    if not has_stability_metrics:
+        return {
+            "has_stability_metrics": False,
+            "snapshot_probe_count": 0,
+            "snapshot_total_count": 0,
+            "snapshot_ok_count": 0,
+            "snapshot_ok_ratio": 0.0,
+            "transient_299_count": 0,
+            "transient_299_ratio": 0.0,
+            "candidate_stable_probe": False,
+            "candidate_stable_probe_cycles": 0,
+            "transient_299_excessive": False,
+            "stability_penalty": 100.0,
+            "stability_score": 0.0,
+        }
+
+    def _as_int(value_name: str, default: int = 0) -> int:
+        try:
+            return int(raw_stability.get(value_name, default))
+        except (TypeError, ValueError):
+            return default
+
+    def _as_float(value_name: str, default: float = 0.0) -> float:
+        try:
+            return float(raw_stability.get(value_name, default))
+        except (TypeError, ValueError):
+            return default
+
+    def _as_int(value_name: str, default: int = 0) -> int:
+        try:
+            return int(raw_stability.get(value_name, default))
+        except (TypeError, ValueError):
+            return default
+
+    probe_count = _as_int("snapshot_probe_count", 0)
+    if probe_count <= 0:
+        probe_count = _as_int("probe_cycles", 0)
+    if probe_count <= 0:
+        probe_count = _as_int("probe_windows", 0)
+
+    ok_count = _as_int("snapshot_ok_count", 0)
+    if ok_count <= 0:
+        ok_count = _as_int("ok_count", 0)
+
+    total_count = _as_int("snapshot_total_count", 0)
+    if total_count <= 0:
+        total_count = _as_int("sample_count", 0)
+    if total_count <= 0:
+        total_count = max(probe_count, ok_count)
+
+    transient_299_count = _as_int("transient_299_count", 0)
+    if transient_299_count <= 0:
+        transient_299_count = _as_int("winerr299_count", 0)
+
+    snapshot_ok_ratio = 0.0
+    if total_count > 0:
+        snapshot_ok_ratio = max(0.0, min(1.0, float(ok_count) / float(total_count)))
+
+    transient_299_ratio = 0.0
+    if total_count > 0:
+        transient_299_ratio = max(0.0, min(1.0, float(transient_299_count) / float(total_count)))
+
+    connect_failures_total_last = _as_int("connect_failures_total_last", 0)
+    connect_retry_success_total = _as_int("connect_retry_success_total", 0)
+    connect_transient_failure_count = _as_int("connect_transient_failure_count", 0)
+    snapshot_failure_streak_max = _as_int("snapshot_failure_streak_max", 0)
+    snapshot_failures_total_last = _as_int("snapshot_failures_total_last", 0)
+
+    candidate_stable_probe = (
+        probe_count >= DEFAULT_MIN_STABLE_PROBE_CYCLES
+        and snapshot_ok_ratio >= DEFAULT_MIN_SNAPSHOT_OK_RATIO
+    )
+
+    transient_299_excessive = transient_299_ratio >= DEFAULT_MAX_TRANSIENT_299_RATIO_FOR_STABLE
+    candidate_stable_probe = bool(
+        candidate_stable_probe
+        and snapshot_ok_ratio >= DEFAULT_MIN_SNAPSHOT_OK_RATIO
+        and not transient_299_excessive
+    )
+
+    stability_penalty = 0.0
+    if not candidate_stable_probe:
+        stability_penalty += 40.0
+    stability_penalty += max(0.0, DEFAULT_MIN_SNAPSHOT_OK_RATIO - snapshot_ok_ratio) * 45.0
+
+    if connect_failures_total_last > 0:
+        stability_penalty += min(DEFAULT_MAX_CONNECT_FAILURE_PENALTY, float(connect_failures_total_last) * 12.5)
+        if connect_failures_total_last > DEFAULT_MAX_CONNECT_FAILURES_FOR_SCORE:
+            stability_penalty += 60.0
+    if connect_transient_failure_count > 0:
+        stability_penalty += min(
+            DEFAULT_MAX_TRANSIENT_299_CANDIDATES * 100.0,
+            float(connect_transient_failure_count) * DEFAULT_TRANSIENT_299_CONNECT_PENALTY,
+        )
+        if connect_transient_failure_count >= 2:
+            stability_penalty += DEFAULT_TRANSIENT_299_CLUSTER_PENALTY
+    if connect_retry_success_total > 0:
+        stability_penalty += max(0.0, 4.0 - float(connect_retry_success_total))
+    if snapshot_failures_total_last > 0:
+        stability_penalty += min(
+            DEFAULT_MAX_SNAPSHOT_STREAK_PENALTY,
+            float(snapshot_failures_total_last) * 1.8,
+        )
+    if snapshot_failure_streak_max > 0:
+        stability_penalty += min(
+            DEFAULT_MAX_SNAPSHOT_STREAK_PENALTY,
+            float(snapshot_failure_streak_max) * 2.5,
+        )
+        if snapshot_failure_streak_max > DEFAULT_MAX_SNAPSHOT_STREAK_FOR_SCORE:
+            stability_penalty += 45.0
+
+    if snapshot_ok_ratio < DEFAULT_MIN_SNAPSHOT_OK_RATIO:
+        stability_penalty += (DEFAULT_MIN_SNAPSHOT_OK_RATIO - snapshot_ok_ratio) * 55.0
+    if snapshot_ok_ratio < 0.25:
+        stability_penalty += (0.25 - snapshot_ok_ratio) * 180.0
+    if transient_299_excessive:
+        stability_penalty += 35.0
+        if transient_299_ratio >= DEFAULT_MAX_TRANSIENT_299_RATIO_FOR_STABLE + 0.2:
+            stability_penalty += 50.0
+    stability_penalty += transient_299_ratio * 45.0
+    stability_penalty = max(0.0, stability_penalty)
+
+    stability_score = max(0.0, 100.0 - stability_penalty)
+
+    return {
+        "has_stability_metrics": True,
+        "snapshot_probe_count": probe_count,
+        "snapshot_total_count": total_count,
+        "snapshot_ok_count": ok_count,
+        "snapshot_ok_ratio": snapshot_ok_ratio,
+        "transient_299_count": transient_299_count,
+        "transient_299_ratio": transient_299_ratio,
+        "transient_299_excessive": bool(transient_299_excessive),
+        "candidate_stable_probe": bool(candidate_stable_probe),
+        "candidate_stable_probe_cycles": int(probe_count),
+        "connect_failures_total_last": int(connect_failures_total_last),
+        "connect_retry_success_total": int(connect_retry_success_total),
+        "connect_transient_failure_count": int(connect_transient_failure_count),
+        "snapshot_failure_streak_max": int(snapshot_failure_streak_max),
+        "snapshot_failures_total_last": int(snapshot_failures_total_last),
+        "stability_penalty": stability_penalty,
+        "stability_score": stability_score,
+    }
 
 
 def _candidate_quality(
@@ -206,6 +382,7 @@ def _candidate_quality(
     fields_payload: Dict[str, Any],
     required_fields: tuple[str, ...],
     optional_fields: tuple[str, ...],
+    candidate_payload: Dict[str, Any] | None = None,
 ) -> Dict[str, Any]:
     missing_required: list[str] = []
     unresolved_required: list[str] = []
@@ -232,6 +409,8 @@ def _candidate_quality(
     resolved_required_count = len(resolved_required)
     resolved_optional_count = len(resolved_optional)
 
+    stability = _candidate_stability_stats(candidate_payload or {})
+
     return {
         "valid": resolved_required_count == required_total,
         "required_fields_total": required_total,
@@ -250,6 +429,14 @@ def _candidate_quality(
             float(resolved_optional_count) / float(optional_total) if optional_total > 0 else 0.0
         ),
         "resolved_optional_field_names": resolved_optional,
+        **stability,
+        "candidate_stable_probe": bool(stability.get("candidate_stable_probe", False)),
+        "candidate_stable_probe_cycles": int(stability.get("candidate_stable_probe_cycles", 0)),
+        "snapshot_ok_ratio": float(stability.get("snapshot_ok_ratio", 0.0)),
+        "transient_299_ratio": float(stability.get("transient_299_ratio", 0.0)),
+        "transient_299_excessive": bool(stability.get("transient_299_excessive", False)),
+        "connect_failures_total_last": int(stability.get("connect_failures_total_last", 0)),
+        "snapshot_failure_streak_max": int(stability.get("snapshot_failure_streak_max", 0)),
     }
 
 
@@ -471,6 +658,7 @@ def list_calibration_candidate_summaries(
             fields_payload=fields_payload,
             required_fields=required_combat_fields,
             optional_fields=optional_combat_fields,
+            candidate_payload=candidate,
         )
         summaries.append(
             {
@@ -522,6 +710,18 @@ def calibration_candidate_recommendation(
             "resolved_required_fields": resolved_required,
             "is_active_candidate": summary["id"] == active_id,
             "original_order": index,
+            "has_stability_metrics": bool(quality.get("has_stability_metrics", False)),
+            "candidate_stable_probe": bool(quality.get("candidate_stable_probe", False)),
+            "candidate_stability_score": float(quality.get("stability_score", 0.0)),
+            "snapshot_ok_ratio": float(quality.get("snapshot_ok_ratio", 0.0)),
+            "transient_299_ratio": float(quality.get("transient_299_ratio", 0.0)),
+            "transient_299_excessive": bool(quality.get("transient_299_excessive", False)),
+            "candidate_stable_probe_cycles": int(quality.get("candidate_stable_probe_cycles", 0)),
+            "connect_failures_total_last": int(quality.get("connect_failures_total_last", 0)),
+            "snapshot_failure_streak_max": int(quality.get("snapshot_failure_streak_max", 0)),
+            "snapshot_failures_total_last": int(quality.get("snapshot_failures_total_last", 0)),
+            "connect_transient_failure_count": int(quality.get("connect_transient_failure_count", 0)),
+            "stability_penalty": float(quality.get("stability_penalty", 0.0)),
         }
         scores.append(score)
 
@@ -532,19 +732,63 @@ def calibration_candidate_recommendation(
 
     recommended_id = ""
     reason = ""
+    no_stable_candidate = False
     if preferred and preferred in by_id and bool(by_id[preferred]["valid"]):
         recommended_id = preferred
         reason = "preferred_candidate_valid"
     else:
+        def _sort_key(item: Dict[str, Any]) -> tuple:
+            return (
+                -int(item["valid"]),
+                -float(item["candidate_stable_probe"]),
+                -float(item["candidate_stability_score"]),
+                float(item["stability_penalty"]),
+                int(item["connect_failures_total_last"]),
+                int(item["snapshot_failure_streak_max"]),
+                -float(item["snapshot_ok_ratio"]),
+                float(item["transient_299_ratio"]),
+                -int(item["is_active_candidate"]),
+                int(item["original_order"]),
+            )
+
         max_resolved_required = max(int(item["resolved_required_fields"]) for item in scores)
-        contenders = [item for item in scores if int(item["resolved_required_fields"]) == max_resolved_required]
-        active_contender = next((item for item in contenders if bool(item["is_active_candidate"])), None)
-        if active_contender is not None:
-            recommended_id = str(active_contender["id"])
-            reason = "max_required_resolved_active_candidate_tiebreak"
+        contenders = [
+            item for item in scores if int(item["resolved_required_fields"]) == max_resolved_required
+        ]
+        contenders_with_stability_data = [
+            item for item in contenders if bool(item.get("has_stability_metrics", False))
+        ]
+        stable_contenders = [
+            item
+            for item in contenders_with_stability_data
+            if bool(item.get("candidate_stable_probe", False))
+            and (float(item.get("candidate_stability_score", 0.0)) > 0.0)
+            and not bool(item.get("transient_299_excessive", False))
+        ]
+        if stable_contenders:
+            contenders = stable_contenders
+        elif contenders_with_stability_data:
+            no_stable_candidate = True
+            contenders = contenders_with_stability_data
         else:
-            recommended_id = str(contenders[0]["id"])
-            reason = "max_required_resolved_original_order_tiebreak"
+            no_stable_candidate = False
+        contenders_sorted = sorted(contenders, key=_sort_key)
+        
+        active_contender = contenders_sorted[0]
+
+        if active_contender is not None:
+            if contenders_with_stability_data:
+                recommended_id = "" if no_stable_candidate else str(active_contender["id"])
+            else:
+                recommended_id = str(active_contender["id"])
+            if bool(active_contender.get("is_active_candidate")):
+                reason = "max_required_resolved_active_candidate_tiebreak"
+            else:
+                reason = "max_required_resolved_original_order_tiebreak"
+            if no_stable_candidate and not stable_contenders:
+                reason = "max_required_resolved_no_stable_probe"
+        if no_stable_candidate and not reason:
+            reason = "max_required_resolved_no_stable_probe"
 
     return {
         "algorithm": CALIBRATION_CANDIDATE_ALGORITHM,
@@ -554,6 +798,7 @@ def calibration_candidate_recommendation(
         "optional_combat_fields": list(optional_combat_fields),
         "recommended_candidate_id": recommended_id,
         "reason": reason,
+        "no_stable_candidate": bool(no_stable_candidate),
         "candidate_scores": scores,
     }
 
@@ -572,9 +817,32 @@ def choose_calibration_candidate_id(
         optional_fields=optional_fields,
     )
     selected = str(recommendation.get("recommended_candidate_id", "")).strip()
-    if not selected:
+    if selected:
+        return selected
+
+    by_id = {item["id"]: item for item in recommendation.get("candidate_scores", [])}
+    preferred = preferred_candidate_id.strip()
+    if preferred and preferred in by_id and bool(by_id[preferred].get("valid", False)):
+        return preferred
+
+    sorted_scores = sorted(
+        recommendation.get("candidate_scores", []),
+        key=lambda item: (
+            -int(item.get("valid", 0)),
+            -float(item.get("candidate_stable_probe", 0.0)),
+            -float(item.get("candidate_stability_score", 0.0)),
+            float(item.get("stability_penalty", 0.0)),
+            int(item.get("connect_failures_total_last", 0)),
+            int(item.get("snapshot_failure_streak_max", 0)),
+            -float(item.get("snapshot_ok_ratio", 0.0)),
+            float(item.get("transient_299_ratio", 0.0)),
+            -int(item.get("is_active_candidate", 0)),
+            int(item.get("original_order", 0)),
+        ),
+    )
+    if not sorted_scores:
         raise MemoryProfileError("Calibration payload has no candidate entries.")
-    return selected
+    return str(sorted_scores[0].get("id", ""))
 
 
 def _calibration_project_roots(project_root: Path) -> tuple[Path, ...]:
@@ -677,7 +945,7 @@ def load_calibration_payload(
         raise MemoryProfileError(f"Calibration file not found: {raw_path}")
 
     try:
-        payload = json.loads(raw_path.read_text(encoding="utf-8"))
+        payload = json.loads(raw_path.read_text(encoding="utf-8-sig"))
     except json.JSONDecodeError as exc:
         raise MemoryProfileError(f"Calibration file is not valid JSON: {raw_path}: {exc}") from exc
     if not isinstance(payload, dict):

@@ -1,7 +1,74 @@
 # Nordhold Realtime Damage Calculator
 
-Date: 2026-02-25
+Date: 2026-03-01
 Owner: codex
+
+## Текущий статус (T56 Live Memory Hardening)
+- Статус: blocker смещён в runtime-кандидаты (`winerr=299` на всех попытках), инфраструктурный Python-путь закрыт. Дополнительно зафиксирован симптом массового stale после полного обхода кандидатов (`attempts=64`), что требует проверки свежести runtime-backend.
+- Последняя целевая сессия для runtime-хука: `runtime/logs/nordhold-live-soak-20260301_174605.summary.json`
+  - `completed=false`, `interrupted=true`
+  - `final_stop_reason=autoconnect_candidate_set_stale`, `candidate_set_stale=true`, `transient_299_share=1`
+  - `helper_python_path: C:\\Users\\admin\\AppData\\Local\\Programs\\Python\\Python311\\python.exe`, `helper_python_ok=true`.
+- Локальные проверки в этой сессии:
+  - `PYTHONPATH=src python3 -m unittest tests.test_live_memory_v1 tests.test_replay_live` — OK (skipped=4),
+  - `PYTHONPATH=src python3 -m unittest discover -s tests -v` — OK (skipped=7),
+  - powershell parse: `resolve_live_memory_candidate.ps1`, `run_nordhold_live_soak.ps1`, `start_nordhold_realtime.ps1` — OK.
+- Инфраструктурные пути (без секретов):
+  - `hosts`: `/mnt/c/Users/admin/Documents/cursor/hosts`
+  - `secrets`: `/mnt/c/Users/admin/Documents/cursor/.secrets/AGENTS.secrets.local.md`
+- Запуск из WSL через `powershell.exe`; `pwsh` не обязателен.
+- Для финального acceptance необходимо:
+  - `run_nordhold_live_soak.ps1 -DurationS 1800`
+  - свежий `memory_calibration_candidates_autoload.json` (`generated_at_utc` не старше 24h),
+  - живой `NordHold.exe`.
+- После реализации текущего блока нужен финальный live-run:
+  - пройти `refresh → promote → run` с `DurationS 1800` и собрать итоговый summary без
+    `memory_unavailable_no_replay`.
+
+## Текущий критичный blocker
+- Текущий blocker: требуется живой `NordHold.exe` и подтверждённый стабильный `winner_candidate_id` после refresh, плюс сверка freshness `runtime/dist` против исходных `src` модулей перед запуском soak.
+
+## Подключение и инфраструктура
+- Только безопасные источники подключения:
+  - `hosts`: `/mnt/c/Users/admin/Documents/cursor/hosts`
+  - `secrets`: `/mnt/c/Users/admin/Documents/cursor/.secrets/AGENTS.secrets.local.md`
+- Значения `vcenter`, креды, токены и служебные строки берутся только из указанных файлов;
+  в репозиторий и артефакты не писать.
+- Hosts файл: `/mnt/c/Users/admin/Documents/cursor/hosts`
+- Secrets файл: `/mnt/c/Users/admin/Documents/cursor/.secrets/AGENTS.secrets.local.md`
+- Ройовый трекер задач: `codex/projects/nordhold/TODO.md`
+- Скрипты запуска soak/refresh `scripts/*.ps1` запускаются через PowerShell (`powershell.exe` или `pwsh` в Windows-среде).
+- Значения `vcenter`, креденшалы и токены берутся только из секретного источника, без попадания в код/логи/коммиты.
+- Для локального запуска со стендом в WSL:
+  - `hosts` + `secrets` должны быть доступны по указанным путям;
+  - если PowerShell недоступен в WSL, запуск soak/resolve делается из Windows PowerShell с теми же параметрами.
+
+### Операционный пайплайн для 1800s PASS
+- Стабилизация набора памяти:
+  - В refresh скан выбираются сначала non-autoload кандидаты (`memory_calibration_candidates*.json` без `autoload`), autoload используется только как fallback.
+  - `python.exe scripts\\nordhold_combat_deep_probe.py ...`
+  - `python.exe scripts\\nordhold_promote_deep_probe_candidates.py ...`
+  - итоговый путь артефакта должен быть `memory_calibration_candidates_autoload.json`.
+- Перед `refresh → run` проверять, что runtime backend использует текущий код пайплайна `live_bridge.py`, иначе запускать в Python режиме (`python -m uvicorn`) через `-PythonPath`.
+- Диагностика Python helper (WSL/`powershell.exe`):
+  - `powershell.exe -NoProfile -File scripts\\run_nordhold_live_soak.ps1 -DurationS 30 -NoAutoconnect -Port 8014 -PythonPath "C:\\Users\\admin\\AppData\\Local\\Programs\\Python\\Python311\\python.exe"` (smoke),
+  - ожидаемое поведение: `helper_python_ok=true` (или диагностический preflight при hard-fail).
+- Проверка кандидата перед запуском soak:
+  - `powershell.exe scripts\\resolve_live_memory_candidate.ps1 -CalibrationCandidatesPath <path> -DatasetVersion 1.0.0`
+  - выход: `ok=true`, `candidate_set_stale=false`, `winerr299_rate` минимальный.
+- Запуск soak:
+  - `powershell.exe scripts\\run_nordhold_live_soak.ps1 -DurationS 1800 -CalibrationCandidatesPath <autoload.json> -CandidateTtlHours 24`
+- Принципы fail-fast:
+  - если в первые 30 секунд `mode != memory` после autoconnect → `fail_fast_reason=autoconnect_fail_fast_not_memory`;
+  - если все кандидаты массово падают с `winerr=299` → `candidate_set_stale=true` и остановка.
+- Ожидаемый PASS-срез в итоговом summary:
+  - `candidate_set_stale=false`
+  - `final_stop_reason` отсутствует или `completed=true && interrupted=false`
+  - `winner_candidate_id` не пустой
+  - `winner_candidate_age_sec` малый (в идеале < 3600)
+  - `transient_299_share` низкий/нулевой
+  - `last_reason` не `memory_unavailable_no_replay`
+
 
 ## TODO
 - [x] Set canonical task lock in `TASKS.md` (`T30`, `in_progress`, owner=`codex`).

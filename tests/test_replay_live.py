@@ -1165,6 +1165,106 @@ class ReplayLiveTests(unittest.TestCase):
         self.assertEqual(attempts[1]["mode"], "memory")
         self.assertEqual(attempts[1]["reason"], "ok")
 
+    def test_live_bridge_autoconnect_marks_all_transient_299_candidates_as_stale(self) -> None:
+        class AutoconnectAllTransientMemoryReader:
+            def __init__(self):
+                self.connected = False
+
+            def close(self) -> None:
+                self.connected = False
+
+            def open(self, process_name: str, profile) -> None:
+                self.connected = True
+
+            def read_fields(self, profile):
+                self.connected = True
+                raise MemoryReaderError(
+                    "ReadProcessMemory failed: addr=0x56ad0004 size=4 read=0 winerr=299"
+                )
+
+        worklogs_dir = Path(self._tmpdir.name) / "worklogs" / "autoconnect_mass_299"
+        worklogs_dir.mkdir(parents=True, exist_ok=True)
+        calibration_path = worklogs_dir / "memory_calibration_candidates_mass_299.json"
+        calibration_path.write_text(
+            json.dumps(
+                {
+                    "active_candidate_id": "candidate_a",
+                    "candidates": [
+                        {
+                            "id": "candidate_a",
+                            "profile_id": "base_profile",
+                            "fields": {
+                                "current_wave": {"address": "0x1110"},
+                                "gold": {"address": "0x2220"},
+                                "essence": {"address": "0x3330"},
+                            },
+                        },
+                        {
+                            "id": "candidate_b",
+                            "profile_id": "base_profile",
+                            "fields": {
+                                "current_wave": {"address": "0x4440"},
+                                "gold": {"address": "0x5550"},
+                                "essence": {"address": "0x6660"},
+                            },
+                        },
+                        {
+                            "id": "candidate_c",
+                            "profile_id": "base_profile",
+                            "fields": {
+                                "current_wave": {"address": "0x7770"},
+                                "gold": {"address": "0x8880"},
+                                "essence": {"address": "0x9990"},
+                            },
+                        },
+                    ],
+                }
+            ),
+            encoding="utf-8",
+        )
+
+        bridge = LiveBridge(
+            catalog=self.repo,
+            replay_store=self.store,
+            project_root=Path(self._tmpdir.name),
+            memory_reader=AutoconnectAllTransientMemoryReader(),  # type: ignore[arg-type]
+        )
+
+        with (
+            patch.object(self.repo, "load_memory_signatures", return_value=_unresolved_memory_signatures()),
+            patch.object(bridge, "_process_exists", return_value=True),
+            patch.object(bridge, "_is_admin_context", return_value=True),
+        ):
+            status = bridge.autoconnect(
+                process_name="NordHold.exe",
+                poll_ms=1000,
+                require_admin=False,
+            )
+
+        self.assertEqual(status["mode"], "degraded")
+        self.assertEqual(status["reason"], "memory_unavailable_no_replay:memory_read_transient_299_cluster")
+        self.assertTrue(status["candidate_set_stale"])
+        self.assertIn(
+            status["candidate_set_stale_reason"],
+            {"mass_connect_transient_299", "all_candidates_first_attempt_transient_299"},
+        )
+        self.assertEqual(status["failed_candidates_count"], 3)
+        self.assertEqual(status["winner_candidate_id"], "")
+        self.assertEqual(status["winner_candidate_age_sec"], 0)
+
+        autoconnect_last_result = status["autoconnect_last_result"]
+        self.assertFalse(autoconnect_last_result["ok"])
+        self.assertTrue(autoconnect_last_result["candidate_set_stale"])
+        self.assertTrue(autoconnect_last_result["transient_299_clustered"])
+        self.assertIn(
+            autoconnect_last_result["candidate_set_stale_reason"],
+            {"mass_connect_transient_299", "all_candidates_first_attempt_transient_299"},
+        )
+        self.assertEqual(autoconnect_last_result["failed_candidates_count"], 3)
+        self.assertEqual(autoconnect_last_result["winner_candidate_id"], "")
+        self.assertEqual(len(autoconnect_last_result["attempts"]), 3)
+        self.assertAlmostEqual(autoconnect_last_result["winerr299_rate"], 1.0)
+
     def test_live_autoconnect_route_uses_default_payload(self) -> None:
         try:
             from nordhold import api as api_module

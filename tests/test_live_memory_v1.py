@@ -325,6 +325,56 @@ class LiveMemoryV1ParserReaderTests(unittest.TestCase):
         self.assertTrue(recommendation["candidate_scores"][1]["is_active_candidate"])
         self.assertEqual(calibration_candidate_recommendation(tie_payload), recommendation)
 
+    def test_calibration_candidate_recommendation_requires_stability_probe_when_metrics_present(self) -> None:
+        payload = {
+            "active_candidate_id": "candidate_full",
+            "required_fields": ["current_wave", "gold", "essence"],
+            "candidates": [
+                {
+                    "id": "candidate_full",
+                    "stability": {
+                        "snapshot_probe_count": 3,
+                        "snapshot_total_count": 4,
+                        "snapshot_ok_count": 1,
+                        "transient_299_count": 0,
+                        "connect_failures_total_last": 0,
+                        "connect_transient_failure_count": 0,
+                        "snapshot_failure_streak_max": 2,
+                        "snapshot_failures_total_last": 2,
+                    },
+                    "fields": {
+                        "current_wave": {"address": "0x1110"},
+                        "gold": {"address": "0x1220"},
+                        "essence": {"address": "0x1330"},
+                    },
+                },
+                {
+                    "id": "candidate_unstable",
+                    "stability": {
+                        "snapshot_probe_count": 3,
+                        "snapshot_total_count": 10,
+                        "snapshot_ok_count": 0,
+                        "transient_299_count": 0,
+                        "connect_failures_total_last": 0,
+                        "connect_transient_failure_count": 0,
+                        "snapshot_failure_streak_max": 0,
+                        "snapshot_failures_total_last": 10,
+                    },
+                    "fields": {
+                        "current_wave": {"address": "0x1111"},
+                        "gold": {"address": "0x1221"},
+                        "essence": {"address": "0x1331"},
+                    },
+                },
+            ],
+        }
+
+        recommendation = calibration_candidate_recommendation(payload)
+        self.assertTrue(recommendation["no_stable_candidate"])
+        self.assertEqual(recommendation["recommended_candidate_id"], "")
+        self.assertEqual(recommendation["reason"], "max_required_resolved_no_stable_probe")
+        self.assertEqual(choose_calibration_candidate_id(payload), "candidate_full")
+
     def test_list_calibration_candidate_summaries_includes_candidate_quality(self) -> None:
         payload = {
             "required_fields": ["current_wave", "gold", "essence"],

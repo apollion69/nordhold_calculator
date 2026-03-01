@@ -4,7 +4,7 @@ import platform
 import subprocess
 import time
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Any, Dict, Optional, Sequence
 
 from .calibration_candidates import (
     REQUIRED_MEMORY_FIELDS,
@@ -51,6 +51,10 @@ OPTIONAL_MEMORY_FIELD_ALIASES: Dict[str, tuple[str, ...]] = {
         "block_amount",
     ),
 }
+
+DEFAULT_MAX_TRANSIENT_299_CANDIDATES = 3
+DEFAULT_TRANSIENT_299_CLUSTERED_STALE_ATTEMPTS = 3
+DEFAULT_CONNECT_TRANSIENT_RETRIES = 3
 
 LIVE_RAW_MEMORY_NUMERIC_FIELDS: tuple[str, ...] = (
     "current_wave",
@@ -166,6 +170,13 @@ class LiveBridge:
         self.autoconnect_last_attempt_at = ""
         self.autoconnect_last_result: Dict[str, Any] = {}
         self.dataset_autorefresh = True
+        self.candidate_set_stale = False
+        self.candidate_set_stale_reason = ""
+        self.failed_candidates_count = 0
+        self.winner_candidate_id = ""
+        self.winner_candidate_age_sec = 0
+        self.transient_299_clustered = False
+        self._last_autoconnect_max_attempts = 0
 
     def connect(
         self,
@@ -192,6 +203,12 @@ class LiveBridge:
         self._connect_failures_total = 0
         self._connect_transient_failure_count = 0
         self._connect_retry_success_total = 0
+        self.candidate_set_stale = False
+        self.candidate_set_stale_reason = ""
+        self.failed_candidates_count = 0
+        self.winner_candidate_id = ""
+        self.winner_candidate_age_sec = 0
+        self.transient_299_clustered = False
         explicit_connect_failure_reason = ""
 
         self.process_name = process_name or "NordHold.exe"
@@ -303,16 +320,24 @@ class LiveBridge:
                     self.memory_reader.close()
                     self.connected = False
                     self.mode = "degraded"
-                    self.last_reason = f"memory_profile_invalid:{exc}"
+                    if self._is_stale_candidate_profile_error(str(exc)):
+                        self.last_reason = "memory_candidate_rejected_stale"
+                        self._set_last_error("connect_candidate_stale_profile", exc)
+                    else:
+                        self.last_reason = f"memory_profile_invalid:{exc}"
+                        self._set_last_error("connect_profile_validate", exc)
                     explicit_connect_failure_reason = self.last_reason
-                    self._set_last_error("connect_profile_validate", exc)
                 except MemoryReaderError as exc:
                     self.memory_reader.close()
                     self.connected = False
                     self.mode = "degraded"
-                    self.last_reason = f"memory_connect_failed:{exc}"
+                    if self._is_transient_memory_error(str(exc)):
+                        self.last_reason = f"memory_connect_failed:memory_read_transient_299_cluster:{exc}"
+                        self._set_last_error("connect_memory_open_transient_299_cluster", exc)
+                    else:
+                        self.last_reason = f"memory_connect_failed:{exc}"
+                        self._set_last_error("connect_memory_open", exc)
                     explicit_connect_failure_reason = self.last_reason
-                    self._set_last_error("connect_memory_open", exc)
                 else:
                     self.connected = True
                     self.mode = "memory"
@@ -366,6 +391,7 @@ class LiveBridge:
         self.autoconnect_enabled = True
         self.dataset_autorefresh = bool(dataset_autorefresh)
         self.autoconnect_last_attempt_at = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
+        self._last_error = {}
 
         requested_path = calibration_candidates_path.strip()
         requested_candidate = calibration_candidate_id.strip()
@@ -373,6 +399,8 @@ class LiveBridge:
         selected_path = requested_path
         selected_candidate_id = requested_candidate
         recommendation_reason = ""
+        recommendation_payload: Dict[str, Any] = {}
+        no_stable_candidate = False
         candidate_attempt_order: list[str] = []
 
         try:
@@ -384,13 +412,16 @@ class LiveBridge:
                 preferred_candidate_id=requested_candidate,
                 required_fields=REQUIRED_MEMORY_FIELDS,
             )
-            recommendation_reason = str(
-                calibration_candidate_recommendation(
-                    calibration_payload,
-                    preferred_candidate_id=selected_candidate_id,
-                    required_fields=REQUIRED_MEMORY_FIELDS,
-                ).get("reason", "")
+            recommendation_payload = calibration_candidate_recommendation(
+                calibration_payload,
+                preferred_candidate_id=selected_candidate_id,
+                required_fields=REQUIRED_MEMORY_FIELDS,
             )
+            recommendation_reason = str(recommendation_payload.get("reason", ""))
+            no_stable_candidate = bool(recommendation_payload.get("no_stable_candidate", False))
+            recommended_candidate = str(recommendation_payload.get("recommended_candidate_id", "")).strip()
+            if recommended_candidate:
+                selected_candidate_id = recommended_candidate
             if selected_candidate_id:
                 candidate_attempt_order.append(selected_candidate_id)
             for candidate_id in candidate_ids:
@@ -416,6 +447,14 @@ class LiveBridge:
         attempts: list[Dict[str, Any]] = []
         selected_candidate_id_final = ""
         fallback_used = False
+        failed_candidates_count = 0
+        transient_299_count = 0
+        transient_fail_streak = 0
+        candidate_set_stale = False
+        candidate_set_stale_reason = ""
+        transient_299_clustered = False
+        winner_candidate_id = ""
+        winner_candidate_age_sec = 0
 
         for index, attempt_candidate_id in enumerate(candidate_attempt_order):
             status = self.connect(
@@ -432,18 +471,50 @@ class LiveBridge:
             )
             final_candidate = str(status.get("calibration_candidate", "")).strip()
             selected_candidate_id_final = final_candidate or str(attempt_candidate_id).strip()
+            reason = str(status.get("reason", "")).strip()
+            is_memory = status.get("mode") == "memory"
+            is_transient_299 = bool(not is_memory and self._is_transient_memory_error(reason))
+            if not is_memory:
+                failed_candidates_count += 1
+                if is_transient_299:
+                    transient_299_count += 1
+                    transient_fail_streak += 1
+                else:
+                    transient_fail_streak = 0
+            else:
+                winner_candidate_id = selected_candidate_id_final
+                winner_candidate_age_sec = self._candidate_candidates_path_age_sec(
+                    str(status.get("calibration_candidates_path", "")),
+                )
             attempts.append(
                 {
                     "index": index + 1,
                     "candidate_id": str(attempt_candidate_id),
                     "selected_candidate_id": selected_candidate_id_final,
                     "mode": str(status.get("mode", "")),
-                    "reason": str(status.get("reason", "")),
+                    "reason": reason,
                     "memory_connected": bool(status.get("memory_connected", False)),
+                    "transient_299": bool(is_transient_299),
                 }
             )
             if status.get("mode") == "memory":
                 fallback_used = index > 0
+                candidate_set_stale = False
+                break
+            if (
+                transient_299_count > 0
+                and transient_fail_streak >= DEFAULT_TRANSIENT_299_CLUSTERED_STALE_ATTEMPTS
+                and transient_299_count == failed_candidates_count
+            ):
+                candidate_set_stale = True
+                candidate_set_stale_reason = "mass_connect_transient_299"
+                transient_299_clustered = True
+                break
+            if failed_candidates_count == len(candidate_attempt_order):
+                if failed_candidates_count == transient_299_count:
+                    candidate_set_stale = True
+                    candidate_set_stale_reason = "all_candidates_first_attempt_transient_299"
+                    transient_299_clustered = True
                 break
 
         if not status:
@@ -452,6 +523,43 @@ class LiveBridge:
             selected_candidate_id_final = str(status.get("calibration_candidate", "")).strip()
         if len(attempts) > 1:
             fallback_used = True
+        if not status.get("calibration_candidates_path"):
+            status["calibration_candidates_path"] = selected_path
+
+        if candidate_set_stale and not replay_session_id and status.get("mode") != "memory":
+            self.connected = False
+            self.mode = "degraded"
+            self.transient_299_clustered = bool(
+                transient_299_clustered
+                and candidate_set_stale_reason
+                and candidate_set_stale_reason in (
+                    "mass_connect_transient_299",
+                    "all_candidates_first_attempt_transient_299",
+                )
+            )
+            self.last_reason = (
+                "memory_unavailable_no_replay:memory_read_transient_299_cluster"
+                if self.transient_299_clustered
+                else "memory_unavailable_no_replay"
+            )
+            self.replay_session_id = ""
+            if candidate_set_stale_reason:
+                self.last_error = {
+                    "stage": "connect_memory_open_transient_299_cluster",
+                    "type": "MemoryReaderError",
+                    "message": candidate_set_stale_reason,
+                }
+            status = self.status()
+
+        self.candidate_set_stale = bool(candidate_set_stale)
+        self.candidate_set_stale_reason = candidate_set_stale_reason if candidate_set_stale else ""
+        self.failed_candidates_count = failed_candidates_count
+        self.winner_candidate_id = winner_candidate_id
+        self.winner_candidate_age_sec = int(winner_candidate_age_sec)
+
+        winerr299_rate = 0.0
+        if failed_candidates_count > 0:
+            winerr299_rate = float(transient_299_count) / float(failed_candidates_count)
 
         self.autoconnect_last_result = {
             "ok": status.get("mode") == "memory",
@@ -464,11 +572,22 @@ class LiveBridge:
                 "selected_candidate_id": selected_candidate_id,
                 "resolved_candidates_path": selected_path,
                 "recommendation_reason": recommendation_reason,
+                "no_stable_candidate": no_stable_candidate,
             },
             "attempts": attempts,
             "selected_candidate_id_final": selected_candidate_id_final,
             "fallback_used": bool(fallback_used),
+            "candidate_set_stale": bool(candidate_set_stale),
+            "candidate_set_stale_reason": candidate_set_stale_reason,
+            "failed_candidates_count": int(failed_candidates_count),
+            "winner_candidate_id": winner_candidate_id,
+            "winner_candidate_age_sec": int(winner_candidate_age_sec),
+            "winerr299_rate": float(winerr299_rate),
+            "transient_299_clustered": bool(transient_299_clustered),
+            "recommendation": recommendation_payload,
         }
+        self.transient_299_clustered = bool(transient_299_clustered)
+        self._last_autoconnect_max_attempts = len(attempts)
         return self.status()
 
     def status(self) -> Dict[str, Any]:
@@ -500,6 +619,12 @@ class LiveBridge:
             "connect_failures_total": int(self._connect_failures_total),
             "connect_transient_failure_count": int(self._connect_transient_failure_count),
             "connect_retry_success_total": int(self._connect_retry_success_total),
+            "candidate_set_stale": bool(self.candidate_set_stale),
+            "candidate_set_stale_reason": self.candidate_set_stale_reason,
+            "failed_candidates_count": int(self.failed_candidates_count),
+            "winner_candidate_id": str(self.winner_candidate_id),
+            "winner_candidate_age_sec": int(self.winner_candidate_age_sec),
+            "transient_299_clustered": bool(self.transient_299_clustered),
             "autoconnect_enabled": self.autoconnect_enabled,
             "autoconnect_last_attempt_at": self.autoconnect_last_attempt_at,
             "autoconnect_last_result": dict(self.autoconnect_last_result),
@@ -522,8 +647,8 @@ class LiveBridge:
                         self.memory_reader.close()
                         self.connected = False
                         self.mode = "degraded"
-                        self.last_reason = f"memory_snapshot_failed:{retry_exc}"
-                        self._set_last_error("snapshot_memory_read", retry_exc)
+                        self.last_reason = f"memory_snapshot_failed:memory_read_transient_299_cluster:{retry_exc}"
+                        self._set_last_error("snapshot_memory_read_transient_299_cluster", retry_exc)
                     else:
                         self.connected = True
                         self.mode = "memory"
@@ -784,30 +909,79 @@ class LiveBridge:
 
     def _reopen_and_read_memory_fields(self, profile: MemoryProfile) -> Dict[str, Any]:
         self.memory_reader.close()
-        self.memory_reader.open(self.process_name, profile)
+        self._open_memory_reader(profile, required_fields=self._required_fields)
         return self.memory_reader.read_fields(profile)
 
-    def _connect_open_and_read_with_single_retry(self, profile: MemoryProfile) -> Dict[str, Any]:
+    def _connect_open_and_read_with_single_retry(
+        self,
+        profile: MemoryProfile,
+        *,
+        max_retries: int = DEFAULT_CONNECT_TRANSIENT_RETRIES,
+    ) -> Dict[str, Any]:
         profile.ensure_resolved()
+        max_attempts = max(1, int(max_retries))
+        last_error: MemoryReaderError | None = None
+        for attempt in range(max_attempts):
+            try:
+                self._open_memory_reader(profile, required_fields=self._required_fields)
+                return self._normalize_raw_memory_values(self.memory_reader.read_fields(profile))
+            except MemoryReaderError as exc:
+                self._connect_failures_total += 1
+                last_error = exc
+                if self._is_transient_memory_error(str(exc)) and attempt + 1 < max_attempts:
+                    self._connect_transient_failure_count += 1
+                    try:
+                        values = self._reopen_and_read_memory_fields(profile)
+                        self._connect_retry_success_total += 1
+                        return self._normalize_raw_memory_values(values)
+                    except MemoryReaderError as retry_exc:
+                        self._connect_failures_total += 1
+                        last_error = retry_exc
+                        continue
+                if self._is_transient_memory_error(str(exc)):
+                    self._connect_transient_failure_count += 1
+                raise
+        if last_error is None:
+            raise MemoryReaderError("connect attempt failed: no attempt executed")
+        raise last_error
+
+    def _open_memory_reader(
+        self,
+        profile: MemoryProfile,
+        required_fields: Sequence[str] | None = None,
+    ) -> None:
         try:
+            self.memory_reader.open(
+                self.process_name,
+                profile,
+                required_fields=required_fields,
+            )
+            return
+        except TypeError:
             self.memory_reader.open(self.process_name, profile)
-            return self._normalize_raw_memory_values(self.memory_reader.read_fields(profile))
-        except MemoryReaderError as exc:
-            self._connect_failures_total += 1
-            if self._is_transient_memory_error(str(exc)):
-                self._connect_transient_failure_count += 1
-                try:
-                    values = self._reopen_and_read_memory_fields(profile)
-                except MemoryReaderError as retry_exc:
-                    self._connect_failures_total += 1
-                    raise
-                self._connect_retry_success_total += 1
-                return self._normalize_raw_memory_values(values)
-            raise
+
+    def _candidate_candidates_path_age_sec(self, path: str) -> int:
+        if not path:
+            return 0
+        try:
+            candidate_path = Path(path).resolve()
+        except Exception:
+            return 0
+        try:
+            return max(0, int(time.time() - candidate_path.stat().st_mtime))
+        except Exception:
+            return 0
 
     def _is_transient_memory_error(self, message: str) -> bool:
         text = str(message).lower()
-        return "winerr=299" in text and "readprocessmemory failed" in text
+        return (
+            "memory_read_transient_299_cluster" in text
+            or ("winerr=299" in text and "readprocessmemory failed" in text)
+        )
+
+    def _is_stale_candidate_profile_error(self, message: str) -> bool:
+        text = str(message).lower()
+        return "runtime profile has invalid address for required field" in text
 
     def _profile_has_unresolved_required_fields(self, profile: MemoryProfile) -> bool:
         for field_name in self._required_fields:
@@ -824,12 +998,13 @@ class LiveBridge:
                     ["powershell.exe", "-NoProfile", "-NonInteractive", "-Command", f"Get-Process -Name '{process_name.replace('.exe','')}' -ErrorAction SilentlyContinue | Select-Object -First 1 -ExpandProperty Id"],
                     stderr=subprocess.STDOUT,
                     text=True,
+                    timeout=3,
                 )
                 return bool(output.strip())
 
             output = subprocess.check_output(["ps", "-eo", "comm"], text=True)
             return process_name in output
-        except Exception:
+        except (Exception, subprocess.TimeoutExpired):
             return False
 
     def _is_admin_context(self) -> bool:
@@ -840,9 +1015,10 @@ class LiveBridge:
                 ["powershell.exe", "-NoProfile", "-NonInteractive", "-Command", "[Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent() | ForEach-Object { $_.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator) }"],
                 stderr=subprocess.STDOUT,
                 text=True,
+                timeout=3,
             )
             return output.strip().lower().startswith("true")
-        except Exception:
+        except (Exception, subprocess.TimeoutExpired):
             return False
 
     def _load_calibration_payload(self, calibration_candidates_path: str | None) -> tuple[Dict[str, Any], Path]:

@@ -5,7 +5,7 @@ import platform
 import struct
 import subprocess
 from dataclasses import dataclass
-from typing import Any, Dict, Literal, Optional
+from typing import Any, Dict, Literal, Optional, Sequence
 
 FieldSource = Literal["address", "pointer_chain"]
 FieldType = Literal["int32", "uint32", "float32", "float64"]
@@ -43,6 +43,28 @@ DEFAULT_OPTIONAL_COMBAT_FIELDS: tuple[str, ...] = (
     "enemies_alive",
     "combat_time_s",
 )
+
+PROFILE_PLACEHOLDER_ADDRESSES = {
+    0,
+    0xDEADBEEF,
+    0x0BADF00D,
+    0xDEAD,
+    0xBEEF,
+    0xBAADF00D,
+    0xCCCCCCCC,
+    0xCDCDCDCD,
+    0xFEEEFEEE,
+    0xFFFFFFFF,
+    0xFFFFFFFE,
+}
+REQUIRED_RUNTIME_ADDRESS_PLACEHOLDERS = frozenset(PROFILE_PLACEHOLDER_ADDRESSES)
+
+
+def is_placeholder_runtime_address(value: int) -> bool:
+    raw_value = int(value)
+    if raw_value <= 0:
+        return True
+    return raw_value in REQUIRED_RUNTIME_ADDRESS_PLACEHOLDERS
 
 
 def _parse_int(value: Any, label: str) -> int:
@@ -161,8 +183,8 @@ class MemoryFieldSpec:
 
     @property
     def resolved(self) -> bool:
-        # In this context address==0 means signature was not resolved yet.
-        return self.address != 0
+        # In this context non-positive/placeholder addresses mean signature unresolved.
+        return self.address > 0 and not MemoryReader._is_placeholder_address(self.address)
 
 
 @dataclass(slots=True, frozen=True)
@@ -468,6 +490,7 @@ class WindowsMemoryBackend:
     PROCESS_VM_READ = 0x0010
     PROCESS_QUERY_INFORMATION = 0x0400
     PROCESS_QUERY_LIMITED_INFORMATION = 0x1000
+    POWERSHELL_TIMEOUT_SEC = 3
 
     def __init__(self):
         self._system = platform.system().lower()
@@ -494,8 +517,9 @@ class WindowsMemoryBackend:
                 ],
                 stderr=subprocess.STDOUT,
                 text=True,
+                timeout=self.POWERSHELL_TIMEOUT_SEC,
             )
-        except Exception:
+        except (Exception, subprocess.TimeoutExpired):
             return None
         text = output.strip()
         if not text:
@@ -562,8 +586,9 @@ class WindowsMemoryBackend:
                 ],
                 stderr=subprocess.STDOUT,
                 text=True,
+                timeout=self.POWERSHELL_TIMEOUT_SEC,
             )
-        except Exception:
+        except (Exception, subprocess.TimeoutExpired):
             return None
 
         text = output.strip()
@@ -591,9 +616,39 @@ class MemoryReader:
     def connected(self) -> bool:
         return self.handle != 0
 
-    def open(self, process_name: str, profile: MemoryProfile) -> None:
+    @staticmethod
+    def _is_placeholder_address(value: int) -> bool:
+        raw_value = int(value)
+        return is_placeholder_runtime_address(raw_value)
+
+    def _validate_runtime_addresses(
+        self,
+        profile: MemoryProfile,
+        *,
+        required_fields: Sequence[str] | None = None,
+    ) -> None:
+        required = tuple(required_fields or profile.required_combat_fields)
+        for field_name in required:
+            spec = profile.fields.get(str(field_name))
+            if spec is None:
+                raise MemoryProfileError(
+                    f"Required field '{field_name}' is missing in memory profile '{profile.id}'."
+                )
+            if self._is_placeholder_address(spec.address):
+                raise MemoryProfileError(
+                    f"Runtime profile has invalid address for required field '{field_name}' in profile '{profile.id}'."
+                )
+
+    def open(
+        self,
+        process_name: str,
+        profile: MemoryProfile,
+        *,
+        required_fields: Sequence[str] | None = None,
+    ) -> None:
         self.close()
         self.pointer_size = self.native_pointer_size
+        self._validate_runtime_addresses(profile, required_fields=required_fields)
 
         if not self.backend.supports_memory_read():
             raise MemoryReaderError("memory_reader_not_supported_platform")

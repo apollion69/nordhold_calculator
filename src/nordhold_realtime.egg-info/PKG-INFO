@@ -137,6 +137,9 @@ cd C:\Users\lenovo\Documents\cursor\codex\projects\nordhold
 powershell -ExecutionPolicy Bypass -File .\scripts\build_nordhold_realtime_exe.ps1
 ```
 
+By default, external packaging/install steps (`npm`, `pip`, `pyinstaller`) run in quiet hidden mode (`QuietExternal=$true`), with per-step logs in `runtime\logs\*.out.log` / `*.err.log`.
+If you need foreground verbose execution, pass `-QuietExternal:$false`.
+
 Expected output binary:
 - `runtime\dist\NordholdRealtimeLauncher\NordholdRealtimeLauncher.exe`
 
