@@ -6,9 +6,9 @@ Owner: codex
 ## Текущий статус (T56 Live Memory Hardening)
 - Статус: blocker смещён в runtime-кандидаты (`winerr=299` на всех попытках); инфраструктурный Python-путь уже закрыт и подтверждён (резолвер/проверка helper в `run_nordhold_live_soak.ps1` проходит с `helper_python_ok=true`).
 - Ревизия репозитория выполнена: `git pull --ff-only origin main` -> `Already up to date`, `main...origin/main` подтвержден.
-- Последняя целевая сессия для runtime-хука: `runtime/logs/nordhold-live-soak-20260301_174605.summary.json`
-  - `completed=false`, `interrupted=true`
-  - `final_stop_reason=autoconnect_candidate_set_stale`, `candidate_set_stale=true`, `transient_299_share=1`
+- Последняя целевая сессия для runtime-хука: `runtime/logs/nordhold-live-soak-20260301_230456.summary.json`
+  - `run_id=20260301_230456`, `completed=false`, `interrupted=true`
+  - `final_stop_reason=autoconnect_candidate_set_stale`, `candidate_set_stale=true`, `candidate_set_stale_reason=mass_connect_transient_299`, `transient_299_share=1`
   - `helper_python_path: C:\\Users\\admin\\AppData\\Local\\Programs\\Python\\Python311\\python.exe`, `helper_python_ok=true`.
 - Локальные проверки в этой сессии:
   - `PYTHONPATH=src python3 -m unittest tests.test_live_memory_v1 tests.test_replay_live` — OK (skipped=4),
@@ -27,7 +27,7 @@ Owner: codex
     `memory_unavailable_no_replay`.
 
 ## Текущий критичный blocker
-- Текущий blocker: требуется живой `NordHold.exe` и подтверждённый стабильный `winner_candidate_id` после refresh, плюс сверка freshness `runtime/dist` против исходных `src` модулей перед запуском soak.
+- Текущий blocker: требуется живой `NordHold.exe` и подтверждённый стабильный `winner_candidate_id` после refresh; при `mass_connect_transient_299` нужно повторить `combat_deep_probe→promote→resolve` до получения `candidate_set_stale=false`; плюс сверка freshness `runtime/dist` против исходных `src` модулей перед запуском soak.
 
 ## Подключение и инфраструктура
 - Только безопасные источники подключения:
@@ -65,7 +65,7 @@ Owner: codex
 - Ожидаемый PASS-срез в итоговом summary:
   - `candidate_set_stale=false`
   - `final_stop_reason` отсутствует или `completed=true && interrupted=false`
-  - `winner_candidate_id` не пустой
+  - `winner_candidate_id` не пустой, `candidate_set_stale=false`
   - `winner_candidate_age_sec` малый (в идеале < 3600)
   - `transient_299_share` низкий/нулевой
   - `last_reason` не `memory_unavailable_no_replay`
